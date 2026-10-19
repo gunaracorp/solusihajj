@@ -1,0 +1,950 @@
+# 📦 DELIVERABLE: DOKUMEN FASE 1 — PLANNING & ARCHITECTURE
+## PROJECT-FORTRESS (Dokumen 06–14)
+
+Semua konten nyata dan saling terhubung dengan Fase 0 yang sudah kamu approve. Simpan di `docs/` repo. Setelah 9 dokumen ini selesai, **seluruh keputusan project sudah terkunci** — tidak ada lagi "katanya", tinggal eksekusi. 🔥
+
+---
+
+## 📄 DOKUMEN 06 — `docs/05-project-scope.md`
+
+```markdown
+# 🎯 PROJECT SCOPE — PROJECT-FORTRESS v1.0
+
+**Status:** Locked | **Perubahan hanya via Change Request di bawah**
+
+---
+
+## 1. IN SCOPE (v1.0 — Wajib Selesai)
+
+### Halaman (10 total)
+| # | Halaman | URL | Prioritas |
+|---|---------|-----|-----------|
+| 1 | Homepage | / | P0 |
+| 2 | Tentang Kami | /tentang-kami | P0 |
+| 3 | Landing Layanan (overview) | /layanan | P0 |
+| 4–9 | Detail 6 Layanan | /layanan/[slug] | P0 |
+| 10 | Kontak + Form | /kontak | P0 |
+| 11 | FAQ | /faq | P1 |
+| 12 | Artikel (blog) | /artikel/ | P1 |
+| 13 | Artikel detail | /artikel/[slug] | P1 |
+| 14 | 404 | /404 | P2 |
+
+### Fitur
+- Floating WA button + CTA per-layanan (pesan pre-filled, 8 varian)
+- Form konsultasi (validasi + honeypot + notifikasi email)
+- Schema markup: LocalBusiness, Service, FAQPage, Article, BreadcrumbList
+- GA4 + Search Console + event tracking CTA
+- Sitemap.xml + robots.txt + canonical
+- Google Maps embed kantor
+- Cookie notice minimal (kepatuhan privacy dasar)
+
+### Konten
+- Copywriting lengkap 10 halaman P0 (sesuai dok #09)
+- 3 artikel SEO peluncuran (lihat dok #10)
+- 10 FAQ inti
+
+## 2. OUT OF SCOPE (v1.0 — DILARANG dikerjakan!)
+
+| Item | Alasan | Masuk ke |
+|-------|--------|----------|
+| Full English version | Fokus closing lokal dulu | v2.0 |
+| Portal client / tracking status | Belum ada backend | v2.0 |
+| Payment gateway | Model jasa = DP via transfer | v2.0 |
+| Kalkulator izin interaktif | Nice-to-have, jangan blokir launch | v1.1 |
+| Chatbot AI | Belum diperlukan, WA manual lebih personal | v1.2 |
+| Multi-currency / kalkulator harga dinamis | Over-engineering | tidak direncanakan |
+
+⚠️ **ATURAN SCOPE CREEP:** Jika ada ide baru saat development → catat di
+`37-changelog` backlog, JANGAN dikerjakan sebelum v1.0 live. Ide bagus
+yang menunda launch = ide buruk.
+
+## 3. DELIVERABLES FINAL (Yang Diserahkan)
+
+1. Source code lengkap di GitHub (repo private)
+2. Website live di topkonsultan.web.id + SSL aktif + HTTPS forced
+3. Akses GA4 + Search Console (akun milik founder, BUKAN akun pihak ketiga)
+4. Seluruh folder docs/ (14 dokumen fase 0–1)
+5. Panduan update konten singkat (bagian dari dok 36 nantinya)
+
+## 4. CONSTRAINTS (Kendala Tetap)
+
+| Kendala | Dampak | Sikap |
+|---------|--------|-------|
+| Shared hosting (no Node runtime di server) | Wajib static files | Build lokal → upload |
+| Budget nol untuk tools berbayar | Semua tool gratis | Tailwind CLI, GA4, GSC gratis |
+| Tenaga: founder + AI | Kapasitas terbatas | SOP ketat, hindari kerja ulang |
+| Domain .web.id | Kesan sedikit less-premium dari .com | Ditutup dengan desain & kredibilitas konten |
+
+## 5. ASSUMPTIONS
+
+- Nomor WA Business founder aktif & bisa menerima lead (jam kerja respons < 1 jam)
+- Foto kantor/tim/logo PT tersedia atau dibuat minimal (logo, legalitas PT)
+- Founder menyetujui kisaran harga ditampilkan ("mulai dari")
+
+## 6. CHANGE REQUEST PROCESS
+
+1. Tulis ide di `backlog.md` (jangan langsung eksekusi)
+2. Klasifikasi: P0 (bug) / P1 (penting) / P2 (nice) 
+3. P0 boleh langsung; P1–P2 menunggu milestone v1.0 selesai
+4. Setiap perubahan scope P1+ → update dokumen ini + commit "scope: [deskripsi]"
+```
+
+---
+
+## 📄 DOKUMEN 07 — `docs/06-sitemap.md`
+
+```markdown
+# 🗺️ SITEMAP — topkonsultan.web.id
+
+## 1. STRUKTUR URL LENGKAP
+
+```
+topkonsultan.web.id/
+│
+├── /                              Homepage
+├── /tentang-kami/                 Profil PT, tim, legalitas, nilai
+│
+├── /layanan/                      Overview 6 pillar
+│   ├── /layanan/legalitas-usaha/           P1: NIB, PT/CV, NPWP
+│   ├── /layanan/sertifikasi-halal/         P2: BPJPH self-declare & reguler
+│   ├── /layanan/sertifikasi-produk/        P3: SNI, BPOM, ISO, HACCP
+│   ├── /layanan/siap-ekspor/               P4: legalitas ekspor, HS code
+│   ├── /layanan/pt-pma/                    P5: pendirian usaha asing
+│   └── /layanan/perizinan-sektor-khusus/   P6: PPIU/IJO, SBU, akreditasi
+│
+├── /artikel/                      Index blog
+│   └── /artikel/[slug]/           Detail artikel
+│
+├── /faq/                          FAQ global
+├── /kontak/                       Form + WA + maps + NAP
+├── /404.html                      Halaman tidak ditemukan
+│
+├── /sitemap.xml                   Untuk mesin pencari
+└── /robots.txt                    Crawl rules
+```
+
+## 2. ATURAN PENAMAAN URL (SLUG)
+
+- Bahasa Indonesia, huruf kecil, hubungkan dengan tanda minus
+- Max 5 kata, keyword di depan (contoh: `sertifikasi-halal` ✅, `layanan-jasa-sertifikasi-halal-terbaik` ❌)
+- TANGA datar — maksimal 2 level (`/layanan/sertifikasi-halal/`), tidak boleh lebih dalam
+- Slug artikel: topik + tahun bila relevan (`cara-daftar-halal-self-declare-2025`)
+
+## 3. NAVIGASI HEADER
+
+```
+[LOGO TopKonsultan]  Beranda | Tentang | Layanan ▾ | Artikel | FAQ | Kontak   [Konsultasi Gratis →]
+                                      ├── Legalitas Usaha
+                                      ├── Sertifikasi Halal ⭐ (hot!)
+                                      ├── Sertifikasi Produk & Sistem
+                                      ├── Paket Siap Ekspor
+                                      ├── PT PMA & Investasi Asing
+                                      └── Perizinan Sektor Khusus
+```
+- Mobile: hamburger → drawer slide-in, CTA "Konsultasi Gratis" TETAP tampil
+- Dropdown desktop: hover + keyboard accessible
+
+## 4. NAVIGASI FOOTER (3 Kolom + NAP)
+
+```
+KOLOM 1: PERUSAHAAN          KOLOM 2: LAYANAN          KOLOM 3: KONTAK
+- Tentang Kami               - 6 link layanan           - Alamat kantor lengkap
+- Artikel                    - FAQ                      - WA: +62xxx (klik)
+- FAQ                        - (P3 di-highlight)        - Email: halo@topkonsultan.web.id
+- Kontak                                                - Jam operasional
+                                                        - Google Maps link
+[Legal Line] © 2025 PT Top Konsultan Internasional — Terdaftar [no. PT] | Kebijakan Privasi (v1.1)
+```
+Footer = NAP (Name-Address-Phone) KONSISTEN dengan Google Business Profile — penting untuk local SEO.
+
+## 5. BREADCRUMB (tampil di semua halaman kecuali homepage)
+
+```
+Beranda › Layanan › Sertifikasi Halal
+```
+Pakai schema BreadcrumbList agar muncul di hasil pencarian Google.
+
+## 6. PETA INTERNAL LINKING (Strategi)
+
+```
+Artikel SEO ──(link anchor relevan)──► Halaman Layanan ──► Kontak/WA
+     ▲                                      │
+     └────── (link terkait antar artikel) ──┘
+```
+ATURAN:
+1. Setiap artikel WAJIB link ke minimal 1 halaman layanan (ini ujung tombak konversi)
+2. Setiap halaman layanan link ke 2–3 artikel pendukung (menambah waktu di site)
+3. Homepage link ke semua 6 layanan (distribute authority)
+4. Anchor text deskriptif ("jasa sertifikasi halal BPJPH" ✅, "klik di sini" ❌)
+```
+
+---
+
+## 📄 DOKUMEN 08 — `docs/07-user-flows.md`
+
+```markdown
+# 🔀 USER FLOWS — PROJECT-FORTRESS
+
+## FLOW 1 — "BU RINA" (Organik → Artikel → WA) ⭐ Aliran utama
+```
+Google: "cara daftar sertifikat halal UMKM"
+        │
+        ▼
+Artikel #1 (ranking Google) ──► Baca 2-3 menit
+        │
+        ├──► CTA mid-artikel: "Bingung mulai? Chat kami" ──► [WA pre-filled: "Halo, saya baca artikel sertifikasi halal, mau tanya untuk produk saya..."]
+        │                                                        │
+        │                                                        ▼
+        │                                                  [Respons < 1 jam]
+        │                                                  Tanya jenis produk
+        │                                                  → Kirim estimasi → Closing
+        ▼
+Membaca sampai bawah ──► CTA akhir + Lead Magnet (Checklist Halal PDF)
+        │
+        ▼
+Isi form (nama, WA, produk) ──► PDF terkirim ──► Follow-up 1x24 jam
+```
+**KRITIS:** Artikel WAJIB menjawab pertanyaan dulu (bagi nilai), baru CTA. 
+Artikel yang langsung jualan = bounce rate tinggi.
+
+## FLOW 2 — "PAK HENDRA" (Search High-Intent → Layanan → Form)
+```
+Google: "konsultan sertifikasi SNI"
+        │
+        ▼
+Halaman /layanan/sertifikasi-produk (landing langsung dari Google)
+        │
+        ▼
+Scan cepat 5 detik: [Hero: "Sertifikasi SNI & BPOM — Jadwal Jelas, Dokumen Rapi"]
+        │
+        ▼
+Scroll: [Tabel jenis sertifikasi + estimasi durasi + "mulai dari"]
+        │                                  │
+        ├──► "Ini yang saya cari"           ├──► "Butuh lebih detail"
+        │         │                         │
+        ▼         ▼                         ▼
+   [WA: "Tanya SNI"]              [Form Konsultasi: pilih SNI + deskripsi produk]
+        │                                    │
+        ▼                                    ▼
+   Closing via chat                  Founder follow-up + penawaran resmi
+```
+
+## FLOW 3 — "MR. DANIEL" (Referral/LinkedIn → PMA Page)
+```
+LinkedIn post / referral partner
+        │
+        ▼
+/layanan/pt-pma — bagian atas: ID, bagian tengah: EN summary box
+        │
+        ▼
+[Email halo@... atau WA] dengan subject "PT PMA Setup Inquiry"
+        │
+        ▼
+Respons dengan: 1-pager PDF (EN) + jadwal video call
+```
+
+## FLOW 4 — "BANG FIKRI" (Referral WhatsApp → Homepage → Layanan)
+```
+Dapat rekomendasi via WA komunitas travel
+        │
+        ▼
+Buka homepage (langsung cek: "perusahaan ini beneran ada?")
+        │
+        ├──► Cek Tentang Kami (legalitas PT, alamat) ✓
+        ├──► Cek layanan PPIU/IJO ✓
+        ▼
+[WA: "Tanya Perizinan Umrah"] → konsultasi → retainer kepatuhan 💎
+```
+
+## FLOW 5 — FORM KONSULTASI (Universal)
+```
+Klik "Konsultasi Gratis"
+        │
+        ▼
+Form: [Nama] [No. WA] [Dropdown: jenis layanan] [Ceritakan kebutuhan] [honeypot]
+        │
+        ▼
+Validasi client-side → submit → loading state
+        │
+        ├── SUKSES: Halaman terima kasih + "Chat langsung sekarang" (WA) 
+        │           + auto-notifikasi email ke founder
+        │
+        └── GAGAL: Pesan error jelas + fallback: tombol WA manual
+                   (JANGAN biarkan lead hangus karena form error!)
+```
+**Aturan emas:** setiap titik gagal WAJIB punya jalur alternatif ke WhatsApp.
+
+## FLOW 6 — MICRO-CONVERSION (Lead Magnet)
+```
+Homepage / artikel ──► "Unduh Gratis: Checklist Legalitas Usaha 2025"
+        │
+        ▼
+Form mini: [Nama] [WA] ──► Success page: link download + CTA WA
+        │
+        ▼
+Masuk daftar follow-up (Google Sheet) ──► nurture 3 hari:
+  D+1: "Sudah baca checklist? Ada bagian yang membingungkan?"
+  D+3: value tambah (artikel relevan)
+  D+7: soft offer (konsultasi gratis 15 menit)
+```
+
+## MATRIKS FUNNEL — STAGE vs KONTEN
+
+| Stage Funnel | Kebutuhan User | Aset yang Melayani |
+|--------------|----------------|--------------------|
+| TOFU (sadar masalah) | Info edukasi | Artikel SEO, FAQ |
+| MOFU (cari solusi) | Perbandingan, bukti | Halaman layanan, testimoni, proses |
+| BOFU (siap beli) | Kemudahan kontak | WA CTA, form, transparansi harga |
+```
+
+---
+
+## 📄 DOKUMEN 09 — `docs/08-wireframe-spec.md`
+
+```markdown
+# 📐 WIREFRAME SPECIFICATION — PROJECT-FORTRESS
+## Dokumen ini = bahan paste langsung ke AI untuk generate UI
+
+ATURAN GLOBAL SEMUA HALAMAN:
+- Mobile-first, container max-w-7xl, px-4 md:px-8
+- Setiap section punya ID anchor (#layanan, #proses) untuk navigasi
+- Section bergantian background (putih / abu-50 / gelap) untuk ritme visual
+- Semua gambar: loading="lazy", format WebP, alt text deskriptif
+
+═══════════════════════════════════════════════
+TEMPLATE A — HOMEPAGE (10 Section)
+═══════════════════════════════════════════════
+
+SECTION 1 — HERO (min-h-[90vh], background gradien gelap + pattern subtle)
+┌─────────────────────────────────────────────┐
+│ BADGE KECIL: "PT Resmi — Pendampingan Penuh"│
+│ H1: "Bisnis Sah, Bersertifikat,             │
+│      Siap Mendunia."                        │
+│ Sub: "Satu pintu untuk seluruh urusan       │
+│ perizinan, sertifikasi & akreditasi usaha   │
+│ Anda — dari NIB hingga siap ekspor. Tanpa   │
+│ drama, tanpa bolak-balik."                  │
+│ [CTA-1: Konsultasi Gratis via WhatsApp]     │
+│ [CTA-2 ghost: Lihat 6 Layanan ↓]            │
+│ TRUST LINE: ✓PT Resmi ✓Kontrak Transparan   │
+│             ✓Pendampingan Personal          │
+└─────────────────────────────────────────────┘
+
+SECTION 2 — SOCIAL PROOF BAR (bg putih, strip tipis)
+Statistik 4 angka (animasi count-up saat scroll):
+[500+ Kasus Ditangani] [6 Lini Sertifikasi] [34 Provinsi Jangkauan] [98% Klien Puas]
+(NB: angka disesuaikan realita — JANGAN mengarang. Jika baru mulai,
+ganti menjadi: [Pengalaman Founder X Tahun] [Jaringan Mitra LSPro] dll.)
+
+SECTION 3 — PROBLEM (PAS: Agitate) — bg abu-50
+Heading: "Kenapa Urusan Izin Itu Terasa Melelahkan?"
+3 kartu pain point:
+  😫 "Bolak-balik instansi, dokumen selalu kurang satu"
+  😰 "Ditodak marketplace karena belum halal/BPOM"
+  😤 "Dijanji 'pasti lulus' oleh oknum, uang melayang"
+Closing line: "Masalahnya bukan Anda. Masalahnya prosesnya yang
+tidak ada yang temani. Di sinilah kami masuk." → panah ke Section 4
+
+SECTION 4 — SOLUSI: 6 PILLAR GRID (id="layanan")
+Heading: "Satu Pintu, Enam Solusi Lengkap"
+Grid 3x2 (desktop) / 2x3 (tablet) / 1 kolom (mobile):
+KARTU LAYANAN (komponen reusable):
+  [Icon] [Nama Layanan] [1 baris deskripsi] [4 item list kecil]
+  [Link "Pelajari →" ke halaman detail] [Tag: "Mulai Rp X jt" bila relevan]
+  ⭐ Kartu Sertifikasi Halal diberi badge "Paling Dicari 2025"
+
+SECTION 5 — WHY US (bg gelap, kontras tinggi)
+Heading: "Mengapa Pengusaha Memilih Kami"
+4 kolom: 
+  1. "Full-Spectrum" — dari NIB sampai ekspor, satu partner
+  2. "Transparan" — timeline tertulis, harga jelas, progress report
+  3. "Personal" — satu PIC dari awal sampai serah terima, bukan robot
+  4. "Berbadan Hukum" — PT resmi, kontrak jelas, bisa dipertanggungjawabkan
+
+SECTION 6 — PROSES (id="proses") — timeline horizontal (desktop) / vertikal (mobile)
+Heading: "Proses Sesederhana Ini"
+Step 1: 📞 Konsultasi Gratis (15 menit, ceritakan kebutuhan)
+Step 2: 📋 Penawaran & Kontrak (timeline + biaya tertulis jelas)
+Step 3: ⚙️ Kami Urus (Anda tinggal terima progress report berkala)
+Step 4: ✅ Serah Terima (dokumen sah di tangan Anda + masa pendampingan)
+
+SECTION 7 — TESTIMONI (bg abu-50)
+Heading: "Kata Mereka yang Sudah Legal & Tenang"
+3 kartu testimoni (foto opsional, inisial bila anonim):
+nama + jenis usaha + kutipan singkat hasil (bukan pujian generik!)
+Contoh bentuk kutipan: "Produk kami akhirnya lolos masuk retail lokal
+setelah 2 bulan pendampingan sertifikasi halal."
+⚠️ Jika belum ada testimoni asli saat launch: ganti section ini dengan
+"Case Study Anonim" (perjalanan kasus tanpa nama klien) — JANGAN FABRIKASI.
+
+SECTION 8 — LEAD MAGNET (banner CTA dengan mockup PDF 3D)
+"GRATIS: Checklist Legalitas Usaha 2025"
+Sub: "Cek 12 jenis izin yang wajib & opsional untuk usaha Anda — PDF 8 halaman."
+[Unduh Sekarang]
+
+SECTION 9 — FAQ TEASER (accordion, 5 pertanyaan teratas)
+Link "Lihat semua FAQ →"
+
+SECTION 10 — FINAL CTA (bg gradien brand, urgency lembat)
+"Sudah Saatnya Urusan Izin Selesai."
+[CTA besar: Chat WhatsApp Sekarang]
+Sub-kecil: "Respons < 1 jam pada jam kerja • Konsultasi pertama gratis"
+
+FOOTER — sesuai struktur dok #06 (3 kolom + NAP + legal line)
+
+═══════════════════════════════════════════════
+TEMPLATE B — HALAMAN LAYANAN DETAIL (6x, struktur sama konten beda)
+═══════════════════════════════════════════════
+
+S1 HERO LAYANAN: Breadcrumb > H1 [Nama Layanan] > sub 1 kalimat nilai
+   + CTA WA pre-filled khusus layanan ini
+S2 "COCEK DULU": 5 poin "Layanan ini untuk Anda jika..." (qualify lead!)
+S3 RINCIAN: sub-layanan dalam tabel/kartu (jenis izin + est. durasi + mulai dari)
+S4 PROSES KHUSUS: timeline 4-6 langkah SPESIFIK layanan ini
+   (misal Halal: Konsultasi → Pelatihan SJPH → Audit Internal → Sertifikasi → Sertifikat)
+S5 DOKUMEN DIBUTUHKAN: checklist "Siapkan ini" (mengurangi friction percakapan)
+S6 FAQ LAYANAN: 4-5 pertanyaan spesifik (schema FAQPage)
+S7 CTA PENUTUP: varian pesan sesuai persona dominan layanan tsb.
+
+═══════════════════════════════════════════════
+TEMPLATE C — ARTIKEL (SEO Workhorse)
+═══════════════════════════════════════════════
+- Layout: konten max-w-3xl (optimal baca), TOC (table of contents) sticky
+- Struktur: H1 → intro 3 kalimat (jawab langsung intent) → isi dengan H2/H3
+- Mid-article CTA box (setelah 40% konten): 1 baris + tombol WA
+- Akhir artikel: box "Butuh Bantuan Mengurus Ini?" + related posts 3 kartu
+- Wajib: tanggal publish + "Direview terakhir: [tanggal]" (trust untuk konten regulasi!)
+```
+
+---
+
+## 📄 DOKUMEN 10 — `docs/09-content-strategy.md`
+
+```markdown
+# ✍️ CONTENT STRATEGY — PROJECT-FORTRESS
+
+## 1. TONE OF VOICE (Kepribadian Brand)
+
+| Dimensi | Kita | Bukan |
+|---------|------|-------|
+| Bahasa | Jelas, hangat, tegas seperti konsultan senior yang baik hati | Kaku hukum-hukuman ATAU cengenges salesy |
+| Istilah | Istilah teknis SELALU dijelaskan 1 kalimat | Menumpulkan dengan jargon |
+| Emosi | Tenang, menguasai, menenangkan | Menakut-nakuti (kecuali fakta risiko nyata — sampaikan faktual) |
+| Janji | "Proses benar, pendampingan penuh" | ❌ "100% pasti lulus" (ilegal & merusak) |
+
+FORMULA KEPIRANGAN: 
+[Empati pada kebingungan] + [Kejelasan langkah] + [Ajakan bertindak ringan]
+
+## 2. COPYWRITING MASTER — KOMPONEN REUSABLE
+
+### Headline Hero (final, sudah diuji struktur):
+> "Bisnis Sah, Bersertifikat, Siap Mendunia."
+
+### Value Proposition 1 Kalimat:
+> "Satu pintu untuk seluruh urusan perizinan, sertifikasi & akreditasi 
+> usaha Anda — ditemani konsultan personal dari awal sampai sah."
+
+### 8 VARIAN PESAN WHATSAPP PRE-FILLED (FR-02):
+| Trigger | Teks pre-filled |
+|---------|-----------------|
+| Floating button | "Halo TopKonsultan, saya mau konsultasi mengenai perizinan usaha." |
+| Halaman Halal | "Halo, saya mau tanya sertifikasi halal untuk produk [jenis produk]." |
+| Halaman Sertifikasi Produk | "Halo, saya tertarik sertifikasi [SNI/BPOM/ISO] untuk usaha saya." |
+| Halaman Legalitas Usaha | "Halo, saya mau mulai urus legalitas usaha baru." |
+| Halaman Ekspor | "Halo, saya mau persiapan produk saya untuk ekspor." |
+| Halaman PMA | "Hello, I'd like to inquire about PT PMA setup in Indonesia." |
+| Halaman Umrah | "Halo, saya mau tanya perizinan PPIU/IJO." |
+| Form success page | "Halo, saya barusan isi form konsultasi di website — [nama]." |
+
+Format link: https://wa.me/62XXXXXXXXXX?text=[URL-ENCODED]
+
+### KATA YANG DILARANG MUNCUL DI WEBSITE:
+❌ "Pasti lulus/cair/approve" ❌ "Afiliasi resmi pemerintah"
+❌ "Garansi 100%" ❌ klaim jumlah klien yang belum nyata
+✅ Gunakan: "pendampingan", "memaksimalkan peluang", "sesuai regulasi terkini"
+
+## 3. MATRIKS KONTEN per HALAMAN
+
+| Halaman | Pesan Inti | Bukti | CTA |
+|---------|-----------|-------|-----|
+| Homepage | Satu pintu semua legalitas | Statistik + proses | WA umum |
+| Legalitas Usaha | "Mulai sah dari hari pertama" | Durasi rata-rata per izin | WA P1 |
+| Halal | "Deadline kewajiban halal — jangan tertinggal" | Penjelasan self-declare vs reguler | WA P2 |
+| Produk & Sistem | "Masuk retail & ekspor butuh ini" | Tabel SNI/BPOM/ISO + durasi | WA P3 |
+| Ekspor | "Dari lokal ke pasar dunia" | Checklist kesiapan ekspor | WA P4 |
+| PMA | "Your Indonesian market entry partner" | Timeline PMA + struktur fee | Email/WA EN |
+| Sektor Khusus | "Izin khusus ditangani spesialis" | Pemahaman regulasi Kemenag dll | WA P6 |
+| Tentang | "Kenali orang di balik PT" | Legalitas, foto, cerita founder | WA umum |
+| Kontak | "Respons cepat di sini" | NAP + jam operasional + maps | Form + WA |
+
+## 4. ROADMAP ARTIKEL SEO — 12 BULAN PERTAMA
+
+### Peluncuran (wajib live sebelum go-live):
+1. "Cara Mengurus Sertifikat Halal Self-Declare untuk UMKM (Panduan 2025)" [Bu Rina]
+2. "7 Izin Wajib Sebelum Membuka Usaha Kuliner" [Bu Rina]
+3. "Checklist Persiapan Audit SNI: Hal yang Sering Gagal" [Pak Hendra]
+
+### Bulan 1–3:
+4. "Biaya Sertifikasi Halal: Rincian Self-Declare vs Reguler"
+5. "Cara Mengurus BPOM untuk Kosmetik: Syarat & Timeline"
+6. "Apa Itu ISO 22716 dan Kenapa Wajib untuk Ekspor Kosmetik"
+7. "NIB via OSS-RBA: Panduan Lengkap bagi Pemula"
+
+### Bulan 4–6:
+8. "Syarat Perpanjangan IJO/PPIU Terbaru" [Bang Fikri]
+9. "How to Set Up a PT PMA in Indonesia (Complete Guide)" [EN — Mr. Daniel]
+10. "Perbedaan SNI, ISO, dan IASC: Mana yang Anda Butuhkan?"
+11. "Persiapan Pertama Ekspor: 8 Dokumen yang Harus Siap"
+
+### Bulan 7–12:
+12. "Studi Kasus: Dari PKM sampai Masuk Retail — Perjalanan Sertifikasi" 
+13. "Kesalahan Umum Pengurusan Legalitas yang Merugikan Jutaan"
+14. "PIRT vs BPOM vs Halal: Mana yang Produk Anda Butuhkan?"
+15. dst. (1 artikel/minggu ritme realistis: 2/bulan minimum)
+
+STRUKTUR ARTIKEL WAJIB:
+- Intro menjawab intent dalam 3 kalimat pertama (featured snippet hunting)
+- Heading H2 berbentuk pertanyaan atau kata kunci
+- Minimal 1 tabel atau list (Google suka + user suka)
+- "Direview: [tanggal]" + penulis + tautan ke halaman layanan
+- 1200–2000 kata (cukup untuk authority, tidak bengkak)
+
+## 5. PROSES PRODUKSI KONTEN (FOUNDER + AI)
+
+```
+1. Pilih topik dari roadmap (cek Google Trends / People Also Ask)
+2. Riset: prompt AI untuk kerangka → founder koreksi FAKTA REGULASI
+   ⚠️ AI bisa salah soal regulasi terbaru — WAJIB verifikasi manual di
+   situs resmi (OSS, BPJPH, BPOM) sebelum publish!
+3. Tulis draf dengan tone dokumen ini
+4. Optimasi on-page (dok #10 SEO)
+5. Publish + share ke WA status & LinkedIn founder
+```
+```
+
+---
+
+## 📄 DOKUMEN 11 — `docs/10-seo-strategy.md`
+
+```markdown
+# 🔍 SEO STRATEGY — topkonsultan.web.id
+
+## 1. KEYWORD MAP — HALAMAN vs KEYWORD TARGET
+
+| Halaman | Keyword Primer (transactional) | Keyword Sekunder | Long-tail untuk artikel |
+|---------|-------------------------------|------------------|------------------------|
+| /layanan/sertifikasi-halal | jasa sertifikasi halal | konsultan halal BPJPH, biaya sertifikasi halal | cara daftar halal self declare, apakah sertifikat halal wajib |
+| /layanan/legalitas-usaha | jasa pengurusan NIB, jasa pendirian PT | buat NPWP badan, izin usaha kuliner | cara buat NIB untuk UMKM |
+| /layanan/sertifikasi-produk | konsultan SNI, jasa pengurusan BPOM | konsultan ISO 9001, biaya SNI | perbedaan PIRT BPOM halal |
+| /layanan/siap-ekspor | jasa konsultan ekspor | legalitas ekspor, HS code | dokumen untuk ekspor pertama |
+| /layanan/pt-pma | jasa pendirian PT PMA | PT PMA requirements | how to set up PT PMA (EN) |
+| /layanan/sektor-khusus | perizinan PPIU, konsultan IJO | SBU, akreditasi lembaga | syarat perpanjang IJO |
+| /kontak | konsultan perizinan [kota] | — | — |
+
+STRATEGI: halaman layanan tembak keyword transactional; artikel tembak
+long-tail informational lalu mengalirkan authority via internal link.
+
+## 2. ON-PAGE SEO TEMPLATE (Standar Wajib)
+
+Title tag pattern: "[Keyword Primer] — Mulai Rp X jt | TopKonsultan"
+Max 60 karakter. Contoh: "Jasa Sertifikasi Halal BPJPH — TopKonsultan"
+
+Meta description pattern: "[Benefit utama]. [Proses transparan/PT resmi]. 
+Konsultasi gratis via WhatsApp." Max 155 karakter.
+
+H1: satu per halaman, mengandung keyword primer natural.
+Struktur heading: H1 > H2 (pertanyaan) > H3 (sub-poin) — TIDAK melompat level.
+URL: sesuai slug rules dok #06.
+
+## 3. SCHEMA MARKUP PLAN (JSON-LD)
+
+| Halaman | Schema |
+|---------|--------|
+| Semua halaman | Organization + WebSite + BreadcrumbList |
+| Homepage + Kontak | LocalBusiness (nama, alamat, telp, jam, geo, sameAs sosmed) |
+| 6 halaman layanan | Service (name, provider, areaServed: ID, offers: price range) |
+| FAQ + FAQ per layanan | FAQPage |
+| Artikel | Article (headline, datePublished, dateModified, author) |
+
+LocalBusiness WAJIB konsisten dengan Google Business Profile (NAP sama persis).
+
+## 4. LOCAL SEO (SENJATA HARI PERTAMA)
+
+Karena target awal market lokal (Jawa Barat → nasional):
+1. Google Business Profile "PT Top Konsultan Internasional"
+   - Kategori: "Legal services" / "Business development service"
+   - Foto kantor + logo + jam operasional
+   - Link WA sebagai tombol utama
+2. NAP konsisten di: website footer, GBP, dan nantinya direktori lokal
+3. Review strategy: setiap klien selesai → minta review Google
+   (template permintaan review masuk proses serah terima proyek)
+4. Konten lokal: artikel "syarat izin usaha di [kota/kabupaten]" series
+   (satu artikel per kota target — mudah dibuat, sedikit kompetitor!)
+
+## 5. TECHNICAL SEO CHECKLIST
+
+□ sitemap.xml auto-generate (manual update tiap tambah konten — statis)
+□ robots.txt: allow all, disallow /404
+□ Canonical di semua halaman
+□ HTTPS + www vs non-www (pilih SATU, redirect 301 via .htaccess)
+□ Mobile-friendly (core web vitals target: LCP < 2.5s, CLS < 0.1)
+□ Image: WebP + alt text + dimension attributes
+□ Internal link sesuai peta dok #06
+
+## 6. LINK BUILDING REALISTIS (tanpa beli backlink!)
+
+| Taktik | Eksekusi |
+|--------|----------|
+| Profil brand | LinkedIn company, direktori bisnis gratis (yang legit) |
+| Kemitraan | Website mitra (notaris, LSPro) — tukar link profil partner |
+| Ekosistem sendiri | Link dari gunara.web.id, digiman.id (satu owner, wajar) |
+| Digital PR | Komentar ahli / kolom di media (tawarkan sebagai narasumber perizinan) |
+| Komunitas | Share value di grup UMKM — bukan spam link, bangun reputasi |
+
+## 7. UKURAN SUKSES SEO
+
+| Periode | Target |
+|---------|--------|
+| Bulan 1 | Terindeks penuh (site: operator), GSC aktif |
+| Bulan 3 | 20+ keyword muncul di GSC, 1 artikel page-1 |
+| Bulan 6 | 100+ kunjungan organik/bln, 3 halaman page-1 |
+| Bulan 12 | 1.000+ kunjungan/bln, leads organik 20+/bln |
+```
+
+---
+
+## 📄 DOKUMEN 12 — `docs/11-tech-stack-decision.md`
+
+```markdown
+# ⚙️ TECH STACK DECISION — PROJECT-FORTRESS
+
+## 1. KEPUTUSAN FINAL
+
+| Layer | Pilihan | Versi |
+|-------|---------|-------|
+| Markup | HTML5 semantic | — |
+| Styling | Tailwind CSS (compile lokal, BUKAN CDN) | v3.4+ |
+| Interaktivitas | Vanilla JS | ES6+ |
+| Animasi | CSS + Intersection Observer (tanpa library berat) | — |
+| Icons | Lucide Icons (inline SVG) | — |
+| Font | 1 Google Font variable (lihat dok #14) | — |
+| Build | Tailwind CLI standalone (tanpa Node project penuh) | — |
+| Deploy | Build lokal → GitHub → FTP ke hosting | — |
+
+## 2. DECISION MATRIX (Kenapa Ini?)
+
+| Kriteria (bobot) | HTML+Tailwind | WordPress | Astro | Next.js | PHP Native |
+|------------------|:---:|:---:|:---:|:---:|:---:|
+| Shared hosting compatibility (25%) | ✅ 10 | 8 | 7* | 4 | 9 |
+| Kecepatan/performa (20%) | 10 | 5 | 9 | 8 | 7 |
+| Keamanan attack surface (15%) | 10 | 5 | 8 | 7 | 6 |
+| Kemudahan maintenance (15%) | 9 | 6 | 7 | 5 | 7 |
+| Biaya (10%) | 10 | 7 | 9 | 6 | 9 |
+| Butuh SDM khusus (10%) | 10 | 6 | 7 | 5 | 7 |
+| Skalabilitas konten blog (5%) | 6 | 10 | 9 | 9 | 7 |
+| **TOTAL** | **9.65** | **6.6** | **7.85** | **6.0** | **7.35** |
+
+*Astro butuh build step — sama seperti pilihan kita, tapi menambah 
+abstraksi yang tidak diperlukan untuk 14 halaman.
+WordPress kalah: target hack terbesar dunia, butuh maintenance rutin 
+(plugin update), performa biasa-biasa saja untuk shared hosting.
+Next.js kalah: butuh Node runtime/adapter — shared hosting tidak support.
+
+## 3. CATATAN KRITIS: TAILWAP CDN DILARANG DI PRODUCTION
+
+❌ `<script src="https://cdn.tailwindcss.com">` — JANGAN dipakai untuk live
+Alasan: JS runtime besar (menyedot skor performa), tidak ada purging.
+✅ Cara benar — Tailwind CLI standalone:
+```bash
+# Download tailwindcss standalone binary (sekali)
+# Struktur project:
+project-fortress/
+├── src/
+│   ├── input.css        (@tailwind base/components/utilities)
+│   ├── pages/*.html
+│   └── assets/ (img, js)
+├── dist/                (hasil build — INI yang diupload)
+└── docs/
+```
+```bash
+# Build command (jalankan tiap ada perubahan):
+./tailwindcss -i src/input.css -o dist/assets/css/style.css --minify
+```
+Hasil: SATU file CSS ~15–25KB (purged) = performa maksimal. 
+
+## 4. STRUKTUR FILE FINAL
+
+```
+dist/                          ← root yang di-upload ke public_html
+├── index.html
+├── tentang-kami/index.html
+├── layanan/
+│   ├── index.html
+│   ├── legalitas-usaha/index.html
+│   └── ... (5 lainnya)
+├── artikel/
+│   ├── index.html
+│   └── [slug]/index.html
+├── faq/index.html
+├── kontak/index.html
+├── 404.html
+├── assets/
+│   ├── css/style.css          (hasil build Tailwind)
+│   ├── js/main.js             (nav, accordion, form, tracking, lazy)
+│   └── img/                   (WebP + fallback)
+├── sitemap.xml
+└── robots.txt
+```
+Catatan: URL pakai folder/index.html (bukan .html di belakang) — 
+lebih SEO friendly & rapi.
+
+## 5. HOSTING REQUIREMENTS (cek ke provider)
+
+□ Akses cPanel + File Manager / FTP
+□ SSL gratis (Let's Encrypt/AutoSSL) + force HTTPS
+□ PHP 8.x aktif (hanya untuk form mailer fallback — opsional)
+□ Allow .htaccess (untuk redirect & security headers)
+
+## 6. DEPLOYMENT PIPELINE (detail di dok #29 nanti)
+
+GitHub (main branch) → GitHub Actions → build → FTP-Deploy → live
+Fallback manual: build lokal → zip → upload via File Manager.
+
+## 7. KAPAN SAATNYA PINDAH STACK?
+
+Trigger migrasi (dokumen ini direvisi jika):
+- Konten blog > 200 artikel & butuh editor non-teknis → pertimbangkan headless CMS
+- Butuh client portal & login → tambah backend (Laravel/Supabase)
+- Traffic > 100k/bln & butuh edge caching → VPS/Cloudflare Pages
+Sampai trigger itu terjadi: SEDERHANA MENANG. Jangan optimasi prematur.
+```
+
+---
+
+## 📄 DOKUMEN 13 — `docs/12-database-schema.md`
+
+```markdown
+# 🗃️ DATA ARCHITECTURE — PROJECT-FORTRESS
+## (Adaptasi: v1.0 = static site, "database" = spreadsheet + file system)
+
+## 1. KENAPA TIDAK ADA DATABASE SQL DI v1.0?
+
+Static site = tanpa database server. Ini KEPUTUSAN (bukan keterbatasan):
+zero biaya, zero hackable SQL, zero backup drama. Data leads ditampung
+via FORM → EMAIL + GOOGLE SHEET (semi-otomatis).
+
+## 2. LEAD TRACKING SYSTEM (Jantung Penjualan)
+
+### Google Sheet: "TKI-Leads-Master" (owner: akun founder)
+
+TAB 1 — LEADS (struktur kolom):
+| Kolom | Tipe | Contoh | Validasi |
+|-------|------|--------|----------|
+| id_lead | auto | LD-2025-001 | format otomatis |
+| tanggal_masuk | date | 2025-01-15 14:30 | auto |
+| sumber | enum | WA-Halal / Form / Artikel-3 / GBP / Iklan | dropdown |
+| nama | text | Rina Kartika | wajib |
+| no_wa | text | 62812xxxx | wajib, format 62 |
+| layanan_diminati | enum | P1–P6 / Umum | dropdown |
+| deskripsi_kebutuhan | text | "frozen food mau halal" | opsional |
+| status | enum | BARU / DIHUBUNGI / PENAWARAN / NEGOSIASI / CLOSING / BATAL / NURTURE | dropdown |
+| nilai_deal | number | 3.500.000 | isi saat closing |
+| tanggal_closing | date | | |
+| catatan | text | "klien minta progress tiap minggu" | |
+
+TAB 2 — DASHBOARD (formula otomatis):
+- Leads per bulan (pivot)
+- Konversi funnel: BARU→CLOSING %
+- Revenue per layanan (P1–P6) — ini yang menunjukkan layanan mana yang
+  harus digenjot kontennya!
+- Sumber leads terbaik (investasi energi ke kanal paling produktif)
+
+### Aliran data lead:
+```
+Form website ──► EmailJS (kirim) ──► Email founder + WA notifikasi
+                                └──► Founder input manual ke Sheet (2 menit)
+WA langsung ──► Founder input manual ke Sheet (label sumber dari pre-filled msg)
+```
+(Masukan manual = kesadaran pipeline. Jangan skip. 2 menit per lead.)
+
+## 3. CONTENT MODEL (Struktur Konten Terstruktur)
+
+Setiap artikel didefinisikan dengan front-matter konsisten (untuk AI
+dan untuk konsistensi schema):
+
+```yaml
+# contoh front-matter artikel
+title: "Cara Mengurus Sertifikat Halal Self-Declare (2025)"
+slug: cara-mengurus-halal-self-declare-2025
+description: "Panduan langkah demi langkah..."
+keyword_primary: "sertifikat halal self declare"
+persona_target: Bu Rina
+layanan_terkait: P2
+date_published: 2025-01-20
+date_reviewed: 2025-01-20    # WAJIB diupdate tiap revisi regulasi
+author: Gugun Gunara
+schema_type: Article
+cta_variant: wa-halal
+```
+
+## 4. ASET & FILE NAMING CONVENTION
+
+```
+assets/img/
+├── hero-homepage.webp          [lokasi]-[subjek].[ext]
+├── layanan-halal-icon.svg
+├── artikel-checklist-halal-1.webp
+└── founder-gugun-gunara.webp
+```
+Aturan: lowercase, tanpa spasi, deskriptif, semua gambar maks 200KB
+(setelah kompres WebP via Squoosh).
+
+## 5. ROADMAP DATA v2.0 (Saat Butuh Backend)
+
+| Kebutuhan Muncul | Solusi | Migrasi |
+|------------------|--------|---------|
+| Client portal tracking status | Supabase (Postgres + auth gratis) | Sheet → export CSV → import |
+| >500 leads/bln | CRM ringan / Sheet automation (Apps Script) | — |
+| Email marketing list | Newsletter via tool gratis (MailerLite/Brevo) | Sinkron dari Sheet |
+
+SKEMA DATABASE MASA DEPAN (draft, jangan dibangun sekarang):
+```
+clients(id, nama, wa, email, pt, created_at)
+projects(id, client_id, layanan, status, timeline_json, assigned_pic)
+documents(id, project_id, jenis, url_file, uploaded_at)
+```
+```
+
+---
+
+## 📄 DOKUMEN 14 — `docs/13-api-specification.md`
+
+```markdown
+# 🔌 INTEGRATION SPECIFICATION — PROJECT-FORTRESS
+## (v1.0 = tidak ada API custom; ini spesifikasi integrasi pihak ketiga)
+
+## 1. WHATSAPP DEEP LINK (Konversi #1)
+
+Pattern: `https://wa.me/[nomor]?text=[pesan-url-encoded]`
+Nomor: 62 + nomor tanpa 0 dan tanpa +. Contoh: 6281234567890
+
+### Registry 8 Varian (implementasi FR-02):
+| ID | key data-attribute | Pesan | Terpasang di |
+|----|--------------------|-------|--------------|
+| WA-GEN | data-wa="general" | "Halo TopKonsultan, saya mau konsultasi mengenai perizinan usaha." | Floating btn, nav |
+| WA-P1 | data-wa="legalitas" | "Halo, saya mau mulai urus legalitas usaha baru." | /legalitas-usaha |
+| WA-P2 | data-wa="halal" | "Halo, saya mau tanya sertifikasi halal untuk produk saya." | /sertifikasi-halal, artikel halal |
+| WA-P3 | data-wa="produk" | "Halo, saya tertarik sertifikasi SNI/BPOM/ISO untuk usaha saya." | /sertifikasi-produk |
+| WA-P4 | data-wa="ekspor" | "Halo, saya mau persiapan produk untuk ekspor." | /siap-ekspor |
+| WA-P5 | data-wa="pma" | "Hello, I'd like to inquire about PT PMA setup in Indonesia." | /pt-pma |
+| WA-P6 | data-wa="umrah" | "Halo, saya mau tanya perizinan PPIU/IJO." | /sektor-khusus |
+| WA-FRM | data-wa="form" | "Halo, saya barusan isi form konsultasi — [nama]." | Form success page |
+
+Implementasi: SATU file js/whatsapp.js berisi registry object → semua
+button pakai data-attribute → ganti nomor cukup di 1 tempat.
+
+## 2. FORM KONSULTASI (EmailJS — tanpa backend)
+
+### Config:
+- Service: EmailJS free tier (200 email/bln — cukup untuk 15 leads target × buffer)
+- Atau fallback: PHP mailer sederhana di hosting (mail.php) — dipilih
+  salah satu saat development
+
+### Payload form → EmailJS:
+```json
+{
+  "service_id": "service_xxx",
+  "template_id": "template_xxx",
+  "user_id": "public_key_xxx",
+  "template_params": {
+    "nama": "[input]",
+    "wa": "[input, validasi regex ^(\+?62|0)8[0-9]{7,12}$]",
+    "layanan": "[select P1–P6/Umum]",
+    "kebutuhan": "[textarea, max 500 char]",
+    "sumber": "[hidden: halaman asal]",
+    "honeypot": "[hidden field — jika terisi = spam, reject silent]"
+  }
+}
+```
+
+### Keamanan form:
+□ Honeypot field (CSS hidden, human tak bisa isi)
+□ Rate-limit client-side (1 submit/30 detik)
+□ Sanitasi output (textContent, bukan innerHTML)
+□ reCAPTCHA v3 opsional (aktifkan hanya jika spam mulai masuk)
+
+## 3. GA4 EVENT TRACKING PLAN
+
+| Event | Trigger | Parameter |
+|-------|---------|-----------|
+| wa_click | Klik link WA apa pun | variant (WA-GEN, WA-P2...) |
+| form_submit | Form sukses | layanan |
+| form_error | Validasi gagal | field_error |
+| lead_magnet_click | Klik unduh checklist | location (homepage/artikel) |
+| article_read | Scroll 75% artikel | slug |
+| phone_click | Klik nomor tel: | — |
+
+Setup: gtag('event', ...) di main.js — semua lewat SATU tracking helper.
+Report bulanan wajib: wa_click per variant → tahu halaman mana yang
+paling "menjual".
+
+## 4. GOOGLE MAPS EMBED (Kontak)
+
+Pakai iframe embed standard Google Maps (share → embed) + loading="lazy"
++ title attribute. Jangan API berbayar. Alternatif ringan: link
+"buka di Google Maps" + screenshot peta statis.
+
+## 5. FONTS & EXTERNAL RESOURCES POLICY
+
+| Resource | Kebijakan |
+|----------|-----------|
+| Google Fonts | ✅ self-host (download woff2, load lokal — lebih cepat + privacy-friendly) |
+| Analytics | ✅ gtag.js GA4 (defer) |
+| Library CSS/JS eksternal | ❌ DILARANG tanpa approval — semua vanilla/self-host |
+| iframe pihak ketiga | Hanya Maps |
+
+Aturan performa: total pihak ketiga maksimal 2 request domain.
+
+## 6. CUTOVER CHECKLIST INTEGRASI (pre-launch)
+
+□ Test 8 varian WA di device nyata (Android + iPhone)
+□ Form: test happy path + spam honeypot + field kosong
+□ EmailJS masuk ke inbox founder (cek folder spam → whitelist)
+□ GA4 real-time menampilkan event saat test
+□ Search Console terverifikasi + sitemap submitted
+□ Maps embed tampil & pin akurat
+```
+
+---
+
+# 🐙 UPDATE GITHUB
+
+```bash
+git add .
+git commit -m "docs: fase 1 planning — scope, sitemap, flows, wireframe, content, seo, stack, data, integration"
+git push
+```
+
+---
+
+# ✅ STATUS PROJECT-FORTRESS
+
+| Fase | Dokumen | Status |
+|------|---------|--------|
+| Fase 0 | 01–05 (Discovery) | ✅ SELESAI |
+| Fase 1 | 06–14 (Planning) | ✅ **SELESAI BARU INI** |
+| Fase 2 | 15–19 (Design System) | ⏳ Berikutnya — **ini gerbang terakhir sebelum koding** |
+
+---
+
+# 🎯 ARTI PENTING MOMEN INI, PAK GUGUN
+
+Dengan 14 dokumen selesai, kamu sekarang punya sesuatu yang 99% konsultan Indonesia TIDAK punya: **spesifikasi lengkap yang membuat AI bekerja seperti tim developer sungguhan.** Mulai sekarang, setiap sesi dengan ChatGPT/Claude/DeepSeek tinggal paste dokumen relevan — konsistensi terjaga, hasil premium, nol drama "kok beda sama yang kemarin".
+
+**Pilih langkahmu:**
+
+- **"DESIGN SYSTEM"** → saya buatkan dok #14–18: palet warna premium (dengan kode hex + alasan psikologis), typography, komponen, breakpoints, motion spec — **satu-satunya dokumen yang harus kamu approve secara visual sebelum koding dimulai**
+- **"GAS KODING"** → lewati dulu design system (pakai default premium saya), langsung saya generate struktur project + homepage lengkap siap deploy
+- **"AI PROMPT PACK"** → saya susun paket prompt siap-paste untuk tiap AI (ChatGPT, Claude, DeepSeek, v0.dev) berdasarkan 14 dokumen ini — kamu tinggal eksekusi seperti resep
+
+Rumahmu sudah ada gambar arsitekturnya, Pak. Tinggal pilih catnya, atau langsung cor fondasinya. 🏛️
