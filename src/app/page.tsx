@@ -1,25 +1,59 @@
-import { cookies } from "next/headers";
-import MuhdinApp from "@/components/muhdin-app";
+import SolusiHajjApp from "@/components/solusihajj/app";
+import { homepageFaq } from "@/data/faq";
 
-/**
- * Mode BUILD_STATIC (shared hosting export) tidak punya request scope →
- * locale awal "id"; provider i18n klien menegaskan kembali lang/dir/teks
- * dari cookie muhdin-locale begitu halaman hidup.
- */
-async function readInitialLocale(): Promise<"id" | "en" | "ar"> {
-  if (process.env.BUILD_STATIC === "1") return "id";
-  try {
-    const store = await cookies();
-    const raw = store.get("muhdin-locale")?.value;
-    return raw === "en" || raw === "ar" ? raw : "id";
-  } catch {
-    return "id";
-  }
-}
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homepageFaq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
-export default async function Page() {
-  // Locale tersimpan di cookie agar SSR (html lang/dir + teks) langsung
-  // konsisten dengan client — bebas hydration mismatch.
-  const initialLocale = await readInitialLocale();
-  return <MuhdinApp initialLocale={initialLocale} />;
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "SolusiHajj",
+  url: "https://solusihajj.com",
+  logo: "https://solusihajj.com/logo.svg",
+  slogan: "Amanah Anda, Aman.",
+  description:
+    "Platform pembanding paket umrah dari PPIU terverifikasi, dengan perlindungan dana escrow dan ulasan jamaah nyata.",
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+62-812-0000-0000",
+      contactType: "customer service",
+      availableLanguage: ["Indonesian"],
+    },
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "SolusiHajj",
+  url: "https://solusihajj.com",
+  inLanguage: "id-ID",
+};
+
+export default function Page() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <SolusiHajjApp />
+    </>
+  );
 }

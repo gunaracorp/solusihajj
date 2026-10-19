@@ -50,23 +50,5 @@ test
 prompt
 
 server.log
-# Shared hosting release package
-/release/
 # Skills directory
 /skills/
-# artefak build & pratinjau hosting (jangan dipindai Tailwind/eslint)
-/deploy/
-/release/
-*.tmp.ts
-*.tmp.db
-*.tmp.py
-# Salinan unduhan darurat di public/ (bukan aset aplikasi, jangan ter-commit)
-/public/*.zip
-/public/muhdin-shared-hosting-INSTALL.txt
-tool-results/
-
-# Local secrets and generated files
-.env*
-!.env.example
-node_modules/
-.next/
