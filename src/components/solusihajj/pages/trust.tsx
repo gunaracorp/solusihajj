@@ -19,6 +19,10 @@ import {
   Banknote as CashIcon,
   Home,
   PlaneTakeoff,
+  Siren,
+  MapPin,
+  Play,
+  RotateCcw,
 } from "lucide-react";
 import { licenseMaster, ppiuList } from "@/data/ppiu";
 import type { LicenseRecord } from "@/data/types";
@@ -102,6 +106,8 @@ export function VerifyPage() {
             <ShieldCheck size={18} className="mr-2" /> Cek Izin PPIU
           </Link>
         </div>
+
+        <HafizhTrackDemo />
       </div>
     </div>
   );
@@ -291,6 +297,163 @@ export function CheckLicensePage() {
   );
 }
 
+/* ================= SIMULATOR ESCROW (interaktif — R1.5) ================= */
+const SIM_PHASES = [
+  {
+    label: "Bayar paket",
+    dana: "Rekening escrow bank syariah",
+    rilis: 0,
+    note: "100% dana Anda masuk escrow. PPIU melihat dana 'terkunci' atas nama kontrak Anda — tidak bisa ditarik.",
+  },
+  {
+    label: "Menunggu keberangkatan",
+    dana: "Rekening escrow bank syariah",
+    rilis: 0,
+    note: "Se H-1: dana tetap terkunci. Jika PPIU gagal berangkat, 100% kembali ke Anda sesuai kontrak.",
+  },
+  {
+    label: "Tiba & check-in Makkah",
+    dana: "Escrow (60%) + PPIU (40%)",
+    rilis: 40,
+    note: "Check-in terkonfirmasi → rilis pertama 40%. Bukti rilis terdokumentasi.",
+  },
+  {
+    label: "Ibadah Makkah → Madinah",
+    dana: "Escrow (20%) + PPIU (80%)",
+    rilis: 80,
+    note: "Itinerary berjalan sesuai kontrak → rilis kedua 40%. Sisa 20% tetap ditahan sebagai jaminan.",
+  },
+  {
+    label: "Pulang & review terbit",
+    dana: "PPIU menerima 100%",
+    rilis: 100,
+    note: "Anda tiba di tanah air, review Saksi Jamaah terbit, 20% terakhir cair. Semua pihak berakhir amanah.",
+  },
+];
+
+function EscrowSimulator() {
+  const [phase, setPhase] = useState(0);
+  const p = SIM_PHASES[phase];
+  const harga = 32_500_000;
+  return (
+    <section className="mt-12 rounded-2xl border-2 border-gold/40 bg-gold-soft/40 p-6 md:p-8" aria-label="Simulator escrow">
+      <h2 className="flex items-center gap-2 text-[22px] font-extrabold text-ink">
+        <Play size={20} className="text-gold-deep" /> Simulator: Ke Mana Dana Rp {harga.toLocaleString("id-ID")} Anda Pergi?
+      </h2>
+      <p className="mt-1 text-sm text-ink-muted">Geser 5 fase perjalanan ini — lihat posisi dana di setiap momen.</p>
+      <input
+        type="range"
+        min={0}
+        max={4}
+        step={1}
+        value={phase}
+        onChange={(e) => setPhase(Number(e.target.value))}
+        className="mt-6 w-full accent-[#C9A227]"
+        aria-label="Fase perjalanan"
+      />
+      <div className="mt-1 flex justify-between text-xs font-bold text-ink-muted">
+        {SIM_PHASES.map((s, i) => (
+          <button key={i} onClick={() => setPhase(i)} className={cn("min-h-8 px-1 text-center transition-colors", i === phase ? "text-gold-deep" : "hover:text-brand")}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      <div className="mt-5 grid gap-4 md:grid-cols-[1fr_1.2fr]">
+        <div className="rounded-2xl bg-card p-5 shadow-card">
+          <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">Posisi dana saat ini</p>
+          <p className="mt-1 text-lg font-extrabold text-brand-deep">{p.dana}</p>
+          <div className="mt-4">
+            <div className="flex justify-between text-xs font-bold text-ink-muted">
+              <span>Rilis ke PPIU</span>
+              <span className="tabular text-gold-deep">{p.rilis}%</span>
+            </div>
+            <div className="mt-1.5 flex h-4 overflow-hidden rounded-full bg-muted">
+              <div className="h-full bg-brand transition-all" style={{ width: `${p.rilis}%` }} />
+              <div className="h-full flex-1 bg-gold/70" />
+            </div>
+            <p className="tabular mt-2 text-sm text-ink-muted">
+              Terlindungi escrow: <strong className="text-brand">Rp {Math.round((harga * (100 - p.rilis)) / 100).toLocaleString("id-ID")}</strong>
+            </p>
+          </div>
+        </div>
+        <div className="rounded-2xl bg-card p-5 shadow-card">
+          <p className="text-sm font-bold text-ink">{p.label}</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{p.note}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= DEMO HAFIZH TRACK (rute + SOS — R1.5) ================= */
+const TRACK_STATIONS = [
+  { t: "Keberangkatan — Soekarno-Hatta (CGK)", time: "Hari 1, 09:30 WIB", done: true },
+  { t: "Tiba Jeddah — handling & miqat", time: "Hari 1, 20:10 (waktu Saudi)", done: true },
+  { t: "Makkah — check-in hotel", time: "Hari 2, 08:45", done: true },
+  { t: "Umrah pertama bersama muthawif", time: "Hari 2, ba'da Subuh", done: false },
+  { t: "Madinah — Raudhah & ziarah", time: "Hari 7", done: false },
+  { t: "Pulang — tiba di CGK", time: "Hari 9", done: false },
+];
+
+function HafizhTrackDemo() {
+  const [sos, setSos] = useState<"idle" | "sent" | "ack">("idle");
+  return (
+    <section className="mt-12 rounded-2xl border border-line-warm bg-card p-6 shadow-card md:p-8" aria-label="Demo Hafizh Track">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h2 className="flex items-center gap-2 text-[22px] font-extrabold text-ink">
+            <MapPin size={20} className="text-brand" /> Demo Hafizh Track — Mata Keluarga di Rumah
+          </h2>
+          <p className="mt-1 max-w-xl text-sm leading-relaxed text-ink-muted">
+            Beginilah tampilan pantauan yang diterima keluarga Anda (opt-in): posisi rombongan per titik penting, tanpa
+            melanggar privasi ibadah. Rilis penuh di R3 — versi ini simulasi.
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            setSos("sent");
+            window.setTimeout(() => setSos("ack"), 1800);
+          }}
+          className={cn(
+            "inline-flex min-h-14 items-center gap-2 rounded-2xl px-6 font-extrabold transition-colors",
+            sos === "ack" ? "bg-brand text-ivory" : "bg-danger-warm text-white hover:bg-[#99291f]"
+          )}
+          aria-live="polite"
+        >
+          <Siren size={20} />
+          {sos === "idle" ? "SOS (Demo)" : sos === "sent" ? "Mengirim…" : "Terhubung Koordinator ✓"}
+        </button>
+      </div>
+      {sos !== "idle" && (
+        <p className={cn("mt-3 rounded-xl px-4 py-2.5 text-sm font-semibold", sos === "ack" ? "bg-brand-soft text-brand-deep" : "bg-danger-warm/10 text-danger-warm")}>
+          {sos === "ack"
+            ? "Koordinator rombongan & tim darurat SolusiHajj menerima sinyal — respons maksimal 5 menit. (Simulasi)"
+            : "Sinyal SOS terkirim ke koordinator rombongan…"}
+        </p>
+      )}
+      <ol className="mt-6 space-y-0 border-l-2 border-brand/25 pl-6">
+        {TRACK_STATIONS.map((s, i) => (
+          <li key={i} className="relative pb-5 last:pb-0">
+            <span
+              className={cn(
+                "absolute -left-[31px] top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full",
+                s.done ? "bg-brand" : "border-2 border-gold/60 bg-ivory"
+              )}
+              aria-hidden="true"
+            />
+            <p className={cn("text-[15px] font-bold", s.done ? "text-ink" : "text-ink-muted")}>{s.t}</p>
+            <p className="text-xs text-ink-muted">{s.time} {s.done && "• notifikasi 'Aman ✓' terkirim ke keluarga"}</p>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-5 text-xs leading-relaxed text-ink-muted">
+        Lokasi disimpan maksimal 30 hari sesuai UU PDP No. 27/2022, hanya dibagikan ke keluarga yang Anda unduh, dan
+        dapat dimatikan kapan pun — privasi ibadah tetap utama.
+      </p>
+    </section>
+  );
+}
+
 /* ================= HALAMAN AMANAHESCROW ================= */
 export function EscrowPage() {
   const steps = [
@@ -380,6 +543,8 @@ export function EscrowPage() {
             </div>
           </div>
         </div>
+
+        <EscrowSimulator />
 
         {/* FAQ mini */}
         <div className="mt-12 grid gap-4 md:grid-cols-3">

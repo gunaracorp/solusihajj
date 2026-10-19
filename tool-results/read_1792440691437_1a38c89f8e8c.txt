@@ -1,0 +1,556 @@
+     1→"use client";
+     2→
+     3→import { useMemo, useState } from "react";
+     4→import {
+     5→  MapPin,
+     6→  CalendarDays,
+     7→  Mountain,
+     8→  Plane,
+     9→  Hotel,
+    10→  Utensils,
+    11→  Bus,
+    12→  UserRound,
+    13→  ShieldCheck,
+    14→  LockKeyhole,
+    15→  X,
+    16→  SlidersHorizontal,
+    17→  ArrowRight,
+    18→  PackageCheck,
+    19→  PackageX,
+    20→} from "lucide-react";
+    21→import { packageList, getPackage, packagesOfPpiu } from "@/data/packages";
+    22→import { getPpiu, ppiuList } from "@/data/ppiu";
+    23→import { reviewsOfPackage } from "@/data/reviews";
+    24→import type { Pkg } from "@/data/types";
+    25→import { formatRupiah, formatDate, waLink, waMessages } from "@/lib/solusihajj/wa";
+    26→import { Link, navigate, scrollToId } from "@/lib/solusihajj/router";
+    27→import { Breadcrumb } from "../chrome";
+    28→import { PackageCard, ShieldBadge, StarRating, SceneVisual, SectionHeading, DimensionBars, WaButton } from "../ui-bits";
+    29→
+    30→/* ================= BUDGET FILTER HELPERS ================= */
+    31→function budgetMatch(price: number, budget: string | null): boolean {
+    32→  switch (budget) {
+    33→    case "lt30": return price < 30_000_000;
+    34→    case "30-40": return price >= 30_000_000 && price <= 40_000_000;
+    35→    case "40-50": return price > 40_000_000 && price <= 50_000_000;
+    36→    case "gt50": return price > 50_000_000;
+    37→    default: return true;
+    38→  }
+    39→}
+    40→
+    41→const TYPE_LABELS: Record<string, string> = {
+    42→  reguler: "Reguler",
+    43→  ramadhan: "Ramadhan",
+    44→  "plus-turki": "Plus Turki",
+    45→  "plus-dubai": "Plus Dubai",
+    46→};
+    47→
+    48→/* ================= KATALOG PAKET ================= */
+    49→export function CatalogPage({ query }: { query: URLSearchParams }) {
+    50→  const [kota, setKota] = useState(query.get("kota") ?? "");
+    51→  const [tipe, setTipe] = useState(query.get("type") ?? "");
+    52→  const [budget, setBudget] = useState(query.get("budget") ?? "");
+    53→  const [bulan, setBulan] = useState(query.get("bulan") ?? "");
+    54→  const [sort, setSort] = useState("harga-naik");
+    55→  const [filtersOpen, setFiltersOpen] = useState(false);
+    56→
+    57→  const filtered = useMemo(() => {
+    58→    let list = packageList.filter((p) => {
+    59→      if (kota && p.departCity !== kota) return false;
+    60→      if (tipe && p.type !== tipe) return false;
+    61→      if (!budgetMatch(p.basePrice, budget)) return false;
+    62→      if (bulan && !p.departWindow.toLowerCase().includes(bulan.toLowerCase())) return false;
+    63→      return true;
+    64→    });
+    65→    list = [...list].sort((a, b) => {
+    66→      switch (sort) {
+    67→        case "harga-naik": return a.basePrice - b.basePrice;
+    68→        case "harga-turun": return b.basePrice - a.basePrice;
+    69→        case "rating": return b.rating - a.rating;
+    70→        case "durasi": return a.durationDays - b.durationDays;
+    71→        default: return 0;
+    72→      }
+    73→    });
+    74→    return list;
+    75→  }, [kota, tipe, budget, bulan, sort]);
+    76→
+    77→  const activeFilters = [kota, tipe, budget, bulan].filter(Boolean).length;
+    78→
+    79→  const filterBody = (
+    80→    <div className="space-y-5">
+    81→      <div>
+    82→        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Tipe Paket</p>
+    83→        <div className="flex flex-wrap gap-2">
+    84→          {["", "reguler", "ramadhan", "plus-turki", "plus-dubai"].map((t) => (
+    85→            <button
+    86→              key={t}
+    87→              onClick={() => setTipe(t)}
+    88→              className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition-colors ${
+    89→                tipe === t ? "border-brand bg-brand text-ivory" : "border-line-warm bg-white text-ink hover:border-brand/40"
+    90→              }`}
+    91→            >
+    92→              {t === "" ? "Semua" : TYPE_LABELS[t]}
+    93→            </button>
+    94→          ))}
+    95→        </div>
+    96→      </div>
+    97→      <div>
+    98→        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Kota Keberangkatan</p>
+    99→        <select value={kota} onChange={(e) => setKota(e.target.value)} className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] outline-none focus:border-brand" aria-label="Filter kota">
+   100→          <option value="">Semua kota</option>
+   101→          {[...new Set(packageList.map((p) => p.departCity))].map((c) => (
+   102→            <option key={c} value={c}>{c}</option>
+   103→          ))}
+   104→        </select>
+   105→      </div>
+   106→      <div>
+   107→        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Budget / Orang</p>
+   108→        <select value={budget} onChange={(e) => setBudget(e.target.value)} className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] outline-none focus:border-brand" aria-label="Filter budget">
+   109→          <option value="">Semua budget</option>
+   110→          <option value="lt30">&lt; Rp 30 jt</option>
+   111→          <option value="30-40">Rp 30 – 40 jt</option>
+   112→          <option value="40-50">Rp 40 – 50 jt</option>
+   113→          <option value="gt50">&gt; Rp 50 jt</option>
+   114→        </select>
+   115→      </div>
+   116→      <div>
+   117→        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Bulan Keberangkatan</p>
+   118→        <select value={bulan} onChange={(e) => setBulan(e.target.value)} className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] outline-none focus:border-brand" aria-label="Filter bulan">
+   119→          <option value="">Kapan pun</option>
+   120→          {["Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "Desember"].map((m) => (
+   121→            <option key={m} value={m}>{m} 2026</option>
+   122→          ))}
+   123→        </select>
+   124→      </div>
+   125→      {activeFilters > 0 && (
+   126→        <button
+   127→          onClick={() => { setKota(""); setTipe(""); setBudget(""); setBulan(""); }}
+   128→          className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl border border-line-warm text-sm font-semibold text-ink-muted hover:bg-muted"
+   129→        >
+   130→          <X size={14} /> Reset {activeFilters} filter
+   131→        </button>
+   132→      )}
+   133→    </div>
+   134→  );
+   135→
+   136→  return (
+   137→    <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
+   138→      <Breadcrumb items={[{ label: "Beranda", to: "/" }, { label: "Paket Umrah" }]} />
+   139→      <SectionHeading
+   140→        kicker="Katalog"
+   141→        title={`${filtered.length} Paket Umrah Terverifikasi`}
+   142→        sub="Semua harga adalah harga all-in per orang (quad share). Nama hotel dan jarak meter ke Haram tercantum apa adanya — bukan klaim."
+   143→      />
+   144→      <div className="mt-8 grid gap-6 lg:grid-cols-[280px_1fr]">
+   145→        {/* Sidebar filter desktop */}
+   146→        <aside className="hidden h-fit rounded-2xl border border-line-warm bg-card p-5 shadow-card lg:block" aria-label="Filter paket">
+   147→          {filterBody}
+   148→        </aside>
+   149→        <div>
+   150→          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+   151→            <button
+   152→              onClick={() => setFiltersOpen(!filtersOpen)}
+   153→              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-brand px-4 font-bold text-brand lg:hidden"
+   154→              aria-expanded={filtersOpen}
+   155→            >
+   156→              <SlidersHorizontal size={16} /> Filter {activeFilters > 0 && `(${activeFilters})`}
+   157→            </button>
+   158→            <label className="flex items-center gap-2 text-sm text-ink-muted">
+   159→              Urutkan:
+   160→              <select value={sort} onChange={(e) => setSort(e.target.value)} className="h-11 rounded-xl border border-line-warm bg-white px-3 text-[15px] font-semibold text-ink outline-none focus:border-brand" aria-label="Urutkan hasil">
+   161→                <option value="harga-naik">Harga terendah</option>
+   162→                <option value="harga-turun">Harga tertinggi</option>
+   163→                <option value="rating">Rating tertinggi</option>
+   164→                <option value="durasi">Durasi tersingkat</option>
+   165→              </select>
+   166→            </label>
+   167→          </div>
+   168→          {filtersOpen && (
+   169→            <div className="mb-4 rounded-2xl border border-line-warm bg-card p-5 shadow-card lg:hidden">{filterBody}</div>
+   170→          )}
+   171→          {filtered.length === 0 ? (
+   172→            <div className="rounded-2xl border border-dashed border-line-warm bg-card p-10 text-center">
+   173→              <PackageX className="mx-auto mb-3 text-ink-muted" size={36} />
+   174→              <p className="font-bold text-ink">Tidak ada paket yang cocok</p>
+   175→              <p className="mt-1 text-sm text-ink-muted">Coba longgarkan filter — atau tanyakan via WhatsApp, kami carikan yang paling mendekati.</p>
+   176→            </div>
+   177→          ) : (
+   178→            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+   179→              {filtered.map((pkg) => (
+   180→                <PackageCard key={pkg.slug} pkg={pkg} ppiu={getPpiu(pkg.ppiuSlug)} />
+   181→              ))}
+   182→            </div>
+   183→          )}
+   184→          <div className="mt-8 rounded-2xl bg-brand-soft p-5 text-center">
+   185→            <p className="text-[15px] text-brand-deep">
+   186→              Tidak menemukan tanggal yang pas? <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-bold underline">Tanyakan via WhatsApp</a> — kami bantu cari dari 10 PPIU partner.
+   187→            </p>
+   188→          </div>
+   189→        </div>
+   190→      </div>
+   191→    </div>
+   192→  );
+   193→}
+   194→
+   195→/* ================= DETAIL PAKET (TEMPLATE B) ================= */
+   196→export function PackageDetailPage({ slug }: { slug: string }) {
+   197→  const pkg = getPackage(slug);
+   198→  if (!pkg) return <NotFoundPackage slug={slug} />;
+   199→
+   200→  const ppiu = getPpiu(pkg.ppiuSlug)!;
+   201→  const reviews = reviewsOfPackage(slug);
+   202→  const priceDetail: [string, string][] = [
+   203→    ["Tiket pesawat PP ekonomi + bagasi", formatRupiah(Math.round(pkg.basePrice * 0.32))],
+   204→    ["Visa umrah & administrasi Kemenag", formatRupiah(Math.round(pkg.basePrice * 0.07))],
+   205→    ["Hotel Makkah: " + pkg.hotelMakkah.name, formatRupiah(Math.round(pkg.basePrice * 0.26))],
+   206→    ["Hotel Madinah: " + pkg.hotelMadinah.name, formatRupiah(Math.round(pkg.basePrice * 0.13))],
+   207→    ["Makan 3× sehari buffet Indonesia", formatRupiah(Math.round(pkg.basePrice * 0.09))],
+   208→    ["Bus AC, mutawif, handling & ziarah", formatRupiah(Math.round(pkg.basePrice * 0.1))],
+   209→    ["Perlengkapan & asuransi perjalanan", formatRupiah(Math.round(pkg.basePrice * 0.03))],
+   210→  ];
+   211→
+   212→  return (
+   213→    <div className="pb-24 md:pb-0">
+   214→      {/* S1 HERO */}
+   215→      <div className="relative bg-brand-deep">
+   216→        <div className="pattern-light absolute inset-0" />
+   217→        <div className="relative mx-auto max-w-7xl px-4 py-8 md:px-8">
+   218→          <Breadcrumb
+   219→            items={[
+   220→              { label: "Beranda", to: "/" },
+   221→              { label: "Paket", to: "/paket" },
+   222→              { label: TYPE_LABELS[pkg.type], to: "/paket?type=" + pkg.type },
+   223→              { label: pkg.title },
+   224→            ]}
+   225→          />
+   226→          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+   227→            <div>
+   228→              <SceneVisual visual={pkg.visual} title={pkg.title} className="h-52 rounded-2xl md:h-64" />
+   229→            </div>
+   230→            <div className="flex flex-col justify-center">
+   231→              <div className="mb-3 flex flex-wrap items-center gap-2">
+   232→                <span className="rounded-full bg-gold-soft px-3 py-1 text-xs font-bold text-gold-deep">{TYPE_LABELS[pkg.type]}</span>
+   233→                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-ivory">{pkg.durationDays} Hari</span>
+   234→                <StarRating value={pkg.rating} size={15} />
+   235→                <span className="text-xs text-ivory/60">({pkg.reviewCount} review)</span>
+   236→              </div>
+   237→              <h1 className="text-[26px] font-extrabold leading-tight text-ivory md:text-[32px]">{pkg.title}</h1>
+   238→              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-ivory/75">
+   239→                <span className="inline-flex items-center gap-1.5"><MapPin size={15} /> {pkg.departCity}</span>
+   240→                <span className="inline-flex items-center gap-1.5"><Plane size={15} /> {pkg.airline}</span>
+   241→                <span className="inline-flex items-center gap-1.5"><CalendarDays size={15} /> {pkg.departWindow}</span>
+   242→              </div>
+   243→              <div className="mt-5 rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
+   244→                <p className="text-xs font-bold uppercase tracking-wide text-ivory/60">Harga all-in per orang (quad)</p>
+   245→                <p className="tabular mt-1 text-3xl font-extrabold text-gold">{formatRupiah(pkg.basePrice)}</p>
+   246→                <p className="mt-1 text-xs text-ivory/60">Tanpa biaya tersembunyi — rincian lengkap di bawah.</p>
+   247→              </div>
+   248→            </div>
+   249→          </div>
+   250→        </div>
+   251→      </div>
+   252→
+   253→      {/* S2 PITA KEPERCAYAAN */}
+   254→      <div className="border-b border-line-warm bg-gold-soft">
+   255→        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8">
+   256→          <div className="flex items-center gap-2.5">
+   257→            <ShieldBadge tier={ppiu.tier} />
+   258→            <span className="text-sm font-semibold text-ink">
+   259→              Diselenggarakan oleh{" "}
+   260→              <Link to={`/ppiu/${ppiu.slug}`} className="font-bold text-brand underline-offset-2 hover:underline">
+   261→                {ppiu.name}
+   262→              </Link>
+   263→            </span>
+   264→          </div>
+   265→          <Link to="/escrow" className="inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+   266→            <LockKeyhole size={15} /> Dana Anda dilindungi escrow <ArrowRight size={14} />
+   267→          </Link>
+   268→        </div>
+   269→      </div>
+   270→
+   271→      <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+   272→        <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
+   273→          {/* Kolom utama */}
+   274→          <div className="space-y-10">
+   275→            {/* Highlights */}
+   276→            <div className="grid gap-3 sm:grid-cols-2">
+   277→              {pkg.highlights.map((h, i) => (
+   278→                <div key={i} className="flex items-center gap-2.5 rounded-xl border border-line-warm bg-card px-4 py-3">
+   279→                  <PackageCheck size={18} className="shrink-0 text-brand" />
+   280→                  <span className="text-[15px] font-semibold text-ink">{h}</span>
+   281→                </div>
+   282→              ))}
+   283→            </div>
+   284→
+   285→            {/* S4 TABEL TANGGAL & KUOTA */}
+   286→            <section aria-label="Tanggal dan kuota">
+   287→              <h2 className="text-[22px] font-bold text-ink">Tanggal Keberangkatan & Kuota</h2>
+   288→              <p className="mt-1 text-sm text-ink-muted">Kuota tampil real-time dari PPIU. Upgrade kamar tersedia sebagai varian harga.</p>
+   289→              <div className="mt-4 overflow-x-auto rounded-2xl border border-line-warm bg-card shadow-card">
+   290→                <table className="w-full min-w-[640px] text-left text-[15px]">
+   291→                  <thead>
+   292→                    <tr className="border-b border-line-warm bg-muted/50">
+   293→                      <th className="px-5 py-3.5 font-bold text-ink">Berangkat</th>
+   294→                      <th className="px-5 py-3.5 font-bold text-ink">Pulang</th>
+   295→                      <th className="px-5 py-3.5 font-bold text-ink">Tipe Kamar</th>
+   296→                      <th className="px-5 py-3.5 font-bold text-ink">Kuota</th>
+   297→                      <th className="px-5 py-3.5 text-right font-bold text-ink">Harga / Orang</th>
+   298→                    </tr>
+   299→                  </thead>
+   300→                  <tbody>
+   301→                    {[
+   302→                      { depart: pkg.departWindow.split("–")[0]?.trim() || "Februari 2026", delta: 0, quota: 45, remaining: 12, room: "quad" },
+   303→                      { depart: pkg.departWindow.split("–")[1]?.trim() || "April 2026", delta: 1_500_000, quota: 45, remaining: 20, room: "quad" },
+   304→                      { depart: pkg.departWindow.split("–")[0]?.trim() || "Februari 2026", delta: 3_000_000, quota: 12, remaining: 5, room: "double" },
+   305→                    ].map((d, i) => (
+   306→                      <tr key={i} className="border-b border-line-warm last:border-0">
+   307→                        <td className="px-5 py-4 font-semibold text-ink">{d.depart}</td>
+   308→                        <td className="px-5 py-4 text-ink-muted">{d.room === "quad" ? `+${pkg.durationDays - 1} hari` : "sesuai itinerary"}</td>
+   309→                        <td className="px-5 py-4 capitalize text-ink">{d.room} room</td>
+   310→                        <td className="px-5 py-4">
+   311→                          {d.remaining <= 6 ? (
+   312→                            <span className="rounded-full bg-[#B3372B]/10 px-2.5 py-1 text-xs font-bold text-[#B3372B]">Sisa {d.remaining} kursi!</span>
+   313→                          ) : (
+   314→                            <span className="tabular text-ink-muted">{d.remaining}/{d.quota} tersisa</span>
+   315→                          )}
+   316→                        </td>
+   317→                        <td className="tabular px-5 py-4 text-right font-extrabold text-brand">{formatRupiah(pkg.basePrice + d.delta)}</td>
+   318→                      </tr>
+   319→                    ))}
+   320→                  </tbody>
+   321→                </table>
+   322→              </div>
+   323→            </section>
+   324→
+   325→            {/* S5 ITINERARY */}
+   326→            <section aria-label="Itinerary harian">
+   327→              <h2 className="text-[22px] font-bold text-ink">Itinerary Harian</h2>
+   328→              <ol className="mt-5 space-y-0 border-l-2 border-brand/20 pl-6">
+   329→                {pkg.itinerary.map((day) => (
+   330→                  <li key={day.day} className="relative pb-6 last:pb-0">
+   331→                    <span className="absolute -left-[31px] top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border-2 border-brand bg-ivory" aria-hidden="true" />
+   332→                    <p className="text-xs font-bold uppercase tracking-wide text-brand">Hari {day.day}</p>
+   333→                    <h3 className="mt-0.5 text-[17px] font-bold text-ink">{day.title}</h3>
+   334→                    <p className="mt-1 text-[15px] leading-relaxed text-ink-muted">{day.desc}</p>
+   335→                  </li>
+   336→                ))}
+   337→              </ol>
+   338→            </section>
+   339→
+   340→            {/* S6 HOTEL */}
+   341→            <section aria-label="Hotel">
+   342→              <h2 className="text-[22px] font-bold text-ink">Hotel — Jarak Nyata ke Haram</h2>
+   343→              <div className="mt-4 grid gap-4 md:grid-cols-2">
+   344→                {[
+   345→                  { h: pkg.hotelMakkah, city: "Makkah", icon: Mountain },
+   346→                  { h: pkg.hotelMadinah, city: "Madinah", icon: Hotel },
+   347→                ].map((row, i) => (
+   348→                  <div key={i} className="overflow-hidden rounded-2xl border border-line-warm bg-card shadow-card">
+   349→                    <SceneVisual visual={row.city === "Makkah" ? "makkah" : "madinah"} className="h-28" />
+   350→                    <div className="p-5">
+   351→                      <div className="flex items-start justify-between gap-2">
+   352→                        <div>
+   353→                          <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">{row.city}</p>
+   354→                          <h3 className="text-[17px] font-bold text-ink">{row.h.name}</h3>
+   355→                        </div>
+   356→                        <span className="flex items-center gap-0.5">
+   357→                          {Array.from({ length: row.h.stars }).map((_, s) => (
+   358→                            <span key={s} className="text-xs text-gold">★</span>
+   359→                          ))}
+   360→                        </span>
+   361→                      </div>
+   362→                      <p className="tabular mt-2 rounded-xl bg-brand-soft px-3 py-2 text-sm font-bold text-brand-deep">
+   363→                        {row.h.distanceToHaram} meter • ± {row.h.walkMinutes} menit jalan kaki
+   364→                      </p>
+   365→                      <ul className="mt-3 flex flex-wrap gap-1.5">
+   366→                        {row.h.facilities.map((f, j) => (
+   367→                          <li key={j} className="rounded-full bg-muted px-2.5 py-1 text-xs text-ink-muted">{f}</li>
+   368→                        ))}
+   369→                      </ul>
+   370→                    </div>
+   371→                  </div>
+   372→                ))}
+   373→              </div>
+   374→            </section>
+   375→
+   376→            {/* S7 HARGA ALL-IN */}
+   377→            <section aria-label="Rincian harga">
+   378→              <h2 className="text-[22px] font-bold text-ink">Rincian Harga All-in — Tidak Ada Asterisk</h2>
+   379→              <div className="mt-4 overflow-hidden rounded-2xl border border-line-warm bg-card shadow-card">
+   380→                <table className="w-full text-left text-[15px]">
+   381→                  <tbody>
+   382→                    {priceDetail.map((row, i) => (
+   383→                      <tr key={i} className="border-b border-line-warm last:border-0">
+   384→                        <td className="px-5 py-3.5 text-ink">{row[0]}</td>
+   385→                        <td className="tabular px-5 py-3.5 text-right font-semibold text-ink">{row[1]}</td>
+   386→                      </tr>
+   387→                    ))}
+   388→                    <tr className="bg-brand-soft">
+   389→                      <td className="px-5 py-4 font-extrabold text-brand-deep">Total per orang (quad share)</td>
+   390→                      <td className="tabular px-5 py-4 text-right text-lg font-extrabold text-brand-deep">{formatRupiah(pkg.basePrice)}</td>
+   391→                    </tr>
+   392→                  </tbody>
+   393→                </table>
+   394→              </div>
+   395→            </section>
+   396→
+   397→            {/* S8 TIDAK TERMASUK */}
+   398→            <section aria-label="Biaya yang tidak termasuk">
+   399→              <h2 className="text-[22px] font-bold text-ink">Yang Tidak Termasuk — Jujur dari Awal</h2>
+   400→              <ul className="mt-4 space-y-2">
+   401→                {pkg.excludes.map((e, i) => (
+   402→                  <li key={i} className="flex items-start gap-2.5 text-[15px] text-ink-muted">
+   403→                    <PackageX size={17} className="mt-0.5 shrink-0 text-[#B7791F]" />
+   404→                    {e}
+   405→                  </li>
+   406→                ))}
+   407→              </ul>
+   408→            </section>
+   409→
+   410→            {/* S10 SYARAT & PEMBATALAN */}
+   411→            <section aria-label="Skema pembatalan">
+   412→              <h2 className="text-[22px] font-bold text-ink">Syarat & Skema Pembatalan</h2>
+   413→              <p className="mt-1 text-sm text-ink-muted">Selama dana berada di escrow dan belum dirilis, klaim refund Anda tetap terlindungi.</p>
+   414→              <div className="mt-4 overflow-x-auto rounded-2xl border border-line-warm bg-card shadow-card">
+   415→                <table className="w-full min-w-[520px] text-left text-[15px]">
+   416→                  <thead>
+   417→                    <tr className="border-b border-line-warm bg-muted/50">
+   418→                      <th className="px-5 py-3.5 font-bold text-ink">Momen Pembatalan</th>
+   419→                      <th className="px-5 py-3.5 font-bold text-ink">Refund</th>
+   420→                    </tr>
+   421→                  </thead>
+   422→                  <tbody>
+   423→                    {pkg.cancellation.map((c, i) => (
+   424→                      <tr key={i} className="border-b border-line-warm last:border-0">
+   425→                        <td className="px-5 py-3.5 font-semibold text-ink">{c.moment}</td>
+   426→                        <td className="px-5 py-3.5 text-ink-muted">{c.refund}</td>
+   427→                      </tr>
+   428→                    ))}
+   429→                  </tbody>
+   430→                </table>
+   431→              </div>
+   432→            </section>
+   433→
+   434→            {/* S9 PPIU PROFILE CARD */}
+   435→            <section aria-label="Profil penyelenggara" className="rounded-2xl border border-line-warm bg-card p-6 shadow-card">
+   436→              <div className="flex flex-wrap items-start justify-between gap-4">
+   437→                <div>
+   438→                  <div className="flex items-center gap-3">
+   439→                    <ShieldBadge tier={ppiu.tier} size="lg" />
+   440→                    <div>
+   441→                      <Link to={`/ppiu/${ppiu.slug}`} className="text-[19px] font-bold text-ink hover:text-brand">{ppiu.name}</Link>
+   442→                      <p className="text-sm text-ink-muted">{ppiu.city} • Sejak {ppiu.yearFounded} • {ppiu.jamaahSent.toLocaleString("id-ID")} jamaah terlayani</p>
+   443→                    </div>
+   444→                  </div>
+   445→                  <p className="tabular mt-3 text-sm text-ink-muted">
+   446→                    No. Izin PPIU: <span className="font-bold text-ink">{ppiu.licenseNo}</span> • Berlaku s.d. {formatDate(ppiu.licenseValidUntil, "short")}
+   447→                  </p>
+   448→                </div>
+   449→                <div className="flex flex-col gap-2">
+   450→                  <WaButton href={waLink(waMessages.ppiuStore(ppiu.name))} label="Tanya PPIU" className="min-h-11" />
+   451→                  <Link to={`/ppiu/${ppiu.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-brand px-5 text-sm font-bold text-brand hover:bg-brand-soft">
+   452→                    Profil Lengkap →
+   453→                  </Link>
+   454→                </div>
+   455→              </div>
+   456→              <div className="mt-5 border-t border-line-warm pt-5">
+   457→                <DimensionBars dimensions={ppiu.dimensions} compact />
+   458→              </div>
+   459→            </section>
+   460→
+   461→            {/* S11 REVIEW */}
+   462→            <section aria-label="Review jamaah">
+   463→              <div className="flex items-center justify-between">
+   464→                <h2 className="text-[22px] font-bold text-ink">Review Saksi Jamaah ({reviews.length})</h2>
+   465→                <StarRating value={pkg.rating} size={16} />
+   466→              </div>
+   467→              <div className="mt-4 space-y-4">
+   468→                {reviews.length === 0 ? (
+   469→                  <p className="rounded-2xl border border-dashed border-line-warm p-6 text-center text-sm text-ink-muted">
+   470→                    Belum ada review khusus untuk paket ini. Lihat review di halaman PPIU-nya — semua review datang dari booking selesai.
+   471→                  </p>
+   472→                ) : (
+   473→                  reviews.map((r) => (
+   474→                    <figure key={r.id} className="rounded-2xl border border-line-warm bg-card p-5 shadow-card">
+   475→                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+   476→                        <div className="flex items-center gap-2.5">
+   477→                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">
+   478→                            {r.name.replace(/^(Hj\. |H\. |Bpk\. |Ibu |Dr\. )/, "").charAt(0)}
+   479→                          </span>
+   480→                          <div>
+   481→                            <p className="text-sm font-bold text-ink">{r.name}</p>
+   482→                            <p className="text-xs text-ink-muted">{r.city} • Pulang {formatDate(r.returnedAt, "short")}</p>
+   483→                          </div>
+   484→                        </div>
+   485→                        <StarRating value={r.rating} />
+   486→                      </div>
+   487→                      <blockquote className="text-[15px] leading-relaxed text-ink">{r.text}</blockquote>
+   488→                      {r.ppiuReply && (
+   489→                        <div className="mt-3 rounded-xl bg-muted p-3.5">
+   490→                          <p className="text-xs font-bold text-brand">Balasan {ppiu.shortName}:</p>
+   491→                          <p className="mt-1 text-sm text-ink-muted">{r.ppiuReply}</p>
+   492→                        </div>
+   493→                      )}
+   494→                    </figure>
+   495→                  ))
+   496→                )}
+   497→              </div>
+   498→            </section>
+   499→          </div>
+   500→
+   501→          {/* Sidebar sticky desktop */}
+   502→          <aside className="hidden lg:block">
+   503→            <div className="sticky top-24 space-y-4">
+   504→              <div className="rounded-2xl border border-line-warm bg-card p-6 shadow-green">
+   505→                <p className="text-sm text-ink-muted">Mulai dari (quad, per orang)</p>
+   506→                <p className="tabular mt-1 text-3xl font-extrabold text-brand">{formatRupiah(pkg.basePrice)}</p>
+   507→                <div className="mt-4 space-y-2.5">
+   508→                  <WaButton href={waLink(waMessages.package(pkg.title, ppiu.name, formatRupiah(pkg.basePrice)))} label="Booking / Tanya via WA" className="w-full" />
+   509→                  <Link to={`/ppiu/${ppiu.slug}`} className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-brand font-bold text-brand hover:bg-brand-soft">
+   510→                    Lihat Profil PPIU
+   511→                  </Link>
+   512→                  <Link to="/escrow" className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line-warm font-semibold text-ink-muted hover:bg-muted">
+   513→                    <LockKeyhole size={16} className="mr-2" /> Bagaimana dana saya dijaga?
+   514→                  </Link>
+   515→                </div>
+   516→                <ul className="mt-4 space-y-2 border-t border-line-warm pt-4 text-sm text-ink-muted">
+   517→                  <li className="flex items-center gap-2"><ShieldCheck size={15} className="text-brand" /> PPIU lolos Verifikasi 5 Lapis</li>
+   518→                  <li className="flex items-center gap-2"><LockKeyhole size={15} className="text-brand" /> Dana ditahan escrow 40/40/20</li>
+   519→                  <li className="flex items-center gap-2"><UserRound size={15} className="text-brand" /> Review hanya dari jamaah nyata</li>
+   520→                </ul>
+   521→              </div>
+   522→            </div>
+   523→          </aside>
+   524→        </div>
+   525→      </div>
+   526→
+   527→      {/* S3 STICKY BUY BAR (mobile) */}
+   528→      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line-warm bg-card/95 p-3 shadow-warm backdrop-blur md:hidden">
+   529→        <div className="flex items-center justify-between gap-3">
+   530→          <div>
+   531→            <p className="text-[11px] text-ink-muted">Mulai dari</p>
+   532→            <p className="tabular text-lg font-extrabold leading-tight text-brand">{formatRupiah(pkg.basePrice)}</p>
+   533→          </div>
+   534→          <div className="flex gap-2">
+   535→            <WaButton href={waLink(waMessages.package(pkg.title, ppiu.name, formatRupiah(pkg.basePrice)))} label="Booking" className="min-h-11 px-4" />
+   536→            <WaButton href={waLink(waMessages.package(pkg.title, ppiu.name, formatRupiah(pkg.basePrice)))} label="Tanya" variant="ghost" className="min-h-11 px-3" />
+   537→          </div>
+   538→        </div>
+   539→      </div>
+   540→    </div>
+   541→  );
+   542→}
+   543→
+   544→function NotFoundPackage({ slug }: { slug: string }) {
+   545→  return (
+   546→    <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+   547→      <p className="text-6xl">🧭</p>
+   548→      <h1 className="mt-4 text-2xl font-bold text-ink">Paket tidak ditemukan</h1>
+   549→      <p className="mt-2 text-ink-muted">Paket &ldquo;{slug}&rdquo; tidak ada atau sudah ditutup.</p>
+   550→      <Link to="/paket" className="mt-6 inline-flex min-h-12 items-center rounded-xl bg-brand px-6 font-bold text-ivory hover:bg-brand-deep">
+   551→        Kembali ke Katalog
+   552→      </Link>
+   553→    </div>
+   554→  );
+   555→}
+   556→

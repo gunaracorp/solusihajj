@@ -23,17 +23,25 @@ import {
   Banknote,
   Eye,
   ArrowRight,
+  Plane,
+  BusFront,
+  Globe2,
+  Sparkles,
+  CalendarClock,
+  GitCompareArrows,
+  Compass,
 } from "lucide-react";
 import { Link, scrollToId } from "@/lib/solusihajj/router";
 import { waLink, waMessages, formatRupiah, formatDate } from "@/lib/solusihajj/wa";
-import { featuredPackages } from "@/data/packages";
-import { ppiuList } from "@/data/ppiu";
+import { featuredPackages, packageList } from "@/data/packages";
+import { ppiuList, orgOf, countryOf } from "@/data/ppiu";
+import { flightList } from "@/data/flights";
 import { reviewsOfPackage, reviewList } from "@/data/reviews";
 import { articleList } from "@/data/articles";
 import { homepageFaq } from "@/data/faq";
 import { DIMENSION_LABELS } from "@/data/types";
 import type { DimensionKey } from "@/data/types";
-import { SectionHeading, PackageCard, ShieldBadge, StarRating, EscrowTimeline, TrustPill, WaButton } from "../ui-bits";
+import { SectionHeading, PackageCard, ShieldBadge, StarRating, EscrowTimeline, TrustPill, WaButton, LiveTicker, SeatBar } from "../ui-bits";
 import {
   Accordion,
   AccordionContent,
@@ -42,20 +50,39 @@ import {
 } from "@/components/ui/accordion";
 
 const CITIES = ["Jakarta", "Bandung", "Surabaya", "Yogyakarta", "Semarang", "Medan", "Makassar", "Palembang"];
+const ASIA_CHIPS = [
+  { label: "Jakarta", to: "/paket?kota=Jakarta", note: "8 paket" },
+  { label: "Bandung", to: "/paket?kota=Bandung", note: "3 paket" },
+  { label: "Surabaya", to: "/paket?kota=Surabaya", note: "3 paket" },
+  { label: "Medan", to: "/paket?kota=Medan", note: "2 paket" },
+  { label: "Makassar", to: "/paket?kota=Makassar", note: "2 paket" },
+  { label: "Yogyakarta", to: "/paket?kota=Yogyakarta", note: "3 paket" },
+  { label: "Kuala Lumpur", to: "/ppiu?negara=Malaysia", note: "BPW" },
+  { label: "Singapura", to: "/ppiu?negara=Singapura", note: "BPW" },
+  { label: "Brunei", to: "/ppiu?negara=Brunei", note: "BPW" },
+  { label: "Bangkok", to: "/ppiu?negara=Thailand", note: "BPW" },
+];
 const BUDGETS = [
   { value: "lt30", label: "Di bawah Rp 30 jt" },
   { value: "30-40", label: "Rp 30 – 40 jt" },
   { value: "40-50", label: "Rp 40 – 50 jt" },
   { value: "gt50", label: "Di atas Rp 50 jt" },
+  { value: "lt20", label: "Land Arrangement (< Rp 20 jt)" },
 ];
 
 export default function HomePage() {
+  const [qProduk, setQProduk] = useState("");
   const [qKota, setQKota] = useState("");
   const [qBulan, setQBulan] = useState("");
   const [qBudget, setQBudget] = useState("");
 
   const doSearch = () => {
+    if (qProduk === "charter") {
+      window.location.hash = "/tiket-grup";
+      return;
+    }
     const p = new URLSearchParams();
+    if (qProduk === "land") p.set("produk", "land");
     if (qKota) p.set("kota", qKota);
     if (qBulan) p.set("bulan", qBulan);
     if (qBudget) p.set("budget", qBudget);
@@ -80,15 +107,15 @@ export default function HomePage() {
             بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
           </p>
           <div className="fade-up fade-up-1 mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-white/10 px-4 py-2 text-sm font-semibold text-ivory backdrop-blur-sm">
-            <ShieldCheck size={16} className="text-gold" />
-            Platform pembanding paket umrah • PPIU terverifikasi 5 lapis
+            <Globe2 size={16} className="text-gold" />
+            Marketplace umrah & haji terbesar Asia • PPIU · PIHK · BPW · KBIHU
           </div>
-          <h1 className="fade-up fade-up-2 max-w-3xl text-[40px] font-extrabold leading-[1.15] text-ivory md:text-[60px]">
-            Amanah Anda, <span className="text-gold">Aman.</span>
+          <h1 className="fade-up fade-up-2 max-w-4xl text-[38px] font-extrabold leading-[1.15] text-ivory md:text-[58px]">
+            Satu Gerbang untuk Ibadah Anda. <span className="text-gold">Amanah Anda, Aman.</span>
           </h1>
           <p className="fade-up fade-up-3 mt-6 max-w-2xl text-[17px] leading-relaxed text-ivory/80 md:text-lg">
-            Paket umrah dari PPIU berizin resmi — dana Anda ditahan escrow hingga Anda berangkat, ulasan hanya dari
-            jamaah nyata, dan keluarga bisa menemani perjalanan Anda secara digital.
+            Bandingkan 30+ paket umrah, land arrangement, dan tiket charter grup dari 18 penyelenggara terverifikasi di
+            5 negara Asia. Dana Anda dijaga escrow syariah, ulasan hanya dari jamaah yang benar-benar berangkat.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -105,17 +132,35 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <TrustPill icon={LockKeyhole}>Dana di escrow</TrustPill>
+            <TrustPill icon={LockKeyhole}>Dana di escrow syariah</TrustPill>
             <TrustPill icon={UserRoundCheck}>Review jamaah nyata</TrustPill>
-            <TrustPill icon={ShieldCheck}>10 PPIU Founding Partner</TrustPill>
+            <TrustPill icon={Globe2}>18 penyelenggara • 5 negara</TrustPill>
+            <TrustPill icon={ShieldCheck}>Verifikasi 5 lapis</TrustPill>
+          </div>
+          <div className="fade-up fade-up-3 mt-8 w-full max-w-xl">
+            <LiveTicker />
           </div>
         </div>
       </section>
 
-      {/* ================= S2 SEARCH BAR ================= */}
+      {/* ================= S2 SMART SEARCH UNIVERSAL ================= */}
       <section className="relative z-10 mx-auto -mt-10 max-w-5xl px-4 md:px-8" aria-label="Pencarian paket">
         <div className="rounded-2xl border border-line-warm bg-card p-4 shadow-green md:p-5">
-          <div className="grid gap-3 md:grid-cols-4">
+          <div className="grid gap-3 md:grid-cols-5">
+            <label className="block md:col-span-2">
+              <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-ink-muted">Apa yang Anda Cari?</span>
+              <select
+                value={qProduk}
+                onChange={(e) => setQProduk(e.target.value)}
+                className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+                aria-label="Pilih jenis produk"
+              >
+                <option value="">Semua produk</option>
+                <option value="full">Paket Umrah Lengkap (dengan tiket)</option>
+                <option value="land">Land Arrangement (tanpa tiket)</option>
+                <option value="charter">Tiket Charter Grup (grosir)</option>
+              </select>
+            </label>
             <label className="block">
               <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-ink-muted">Kota Berangkat</span>
               <select
@@ -127,20 +172,6 @@ export default function HomePage() {
                 <option value="">Semua kota</option>
                 {CITIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-ink-muted">Bulan</span>
-              <select
-                value={qBulan}
-                onChange={(e) => setQBulan(e.target.value)}
-                className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-                aria-label="Pilih bulan keberangkatan"
-              >
-                <option value="">Kapan pun</option>
-                {["Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Desember"].map((m) => (
-                  <option key={m} value={m}>{m} 2026</option>
                 ))}
               </select>
             </label>
@@ -163,10 +194,57 @@ export default function HomePage() {
                 onClick={doSearch}
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 font-bold text-ivory transition-colors hover:bg-brand-deep"
               >
-                <Search size={18} /> Cari Paket
+                <Search size={18} /> Cari
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ================= S2B TIGA VERTIKAL PRODUK ================= */}
+      <section className="mx-auto mt-14 max-w-7xl px-4 md:px-8" aria-label="Jenis produk marketplace">
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            {
+              icon: Plane,
+              to: "/paket?produk=full",
+              t: "Paket Umrah Lengkap",
+              n: `${packageList.filter((p) => (p.product ?? "full") === "full").length} paket aktif`,
+              d: "Tiket + visa + hotel + muthawif satu harga all-in. Paling praktis untuk jamaah pertama dan keluarga.",
+            },
+            {
+              icon: BusFront,
+              to: "/paket?produk=land",
+              t: "Land Arrangement",
+              n: `${packageList.filter((p) => p.product === "land").length} paket darat`,
+              d: "Sudah punya tiket sendiri? Hotel, bus, visa, dan muthawif kami siapkan sejak Anda tiba di Jeddah.",
+            },
+            {
+              icon: PlaneTakeoff,
+              to: "/tiket-grup",
+              t: "Tiket Charter Grup",
+              n: `${flightList.length} jadwal aktif`,
+              d: "Harga grosir kursi pesawat untuk rombongan masjid & komunitas — minimal 10 kursi per pesanan.",
+            },
+          ].map((v, i) => (
+            <Link
+              key={i}
+              to={v.to}
+              className="group rounded-2xl border border-line-warm bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-warm"
+            >
+              <div className="flex items-center justify-between">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft">
+                  <v.icon size={24} className="text-brand" />
+                </span>
+                <span className="rounded-full bg-gold-soft px-3 py-1 text-xs font-bold text-gold-deep">{v.n}</span>
+              </div>
+              <h3 className="mt-4 text-[19px] font-bold text-ink group-hover:text-brand">{v.t}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{v.d}</p>
+              <p className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-brand">
+                Jelajahi <ChevronRight size={15} />
+              </p>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -174,9 +252,9 @@ export default function HomePage() {
       <section className="mx-auto mt-14 max-w-7xl px-4 md:px-8" aria-label="Statistik kepercayaan">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
-            { icon: ShieldCheck, num: "10", label: "PPIU lolos Verifikasi 5 Lapis" },
-            { icon: Landmark, num: "24", label: "Paket aktif dengan harga all-in transparan" },
-            { icon: UserRoundCheck, num: "100%", label: "Review berasal dari booking selesai" },
+            { icon: Globe2, num: "18", label: "Penyelenggara lolos Verifikasi 5 Lapis di 5 negara Asia" },
+            { icon: Landmark, num: `${packageList.length}`, label: "Paket aktif dengan harga all-in transparan" },
+            { icon: UserRoundCheck, num: "100%", label: "Review berasal dari booking selesai (Saksi Jamaah)" },
             { icon: LockKeyhole, num: "0", label: "Biaya tersembunyi — kami bedah semua rincian" },
           ].map((s, i) => (
             <div key={i} className="count-fade rounded-2xl border border-line-warm bg-card p-5 text-center shadow-card" style={{ animationDelay: `${i * 0.08}s` }}>
@@ -185,6 +263,24 @@ export default function HomePage() {
               <p className="mt-1 text-sm leading-snug text-ink-muted">{s.label}</p>
             </div>
           ))}
+        </div>
+        {/* CITY & ASIA CHIPS — landing SEO per kota */}
+        <div className="mt-8 rounded-2xl border border-line-warm bg-card p-5 shadow-card">
+          <p className="mb-3 flex items-center gap-2 text-sm font-bold text-ink">
+            <Compass size={16} className="text-brand" /> Paling dicari di kota Anda:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {ASIA_CHIPS.map((c) => (
+              <Link
+                key={c.label}
+                to={c.to}
+                className="inline-flex min-h-10 items-center gap-2 rounded-full border border-line-warm bg-white px-4 text-sm font-semibold text-ink transition-colors hover:border-brand/50 hover:bg-brand-soft"
+              >
+                {c.label}
+                <span className="text-xs font-bold text-gold-deep">{c.note}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -234,17 +330,118 @@ export default function HomePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading
             kicker="Katalog unggulan"
-            title="Paket dari PPIU Founding Partner"
-            sub="Harga all-in yang Anda lihat adalah yang Anda bayar — nama hotel, jarak meter ke Haram, dan rincian biaya tercantum terbuka."
+            title="Paket Pilihan dari Penyelenggara Terverifikasi"
+            sub="Harga all-in yang Anda lihat adalah yang Anda bayar — nama hotel, jarak meter ke Haram, dan rincian biaya tercantum terbuka. Gunakan tombol Bandingkan untuk membandingkan hingga 3 paket."
           />
           <Link to="/paket" className="inline-flex h-12 items-center rounded-xl border border-brand px-5 font-bold text-brand transition-colors hover:bg-brand-soft">
-            Lihat semua 24 paket <ChevronRight size={16} className="ml-1" />
+            Lihat semua {packageList.length} paket <ChevronRight size={16} className="ml-1" />
           </Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {featuredPackages.slice(0, 6).map((pkg) => (
             <PackageCard key={pkg.slug} pkg={pkg} ppiu={ppiuList.find((p) => p.slug === pkg.ppiuSlug)} />
           ))}
+        </div>
+      </section>
+
+      {/* ================= S5B JADWAL PENERBANGAN GRUP ================= */}
+      <section className="mt-20 bg-white py-16 md:py-20" aria-label="Jadwal penerbangan grup">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeading
+              kicker="Vertikal tiket grup"
+              title="Jadwal Penerbangan Charter Grup — Harga Grosir"
+              sub="Untuk rombongan masjid, komunitas, dan komunitas: kursi pesawat dengan harga kursi grup, minimal 10 kursi. Seluruh jadwal ditangani penyelenggara terverifikasi."
+            />
+            <Link to="/tiket-grup" className="inline-flex h-12 items-center rounded-xl border border-brand px-5 font-bold text-brand transition-colors hover:bg-brand-soft">
+              Semua {flightList.length} jadwal <ChevronRight size={16} className="ml-1" />
+            </Link>
+          </div>
+          <div className="mt-8 overflow-x-auto rounded-2xl border border-line-warm shadow-card">
+            <table className="w-full min-w-[820px] text-left text-[15px]">
+              <thead>
+                <tr className="border-b border-line-warm bg-muted/50">
+                  <th className="px-5 py-3.5 font-bold text-ink">Rute</th>
+                  <th className="px-5 py-3.5 font-bold text-ink">Maskapai</th>
+                  <th className="px-5 py-3.5 font-bold text-ink">Berangkat</th>
+                  <th className="px-5 py-3.5 font-bold text-ink">Kursi</th>
+                  <th className="px-5 py-3.5 text-right font-bold text-ink">Harga / Kursi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {flightList.slice(0, 5).map((f) => {
+                  const organizer = ppiuList.find((p) => p.slug === f.ppiuSlug);
+                  return (
+                    <tr key={f.id} className="border-b border-line-warm last:border-0">
+                      <td className="px-5 py-4">
+                        <p className="font-bold text-ink">{f.route}</p>
+                        <p className="text-xs text-ink-muted">{f.transit} • oleh {organizer?.shortName ?? "—"}</p>
+                      </td>
+                      <td className="px-5 py-4 text-ink-muted">{f.airline}</td>
+                      <td className="tabular px-5 py-4 text-ink-muted">{formatDate(f.depart, "short")}</td>
+                      <td className="px-5 py-4">
+                        <div className="w-32">
+                          <SeatBar left={f.seatsLeft} total={f.seatsTotal} />
+                        </div>
+                      </td>
+                      <td className="tabular px-5 py-4 text-right font-extrabold text-brand">{formatRupiah(f.pricePerPax)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= S5C NURMATCH TEASER ================= */}
+      <section className="mx-auto mt-20 max-w-7xl px-4 md:px-8" aria-label="NurMatch AI">
+        <div className="relative overflow-hidden rounded-3xl bg-brand-deep p-8 shadow-green md:p-12">
+          <div className="pattern-light absolute inset-0" />
+          <div className="relative grid items-center gap-8 lg:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-gold/15 px-4 py-1.5 text-sm font-bold text-gold">
+                <Sparkles size={16} /> Fitur NurMatch AI
+              </p>
+              <h2 className="text-[26px] font-extrabold leading-tight text-ivory md:text-[34px]">
+                Bingung Pilih Paket? Biarkan NurMatch Mencocokkan untuk Anda.
+              </h2>
+              <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-ivory/75">
+                Jawab 5 pertanyaan tentang budget, durasi, dan prioritas ibadah Anda. NurMatch menimbang seluruh katalog
+                lalu mengusulkan 3 paket paling cocok — lengkap dengan alasan dan persentase kecocokan. Transparan,
+                tanpa kotak hitam, tanpa sponsor terselubung.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/nurmatch"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-gold px-7 font-extrabold text-brand-deep transition-colors hover:bg-[#D9B544]"
+                >
+                  Mulai Quiz 1 Menit <ArrowRight size={18} className="ml-2" />
+                </Link>
+                <Link
+                  to="/bandingkan"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-ivory/40 px-6 font-bold text-ivory transition-colors hover:bg-white/10"
+                >
+                  <GitCompareArrows size={17} className="mr-2" /> Atau bandingkan manual
+                </Link>
+              </div>
+            </div>
+            <div className="space-y-3" aria-hidden="true">
+              {[
+                ["94%", "Umrah 9 Hari — Hotel 300 m", "cocok: budget mid, prioritas dekat Haram"],
+                ["88%", "LA 8 Hari — Join Jeddah", "cocok: sudah punya tiket sendiri"],
+                ["81%", "Umrah Plus Turki 13 Hari", "cocok: suka perjalanan panjang"],
+              ].map((row, i) => (
+                <div key={i} className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[15px] font-bold text-ivory">{row[1]}</p>
+                    <span className="tabular rounded-lg bg-gold/25 px-2.5 py-1 text-sm font-extrabold text-gold">{row[0]}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-ivory/60">{row[2]}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -524,6 +721,74 @@ export default function HomePage() {
           <Link to="/faq" className="font-bold text-brand hover:underline">
             Lihat semua 10 pertanyaan →
           </Link>
+        </div>
+      </section>
+
+      {/* ================= S11B PERBANDINGAN PLATFORM ================= */}
+      <section className="mt-20 bg-white py-16 md:py-20" aria-label="Perbandingan dengan cara lain">
+        <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <SectionHeading
+            center
+            kicker="Posisi kami"
+            title="Kenapa Berbeda dari OTA Umum dan Booking Langsung?"
+            sub="Kami bukan travel, bukan OTA yang sekadar menampilkan iklan. Kami lapisan perlindungan di atas marketplace — dan kami buka bedanya secara jujur."
+          />
+          <div className="mt-10 overflow-x-auto rounded-2xl border border-line-warm shadow-card">
+            <table className="w-full min-w-[720px] text-left text-[15px]">
+              <thead>
+                <tr className="border-b border-line-warm bg-brand-deep text-ivory">
+                  <th className="px-5 py-4 font-bold">Aspek</th>
+                  <th className="px-5 py-4 font-bold text-gold">SolusiHajj</th>
+                  <th className="px-5 py-4 font-bold text-ivory/80">OTA umum</th>
+                  <th className="px-5 py-4 font-bold text-ivory/80">Booking langsung ke travel</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Perlindungan dana", "Escrow syariah 40/40/20 — rilis setelah Anda terlayani", "Terutang ke travel; OTA hanya perantara", "Langsung ke rekening travel — risiko penuh di Anda"],
+                  ["Kualitas penyelenggara", "Verifikasi 5 lapis + audit kantor fisik + tier berkala", "Registrasi dokumen saja", "Tergantung kejujuran pihak travel"],
+                  ["Review", "Hanya dari booking selesai (Saksi Jamaah), 6 dimensi", "Bisa ditulis siapa pun / sulit diverifikasi", "Testimoni kurasi sendiri"],
+                  ["Ketika ada masalah", "Mediasi + dana masih di escrow", "Anda berurusan sendiri dengan travel", "Tidak ada pihak ketiga"],
+                  ["Jangkauan", "PPIU, PIHK, BPW & KBIHU dari 5 negara Asia", "Sebagian besar satu negara", "Satu travel, satu katalog"],
+                  ["Model bisnis", "Komisi 4-6% saat transaksi sukses — selaras kepentingan", "Iklan & ranking berbayar", "Marjin travel sendiri"],
+                ].map((row, i) => (
+                  <tr key={i} className="border-b border-line-warm last:border-0">
+                    <td className="px-5 py-4 font-bold text-ink">{row[0]}</td>
+                    <td className="bg-brand-soft/60 px-5 py-4 font-semibold text-brand-deep">{row[1]}</td>
+                    <td className="px-5 py-4 text-ink-muted">{row[2]}</td>
+                    <td className="px-5 py-4 text-ink-muted">{row[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= S11C PARTNER STRIP ================= */}
+      <section className="mx-auto mt-20 max-w-7xl px-4 md:px-8" aria-label="Ajakan untuk penyelenggara">
+        <div className="grid items-center gap-8 rounded-3xl border-2 border-gold/40 bg-gold-soft/50 p-8 md:grid-cols-[1.4fr_1fr] md:p-10">
+          <div>
+            <p className="mb-2 inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-gold-deep">
+              <Building2 size={15} /> Untuk PPIU · PIHK · BPW · KBIHU
+            </p>
+            <h2 className="text-[24px] font-extrabold leading-tight text-ink md:text-[30px]">
+              Anda Menyelenggarakan Ibadah? Tayangkan Paket Anda di Marketplace Terbesar Asia.
+            </h2>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+              Gratis tayang, bayar hanya saat transaksi berhasil (komisi 4–6%). Kami yang berikan: jamaah, escrow
+              yang membuat Anda dipercaya, review terkunci, dashboard toko, dan akses pasar lintas negara.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <Link
+              to="/partner"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand px-6 font-bold text-ivory transition-colors hover:bg-brand-deep"
+            >
+              Pelajari Kemitraan <ChevronRight size={16} className="ml-1" />
+            </Link>
+            <WaButton href={waLink(waMessages.ppiuPartner)} variant="ghost" label="Hubungi Tim Partner" />
+          </div>
         </div>
       </section>
 

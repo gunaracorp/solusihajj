@@ -1,10 +1,12 @@
 "use client";
 
-import { ShieldCheck, Star, BadgeCheck, Clock, Users, MapPin, Mountain, Moon, Landmark, TreePalm, MessageCircle } from "lucide-react";
-import type { Tier, Pkg, Ppiu, DimensionKey } from "@/data/types";
-import { TIER_META, DIMENSION_LABELS } from "@/data/types";
+import { useEffect, useState } from "react";
+import { ShieldCheck, Star, BadgeCheck, Clock, Users, MapPin, Mountain, Moon, Landmark, TreePalm, MessageCircle, Plane, BusFront, GitCompareArrows, Check } from "lucide-react";
+import type { Tier, Pkg, Ppiu, DimensionKey, OrgType, ProductKind } from "@/data/types";
+import { TIER_META, DIMENSION_LABELS, ORG_META, PRODUCT_META } from "@/data/types";
 import { formatRupiah } from "@/lib/solusihajj/wa";
 import { Link } from "@/lib/solusihajj/router";
+import { toggleCompare, isCompared, onCompareChange } from "@/lib/solusihajj/compare";
 import { cn } from "@/lib/utils";
 
 /* ================= SHIELD BADGE — satu bentuk di seluruh platform (dok 14) ================= */
@@ -111,8 +113,9 @@ export function SceneVisual({ visual, title, className }: { visual: string; titl
   );
 }
 
-/* ================= PACKAGE CARD (dok 15: kartu paket reusable) ================= */
+/* ================= PRODUCT CARD (dok 15: kartu paket reusable) ================= */
 export function PackageCard({ pkg, ppiu }: { pkg: Pkg; ppiu?: Ppiu }) {
+  const kind: ProductKind = pkg.product ?? "full";
   return (
     <Link
       to={`/paket/${pkg.slug}`}
@@ -125,6 +128,11 @@ export function PackageCard({ pkg, ppiu }: { pkg: Pkg; ppiu?: Ppiu }) {
           <span className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-bold text-brand-deep">
             {pkg.durationDays} Hari
           </span>
+          {kind === "land" && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-gold-soft px-2.5 py-1 text-xs font-bold text-gold-deep">
+              <BusFront size={11} /> LA
+            </span>
+          )}
           {ppiu && (
             <span className="flex items-center gap-1.5 text-xs font-semibold text-ink-muted">
               <ShieldBadge tier={ppiu.tier} size="sm" showLabel={false} />
@@ -148,7 +156,7 @@ export function PackageCard({ pkg, ppiu }: { pkg: Pkg; ppiu?: Ppiu }) {
           <div>
             <p className="text-xs text-ink-muted">Mulai dari</p>
             <p className="tabular text-xl font-extrabold text-brand">{formatRupiah(pkg.basePrice)}</p>
-            <p className="text-[11px] text-ink-muted">per orang • all-in</p>
+            <p className="text-[11px] text-ink-muted">per orang • {kind === "land" ? "darat saja" : "all-in"}</p>
           </div>
           <span className="inline-flex h-10 items-center rounded-xl bg-brand px-4 text-sm font-bold text-ivory transition-colors group-hover:bg-brand-deep">
             Detail →
@@ -156,6 +164,123 @@ export function PackageCard({ pkg, ppiu }: { pkg: Pkg; ppiu?: Ppiu }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+/* ================= PRODUCT BADGE ================= */
+export function ProductBadge({ kind }: { kind: ProductKind }) {
+  const meta = PRODUCT_META[kind];
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-soft px-3 py-1 text-xs font-bold text-gold-deep" title={meta.tagline}>
+      {kind === "full" ? <Plane size={12} /> : <BusFront size={12} />}
+      {meta.label}
+    </span>
+  );
+}
+
+/* ================= ORG BADGE (jenis organisasi Asia) ================= */
+const ORG_COLORS: Record<OrgType, { bg: string; fg: string }> = {
+  PPIU: { bg: "#E7F0EC", fg: "#0A4A36" },
+  PIHK: { bg: "#F5EEDA", fg: "#8A6D14" },
+  BPW: { bg: "#EDE9F7", fg: "#4A3D8F" },
+  KBIHU: { bg: "#E7F0F5", fg: "#1F5F73" },
+};
+export function OrgBadge({ org, size = "md" }: { org: OrgType; size?: "sm" | "md" }) {
+  const c = ORG_COLORS[org];
+  return (
+    <span
+      className={cn("inline-flex items-center rounded-full font-extrabold tracking-wide", size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-2.5 py-1 text-xs")}
+      style={{ backgroundColor: c.bg, color: c.fg }}
+      title={ORG_META[org].full + " — " + ORG_META[org].note}
+    >
+      {org}
+    </span>
+  );
+}
+
+/* ================= SEAT URGENCY BAR ================= */
+export function SeatBar({ left, total, label }: { left: number; total: number; label?: string }) {
+  const pct = Math.max(4, Math.round((left / total) * 100));
+  const urgent = left <= Math.max(5, Math.round(total * 0.2));
+  return (
+    <div aria-label={`${left} dari ${total} kursi tersisa`}>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+        <div className={cn("h-full rounded-full", urgent ? "bg-danger-warm" : "bg-brand")} style={{ width: `${pct}%` }} />
+      </div>
+      <p className={cn("mt-1 text-[11px] font-bold", urgent ? "text-danger-warm" : "text-ink-muted")}>
+        {urgent ? `Hanya sisa ${left} kursi!` : `${left}/${total} kursi tersisa`}
+        {label && <span className="font-normal"> • {label}</span>}
+      </p>
+    </div>
+  );
+}
+
+/* ================= COMPARE BUTTON ================= */
+export function CompareButton({ slug, className, label }: { slug: string; className?: string; label?: string }) {
+  const [on, setOn] = useState(false);
+  const [full, setFull] = useState(false);
+  useEffect(() => {
+    const sync = () => setOn(isCompared(slug));
+    sync();
+    return onCompareChange(sync);
+  }, [slug]);
+  const click = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const res = toggleCompare(slug);
+    if (res === null) {
+      setFull(true);
+      window.setTimeout(() => setFull(false), 2200);
+      return;
+    }
+    setFull(false);
+  };
+  return (
+    <button
+      onClick={click}
+      className={cn(
+        "inline-flex min-h-10 items-center gap-1.5 rounded-xl border px-3 text-xs font-bold transition-colors",
+        on ? "border-gold bg-gold-soft text-gold-deep" : "border-line-warm bg-white text-ink-muted hover:border-brand/40 hover:text-brand",
+        className
+      )}
+      aria-pressed={on}
+      aria-label={on ? "Keluarkan dari perbandingan" : "Tambahkan ke perbandingan"}
+      title={full ? "Maksimal 3 paket — hapus satu dulu" : "Bandingkan paket"}
+    >
+      {on ? <Check size={13} /> : <GitCompareArrows size={13} />}
+      {full ? "Maksimal 3!" : label ?? (on ? "Dipilih" : "Bandingkan")}
+    </button>
+  );
+}
+
+/* ================= LIVE ACTIVITY TICKER (bukti sosial) ================= */
+const TICKER_ITEMS = [
+  "Hj. Sumiati dari Surabaya baru mengamankan kursi Umrah 9 Hari — escrow aktif ✓",
+  "Grup Masjid Al-Ikhlas Bandung (23 jamaah) charter Garuda 16 Feb — seat terkunci",
+  "Ibu Ratna dari Medan baru memakai Kalkulator Simpanan Haji",
+  "Bpk. Famuji dari Yogyakarta menyelesaikan quiz NurMatch — match 94%",
+  "Safa Marwa MY baru terverifikasi ulang — Tier Gold dipertahankan",
+  "Keluarga H. Syamsul (5 orang) memilih Land Arrangement 8 Hari",
+  "Review Saksi Jamaah baru: 4,9 untuk mutawif Safar Suci",
+  "Cek Izin PPIU dipakai 1.240× bulan ini — tool publik gratis",
+];
+
+export function LiveTicker() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = window.setInterval(() => setIdx((i) => (i + 1) % TICKER_ITEMS.length), 4200);
+    return () => window.clearInterval(t);
+  }, []);
+  return (
+    <div className="flex h-9 items-center gap-2.5 overflow-hidden rounded-full border border-gold/40 bg-gold-soft/60 px-4" aria-live="polite">
+      <span className="relative flex h-2 w-2 shrink-0">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
+      </span>
+      <p key={idx} className="count-fade truncate text-[13px] font-semibold text-gold-deep">
+        {TICKER_ITEMS[idx]}
+      </p>
+    </div>
   );
 }
 

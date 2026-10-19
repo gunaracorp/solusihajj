@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   MapPin,
   CalendarDays,
@@ -17,25 +17,48 @@ import {
   ArrowRight,
   PackageCheck,
   PackageX,
+  CalendarRange,
+  ChevronDown,
+  GitCompareArrows,
 } from "lucide-react";
 import { packageList, getPackage, packagesOfPpiu } from "@/data/packages";
 import { getPpiu, ppiuList } from "@/data/ppiu";
 import { reviewsOfPackage } from "@/data/reviews";
 import type { Pkg } from "@/data/types";
+import { PRODUCT_META } from "@/data/types";
 import { formatRupiah, formatDate, waLink, waMessages } from "@/lib/solusihajj/wa";
 import { Link, navigate, scrollToId } from "@/lib/solusihajj/router";
+import { getCompare, clearCompare, onCompareChange } from "@/lib/solusihajj/compare";
 import { Breadcrumb } from "../chrome";
-import { PackageCard, ShieldBadge, StarRating, SceneVisual, SectionHeading, DimensionBars, WaButton } from "../ui-bits";
+import { PackageCard, ShieldBadge, StarRating, SceneVisual, SectionHeading, DimensionBars, WaButton, CompareButton, SeatBar } from "../ui-bits";
 
 /* ================= BUDGET FILTER HELPERS ================= */
 function budgetMatch(price: number, budget: string | null): boolean {
   switch (budget) {
+    case "lt20": return price < 20_000_000;
     case "lt30": return price < 30_000_000;
     case "30-40": return price >= 30_000_000 && price <= 40_000_000;
     case "40-50": return price > 40_000_000 && price <= 50_000_000;
     case "gt50": return price > 50_000_000;
     default: return true;
   }
+}
+
+/** Kalender harga: harga terendah per bulan dari window keberangkatan (SEO + utilitas) */
+function monthlyMinPrices(list: Pkg[]): { month: string; min: number | null }[] {
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const MAP: Record<string, number> = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, Mei: 4, Jun: 5, Jul: 6, Agu: 7, Sep: 8, Okt: 9, Nov: 10, Des: 11 };
+  const mins: (number | null)[] = Array(12).fill(null);
+  for (const p of list) {
+    const m = p.departWindow.match(/([A-Z][a-z]{2})\s*\d{4}(?:\s*–\s*([A-Z][a-z]{2})?\s*\d{4})?/);
+    if (!m) continue;
+    const a = MAP[m[1]];
+    const b = m[2] !== undefined && MAP[m[2]] !== undefined ? MAP[m[2]] : a;
+    for (let i = Math.min(a, b); i <= Math.max(a, b); i++) {
+      if (mins[i] === null || p.basePrice < mins[i]!) mins[i] = p.basePrice;
+    }
+  }
+  return MONTHS.map((month, i) => ({ month, min: mins[i] }));
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -47,15 +70,25 @@ const TYPE_LABELS: Record<string, string> = {
 
 /* ================= KATALOG PAKET ================= */
 export function CatalogPage({ query }: { query: URLSearchParams }) {
+  const [produk, setProduk] = useState(query.get("produk") ?? "");
   const [kota, setKota] = useState(query.get("kota") ?? "");
   const [tipe, setTipe] = useState(query.get("type") ?? "");
   const [budget, setBudget] = useState(query.get("budget") ?? "");
   const [bulan, setBulan] = useState(query.get("bulan") ?? "");
   const [sort, setSort] = useState("harga-naik");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [calOpen, setCalOpen] = useState(false);
+  const [compareCount, setCompareCount] = useState(0);
+
+  useEffect(() => {
+    const sync = () => setCompareCount(getCompare().length);
+    sync();
+    return onCompareChange(sync);
+  }, []);
 
   const filtered = useMemo(() => {
     let list = packageList.filter((p) => {
+      if (produk && (p.product ?? "full") !== produk) return false;
       if (kota && p.departCity !== kota) return false;
       if (tipe && p.type !== tipe) return false;
       if (!budgetMatch(p.basePrice, budget)) return false;
@@ -72,12 +105,30 @@ export function CatalogPage({ query }: { query: URLSearchParams }) {
       }
     });
     return list;
-  }, [kota, tipe, budget, bulan, sort]);
+  }, [produk, kota, tipe, budget, bulan, sort]);
 
-  const activeFilters = [kota, tipe, budget, bulan].filter(Boolean).length;
+  const activeFilters = [produk, kota, tipe, budget, bulan].filter(Boolean).length;
+  const calData = useMemo(() => monthlyMinPrices(filtered), [filtered]);
+  const calMax = Math.max(...calData.map((c) => c.min ?? 0), 1);
 
   const filterBody = (
     <div className="space-y-5">
+      <div>
+        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Jenis Produk</p>
+        <div className="flex flex-wrap gap-2">
+          {["", "full", "land"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setProduk(t)}
+              className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition-colors ${
+                produk === t ? "border-brand bg-brand text-ivory" : "border-line-warm bg-white text-ink hover:border-brand/40"
+              }`}
+            >
+              {t === "" ? "Semua" : PRODUCT_META[t as "full" | "land"].label}
+            </button>
+          ))}
+        </div>
+      </div>
       <div>
         <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Tipe Paket</p>
         <div className="flex flex-wrap gap-2">
@@ -107,6 +158,7 @@ export function CatalogPage({ query }: { query: URLSearchParams }) {
         <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Budget / Orang</p>
         <select value={budget} onChange={(e) => setBudget(e.target.value)} className="h-12 w-full rounded-xl border border-line-warm bg-white px-3 text-[15px] outline-none focus:border-brand" aria-label="Filter budget">
           <option value="">Semua budget</option>
+          <option value="lt20">&lt; Rp 20 jt (LA)</option>
           <option value="lt30">&lt; Rp 30 jt</option>
           <option value="30-40">Rp 30 – 40 jt</option>
           <option value="40-50">Rp 40 – 50 jt</option>
@@ -124,7 +176,7 @@ export function CatalogPage({ query }: { query: URLSearchParams }) {
       </div>
       {activeFilters > 0 && (
         <button
-          onClick={() => { setKota(""); setTipe(""); setBudget(""); setBulan(""); }}
+          onClick={() => { setProduk(""); setKota(""); setTipe(""); setBudget(""); setBulan(""); }}
           className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl border border-line-warm text-sm font-semibold text-ink-muted hover:bg-muted"
         >
           <X size={14} /> Reset {activeFilters} filter
@@ -135,12 +187,67 @@ export function CatalogPage({ query }: { query: URLSearchParams }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
-      <Breadcrumb items={[{ label: "Beranda", to: "/" }, { label: "Paket Umrah" }]} />
+      <Breadcrumb items={[{ label: "Beranda", to: "/" }, { label: "Paket Umrah & LA" }]} />
       <SectionHeading
-        kicker="Katalog"
-        title={`${filtered.length} Paket Umrah Terverifikasi`}
-        sub="Semua harga adalah harga all-in per orang (quad share). Nama hotel dan jarak meter ke Haram tercantum apa adanya — bukan klaim."
+        kicker="Katalog marketplace"
+        title={`${filtered.length} Paket Umrah & Land Arrangement Terverifikasi`}
+        sub="Semua harga adalah harga per orang (quad share, all-in kecuali LA = darat saja). Nama hotel dan jarak meter ke Haram tercantum apa adanya — bukan klaim."
       />
+      {/* TAB PRODUK */}
+      <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Jenis produk">
+        {[{ v: "", l: "Semua Produk" }, { v: "full", l: "Paket Lengkap" }, { v: "land", l: "Land Arrangement" }].map((tab) => (
+          <button
+            key={tab.v}
+            role="tab"
+            aria-selected={produk === tab.v}
+            onClick={() => setProduk(tab.v)}
+            className={`min-h-11 rounded-xl border px-5 text-[15px] font-bold transition-colors ${
+              produk === tab.v
+                ? "border-brand bg-brand text-ivory shadow-card"
+                : "border-line-warm bg-card text-ink hover:border-brand/40"
+            }`}
+          >
+            {tab.l}
+          </button>
+        ))}
+        <button
+          onClick={() => navigate("/tiket-grup")}
+          className="min-h-11 rounded-xl border border-line-warm bg-card px-5 text-[15px] font-bold text-ink transition-colors hover:border-brand/40"
+        >
+          Tiket Charter Grup →
+        </button>
+      </div>
+      {/* KALENDER HARGA */}
+      <div className="mt-4 rounded-2xl border border-line-warm bg-card p-4 shadow-card">
+        <button onClick={() => setCalOpen(!calOpen)} className="flex w-full items-center justify-between gap-3" aria-expanded={calOpen}>
+          <span className="inline-flex items-center gap-2 text-[15px] font-bold text-ink">
+            <CalendarRange size={17} className="text-brand" /> Kalender Harga per Bulan — kapan paling hemat?
+          </span>
+          <ChevronDown size={17} className={`text-ink-muted transition-transform ${calOpen ? "rotate-180" : ""}`} />
+        </button>
+        {calOpen && (
+          <div className="mt-4">
+            <div className="grid grid-cols-6 gap-2 sm:grid-cols-12">
+              {calData.map((c) => (
+                <div key={c.month} className="text-center">
+                  <div className="mx-auto flex h-20 w-full max-w-[52px] items-end rounded-lg bg-muted p-1" title={c.min ? formatRupiah(c.min) : "Tidak ada paket"}>
+                    {c.min && (
+                      <div
+                        className="w-full rounded-md bg-brand/80"
+                        style={{ height: `${Math.max(12, (c.min / calMax) * 100)}%` }}
+                      />
+                    )}
+                  </div>
+                  <p className="mt-1 text-[10px] font-bold text-ink-muted">{c.month}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-ink-muted">
+              Tinggi batang = harga terendah bulan itu (makin pendek makin murah). Termasuk LA & paket lengkap sesuai filter aktif.
+            </p>
+          </div>
+        )}
+      </div>
       <div className="mt-8 grid gap-6 lg:grid-cols-[280px_1fr]">
         {/* Sidebar filter desktop */}
         <aside className="hidden h-fit rounded-2xl border border-line-warm bg-card p-5 shadow-card lg:block" aria-label="Filter paket">
@@ -177,17 +284,51 @@ export function CatalogPage({ query }: { query: URLSearchParams }) {
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filtered.map((pkg) => (
-                <PackageCard key={pkg.slug} pkg={pkg} ppiu={getPpiu(pkg.ppiuSlug)} />
+                <div key={pkg.slug} className="relative">
+                  <PackageCard pkg={pkg} ppiu={getPpiu(pkg.ppiuSlug)} />
+                  <div className="absolute right-3 top-3 z-10">
+                    <CompareButton slug={pkg.slug} className="shadow-warm" />
+                  </div>
+                </div>
               ))}
             </div>
           )}
           <div className="mt-8 rounded-2xl bg-brand-soft p-5 text-center">
             <p className="text-[15px] text-brand-deep">
-              Tidak menemukan tanggal yang pas? <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-bold underline">Tanyakan via WhatsApp</a> — kami bantu cari dari 10 PPIU partner.
+              Tidak menemukan tanggal yang pas? <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-bold underline">Tanyakan via WhatsApp</a> — kami bantu cari dari {ppiuList.length} penyelenggara partner.
             </p>
           </div>
         </div>
       </div>
+
+      {/* COMPARE TRAY — mengapung saat ada paket terpilih */}
+      {compareCount > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t border-gold/40 bg-brand-deep/95 p-3 backdrop-blur">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4">
+            <p className="text-sm font-bold text-ivory">
+              <GitCompareArrows size={16} className="mr-2 inline text-gold" />
+              {compareCount} paket terpilih untuk dibandingkan
+              <span className="ml-2 hidden text-xs font-normal text-ivory/60 sm:inline">(maksimal 3)</span>
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => clearCompare()}
+                className="inline-flex min-h-11 items-center rounded-xl border border-ivory/30 px-4 text-sm font-semibold text-ivory/80 hover:bg-white/10"
+              >
+                Kosongkan
+              </button>
+              <Link
+                to="/bandingkan"
+                className={`inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-extrabold transition-colors ${
+                  compareCount >= 2 ? "bg-gold text-brand-deep hover:bg-[#D9B544]" : "cursor-not-allowed bg-white/15 text-ivory/50"
+                }`}
+              >
+                {compareCount >= 2 ? "Bandingkan Sekarang →" : "Pilih min. 2 paket"}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

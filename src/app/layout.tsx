@@ -1,33 +1,48 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./theme-extra.css";
 import { Toaster } from "@/components/ui/toaster";
 import SolusiHajjApp from "@/components/solusihajj/app";
 
 export const metadata: Metadata = {
   title: {
-    default: "SolusiHajj — Paket Umrah PPIU Terverifikasi | Amanah Anda, Aman.",
+    default: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia | Amanah Anda, Aman.",
     template: "%s | SolusiHajj",
   },
   description:
-    "Bandingkan paket umrah dari PPIU berizin resmi Kemenag. Dana ditahan escrow hingga Anda berangkat, ulasan hanya dari jamaah nyata, izin setiap travel bisa Anda cek sendiri. Amanah Anda, Aman.",
+    "Marketplace umrah & haji lintas Asia: bandingkan 30+ paket lengkap, land arrangement, dan tiket charter grup dari 18 penyelenggara terverifikasi (PPIU, PIHK, BPW, KBIHU) di 5 negara. Dana dijaga escrow syariah, review hanya dari jamaah nyata. Amanah Anda, Aman.",
   keywords: [
     "paket umrah",
+    "marketplace umrah",
     "travel umrah terpercaya",
     "cek izin PPIU",
     "umrah 2026",
+    "umrah 2027",
     "paket umrah murah",
     "biaya umrah",
+    "land arrangement umrah",
+    "tiket charter umrah grup",
+    "haji khusus",
+    "haji furoh",
+    "PIHK",
+    "BPW umrah malaysia",
+    "umrah singapura",
     "escrow umrah",
     "PPIU terverifikasi",
+    "umrah plus turki",
+    "umrah ramadhan",
+    "kalkulator simpanan haji",
   ],
   authors: [{ name: "SolusiHajj" }],
+  creator: "PT SolusiHajj Digital Amanah",
+  publisher: "PT SolusiHajj Digital Amanah",
   metadataBase: new URL("https://solusihajj.com"),
   alternates: { canonical: "/" },
   icons: { icon: "/logo.svg" },
   openGraph: {
-    title: "SolusiHajj — Amanah Anda, Aman.",
+    title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:
-      "Paket umrah dari PPIU berizin resmi — dana Anda ditahan escrow, ulasan hanya dari jamaah nyata, dan keluarga bisa menemani perjalanan Anda secara digital.",
+      "Bandingkan paket umrah, land arrangement, dan tiket charter grup dari 18 penyelenggara terverifikasi di 5 negara Asia. Dana dijaga escrow syariah, review dari jamaah nyata.",
     url: "https://solusihajj.com",
     siteName: "SolusiHajj",
     locale: "id_ID",
@@ -35,11 +50,16 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SolusiHajj — Amanah Anda, Aman.",
+    title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:
-      "Paket umrah dari PPIU terverifikasi 5 lapis, dana dilindungi escrow, review dari jamaah nyata.",
+      "PPIU, PIHK, BPW & KBIHU terverifikasi 5 lapis dalam satu gerbang. Escrow syariah 40/40/20, review Saksi Jamaah, tool Cek Izin publik.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  category: "travel",
 };
 
 export const viewport: Viewport = {
@@ -47,6 +67,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
+
+/** Pre-paint: terapkan preferensi dark/elder sebelum render (hindari flash) */
+const themeInitScript = `(function(){try{var r=JSON.parse(localStorage.getItem("shj_prefs")||"{}");if(r.dark)document.documentElement.classList.add("dark");if(r.elder)document.documentElement.classList.add("elder");}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -62,6 +85,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
         {children}

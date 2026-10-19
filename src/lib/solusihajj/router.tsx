@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback, type ReactNode, type MouseEvent } from "react";
+import { useCallback, useEffect, type ReactNode, type MouseEvent } from "react";
+import { useSyncExternalStore } from "react";
 
 export interface RouteInfo {
   path: string; // selalu dimulai dengan "/", "" → "/"
@@ -22,20 +23,34 @@ function parseHash(hash: string): RouteInfo {
   return { path: path || "/", query };
 }
 
+/* ---------- Hash route store (hydration-safe via useSyncExternalStore) ---------- */
+
+const ROOT_ROUTE: RouteInfo = { path: "/", query: new URLSearchParams() };
+let lastRaw: string | null = null;
+let lastParsed: RouteInfo = ROOT_ROUTE;
+
+function getCachedRoute(): RouteInfo {
+  if (typeof window === "undefined") return ROOT_ROUTE;
+  const raw = window.location.hash;
+  if (raw !== lastRaw) {
+    lastRaw = raw;
+    lastParsed = parseHash(raw);
+  }
+  return lastParsed;
+}
+
+function subscribeHash(cb: () => void): () => void {
+  window.addEventListener("hashchange", cb);
+  return () => window.removeEventListener("hashchange", cb);
+}
+
 export function useHashRoute(): RouteInfo {
-  const [route, setRoute] = useState<RouteInfo>(() =>
-    typeof window === "undefined" ? { path: "/", query: new URLSearchParams() } : parseHash(window.location.hash)
-  );
-
+  // Server snapshot = "/" → hidrasi selalu cocok; setelah hidrasi React
+  // langsung switch ke hash asli tanpa hydration error.
+  const route = useSyncExternalStore(subscribeHash, getCachedRoute, () => ROOT_ROUTE);
   useEffect(() => {
-    const onChange = () => {
-      setRoute(parseHash(window.location.hash));
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    };
-    window.addEventListener("hashchange", onChange);
-    return () => window.removeEventListener("hashchange", onChange);
-  }, []);
-
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, [route.path]);
   return route;
 }
 

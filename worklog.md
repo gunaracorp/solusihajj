@@ -39,3 +39,24 @@ Stage Summary:
 - R1 "Gerbang Kepercayaan" jadi: trust-first homepage + katalog 24 paket + 10 toko PPIU + tool Cek Izin publik + kalkulator lead magnet + 4 artikel + 5 halaman legal
 - Pemetaan deploy (dok 29/31): tiap view hash = route statis dengan slug identik untuk static export shared hosting
 - Catatan eksplisit di UI: data R1 = demo, akan diganti hasil Verifikasi 5 Lapis asli sebelum go-live
+
+---
+Task ID: 3
+Agent: Z.ai Main Agent (SolusiHajj R1.5 Marketplace Builder)
+Task: "100x lebih canggih dari umroh.com + SEO terlengkap" — upgrade R1.5 "Marketplace Asia Superapp": vertikal produk baru (LA + Tiket Charter Grup), direktori Asia (PPIU/PIHK/BPW/KBIHU, 5 negara), NurMatch AI, compare tool, travel kit, glosarium SEO, partner center, dark mode, mode lansia, bahasa ID/EN/AR, mega JSON-LD.
+
+Work Log:
+- Benchmark umroh.com via WebFetch (flight schedule, LA, paket lengkap, partner, review) → dirancang kontras: escrow + review-gated + verifikasi 5 lapis + Asia-wide (hal yang tidak mereka punya)
+- Data layer: types.ts +ProductKind/OrgType/FlightSchedule/GlossaryTerm; ppiu.ts +8 partner Asia (Safa Marwa MY, An-Nur Penang, Sinar Madinah SG, Baitullah SG, Brunei Halal Safar, Siam Umrah TH, PIHK Cahaya Zamzam, KBIHU Riyadh Jaya) total 18 di 5 negara; packages.ts +3 Land Arrangement (total 27); flights.ts baru 10 jadwal charter; glossary.ts 32 istilah; site-seo.ts peta SEO per route
+- Pages baru: market.tsx (Tiket Charter Grup, Bandingkan side-by-side, NurMatch AI quiz 5 langkah skor transparan), resources.tsx (Travel Kit: jadwal sholat/kiblat 8 kota/konverter IDR-SAR/checklist persist/countdown; Glosarium A-Z; Partner Center; Peta Situs)
+- Pages upgrade: home (hero marketplace, smart search 5 field, 3 vertikal, tabel charter, chips kota Asia, live ticker, teaser NurMatch, tabel vs OTA/travel langsung, strip partner), katalog (tab produk, kalender harga bulanan, compare tray fixed), direktori (filter negara+org), toko PPIU (OrgBadge + charter yang ditangani), trust (Simulator Escrow slider 5 fase + demo Hafizh Track dengan SOS)
+- Chrome: nav 3 dropdown + bahasa ID/EN/AR + Mode Lansia (font 17→19.5px) + Dark Mode "Malam Madinah"; CSS token dark di theme-extra.css
+- SEO Mega-Stack: 29 blok JSON-LD (Organization, WebSite+SearchAction, 8× Product+Offer+AggregateRating, ItemList paket & charter & artikel, FAQPage, BreadcrumbList, 8× TravelAgency, TouristTrip, Event Ramadhan 1448, HowTo cek izin, Service escrow, DefinedTermSet glosarium, AggregateRating platform) + useSeo/useSeoDetail dynamic title+description per hash-route
+- Defect diperbaiki: import flightList salah modul; duplikat key itinerary; flight chunk CSS stale (Turbopack) → pindah dark/elder ke theme-extra.css; React 19 hydration strip class html → usePrefs via effect; LINT set-state-in-effect; HYDRATION MISMATCH deep-link hash → refactor useHashRoute/usePrefs/i18n/checklist/Countdown ke useSyncExternalStore (0 error di fresh session)
+- Verifikasi Agent Browser (golden path): smart search→LA filter 3 ✓, compare flow 2 paket→tray→tabel ✓, NurMatch match LA utk profil <20jt+punya tiket ✓, tiket-grup 10 jadwal+seat bar ✓, checklist persist localStorage ✓, konverter ✓, direktori filter Malaysia 2 BPW ✓, cek izin 2 kasus (thaha→TIDAK DITEMUKAN, amanah barokah→AKTIF Platinum) ✓, simulator escrow fase 5 ✓, SOS→Terhubung Koordinator ✓, glosarium expand ✓, partner+peta situs ✓, detail LA badge ✓, drawer mobile 390px ✓, dark persist reload ✓, elder 17→19.5px ✓, sticky footer ✓, 29 JSON-LD ✓, lint 0 error ✓
+
+Stage Summary:
+- R1.5 "Marketplace Asia Superapp" jadi: 23 view/hash-route aktif (7 baru), 27 paket + 10 charter + 18 penyelenggara 5 negara + 32 glosarium
+- 30 Super Ideas terwujud dalam 6 pilar: Marketplace Engine (search/vertikal/compare/kalender harga), Trust & Syariah (simulator escrow/Hafizh demo/cek izin), AI (NurMatch transparan), SEO Mega-Stack (29 JSON-LD + glosarium + landing kota + peta situs + dynamic title), Aksesibilitas (dark/elder/lang), Jaringan Asia (PIHK/BPW/KBIHU lintas negara)
+- Arsitektur hydration-safe: useSyncExternalStore untuk hash-route, prefs, bahasa, checklist, jam — siap static export R1.5 tanpa refactor
+- Screenshot: download/solusihajj/screenshot-home.png, screenshot-home-dark.png, screenshot-katalog-compare-tray.png

@@ -1,80 +1,133 @@
 "use client";
 
-import { ShieldCheck, MapPin, Users, Clock, CalendarCheck, FileBadge, Landmark, ExternalLink, Building2 } from "lucide-react";
-import { ppiuList, getPpiu } from "@/data/ppiu";
-import { packagesOfPpiu } from "@/data/packages";
+import { useState } from "react";
+import { ShieldCheck, MapPin, Users, Clock, CalendarCheck, FileBadge, Landmark, ExternalLink, Building2, Globe2 } from "lucide-react";
+import { ppiuList, getPpiu, orgOf, countryOf, COUNTRY_LIST } from "@/data/ppiu";
+import { packagesOfPpiu as pkgsOf } from "@/data/packages";
+import { flightsOfPpiu } from "@/data/flights";
 import { reviewsOfPpiu } from "@/data/reviews";
-import { formatDate, waLink, waMessages } from "@/lib/solusihajj/wa";
+import { formatDate, formatRupiah, waLink, waMessages } from "@/lib/solusihajj/wa";
 import { Link } from "@/lib/solusihajj/router";
-import type { Tier } from "@/data/types";
-import { TIER_META } from "@/data/types";
+import type { Tier, OrgType } from "@/data/types";
+import { TIER_META, ORG_META } from "@/data/types";
 import { Breadcrumb } from "../chrome";
-import { ShieldBadge, StarRating, PackageCard, SectionHeading, DimensionBars, WaButton } from "../ui-bits";
+import { ShieldBadge, StarRating, PackageCard, SectionHeading, DimensionBars, WaButton, OrgBadge, SeatBar } from "../ui-bits";
 
-/* ================= DIREKTORI PPIU ================= */
-export function PpiuDirectoryPage() {
-  const byTier = (t: Tier) => ppiuList.filter((p) => p.tier === t);
+/* ================= DIREKTORI PENYELENGGARA ASIA ================= */
+export function PpiuDirectoryPage({ query }: { query: URLSearchParams }) {
+  const [negara, setNegara] = useState(query.get("negara") ?? "");
+  const [org, setOrg] = useState(query.get("org") ?? "");
+
+  const filtered = ppiuList.filter((p) => {
+    if (negara && countryOf(p) !== negara) return false;
+    if (org && orgOf(p) !== org) return false;
+    return true;
+  });
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
-      <Breadcrumb items={[{ label: "Beranda", to: "/" }, { label: "Direktori PPIU" }]} />
+      <Breadcrumb items={[{ label: "Beranda", to: "/" }, { label: "Direktori Penyelenggara" }]} />
       <SectionHeading
-        kicker="Direktori"
-        title="10 PPIU Founding Partner — Semua Lolos Verifikasi 5 Lapis"
-        sub="Tier Platinum, Gold, Silver bukan label iklan: itu hasil penilaian berkelanjutan atas izin, audit kantor, track record, dan rating jamaah. Bisa turun bila performa menurun."
+        kicker="Direktori Asia"
+        title={`${filtered.length} Penyelenggara Terverifikasi di ${new Set(ppiuList.map(countryOf)).size} Negara`}
+        sub="PPIU & PIHK Indonesia, BPW Malaysia–Singapura–Brunei–Thailand, KBIHU pendamping — semua lolos Verifikasi 5 Lapis versi negaranya masing-masing. Tier bisa turun bila performa menurun."
       />
-      <div className="mt-8 space-y-10">
-        {(["platinum", "gold", "silver"] as Tier[]).map((tier) =>
-          byTier(tier).length > 0 ? (
-            <section key={tier} aria-label={`PPIU tier ${tier}`}>
-              <div className="mb-4 flex items-center gap-3">
-                <ShieldBadge tier={tier} size="md" />
-                <h2 className="text-xl font-bold text-ink">Tier {TIER_META[tier].label}</h2>
-                <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-ink-muted">{TIER_META[tier].description}</span>
-              </div>
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {byTier(tier).map((ppiu) => {
-                  const pkgs = packagesOfPpiu(ppiu.slug);
-                  return (
-                    <Link
-                      key={ppiu.slug}
-                      to={`/ppiu/${ppiu.slug}`}
-                      className="group flex flex-col rounded-2xl border border-line-warm bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-warm"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <h3 className="text-[17px] font-bold leading-snug text-ink group-hover:text-brand">{ppiu.name}</h3>
-                          <p className="mt-1 flex items-center gap-1 text-sm text-ink-muted">
-                            <MapPin size={13} /> {ppiu.city}, {ppiu.province}
-                          </p>
-                        </div>
-                        <ShieldBadge tier={ppiu.tier} size="sm" showLabel={false} />
-                      </div>
-                      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
-                        <StarRating value={ppiu.rating} />
-                        <span>{ppiu.reviewCount} review</span>
-                        <span className="inline-flex items-center gap-1"><Users size={12} /> {ppiu.jamaahSent.toLocaleString("id-ID")} jamaah</span>
-                        <span className="inline-flex items-center gap-1"><CalendarCheck size={12} /> {ppiu.departureAccuracy}% tepat berangkat</span>
-                      </div>
-                      <p className="mt-3 line-clamp-2 flex-1 text-sm leading-relaxed text-ink-muted">{ppiu.about}</p>
-                      <div className="mt-4 flex items-center justify-between border-t border-line-warm pt-3">
-                        <span className="text-sm font-bold text-brand">{pkgs.length} paket aktif</span>
-                        <span className="text-sm font-bold text-brand group-hover:underline">Lihat toko →</span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-          ) : null
-        )}
+
+      {/* FILTER NEGARA + ORG */}
+      <div className="mt-8 space-y-4 rounded-2xl border border-line-warm bg-card p-5 shadow-card">
+        <div>
+          <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-ink-muted">
+            <Globe2 size={13} /> Negara
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[{ v: "", l: "Semua" }, ...COUNTRY_LIST.map((c) => ({ v: c, l: c }))].map((c) => (
+              <button
+                key={c.v}
+                onClick={() => setNegara(c.v)}
+                className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition-colors ${
+                  negara === c.v ? "border-brand bg-brand text-ivory" : "border-line-warm bg-white text-ink hover:border-brand/40"
+                }`}
+              >
+                {c.l}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-muted">Jenis Organisasi</p>
+          <div className="flex flex-wrap gap-2">
+            {[{ v: "", l: "Semua" }, ...(Object.keys(ORG_META) as OrgType[]).map((o) => ({ v: o, l: `${o} — ${ORG_META[o].full}` }))].map((o) => (
+              <button
+                key={o.v}
+                onClick={() => setOrg(o.v)}
+                title={o.v ? ORG_META[o.v as OrgType].note : undefined}
+                className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition-colors ${
+                  org === o.v ? "border-brand bg-brand text-ivory" : "border-line-warm bg-white text-ink hover:border-brand/40"
+                }`}
+              >
+                {o.l}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
+
+      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {filtered.map((ppiu) => {
+          const pkgs = pkgsOf(ppiu.slug);
+          return (
+            <Link
+              key={ppiu.slug}
+              to={`/ppiu/${ppiu.slug}`}
+              className="group flex flex-col rounded-2xl border border-line-warm bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-warm"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                    <OrgBadge org={orgOf(ppiu)} size="sm" />
+                    <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold text-ink-muted">{countryOf(ppiu)}</span>
+                  </div>
+                  <h3 className="text-[17px] font-bold leading-snug text-ink group-hover:text-brand">{ppiu.name}</h3>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-ink-muted">
+                    <MapPin size={13} /> {ppiu.city}, {ppiu.province}
+                  </p>
+                </div>
+                <ShieldBadge tier={ppiu.tier} size="sm" showLabel={false} />
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
+                <StarRating value={ppiu.rating} />
+                <span>{ppiu.reviewCount} review</span>
+                <span className="inline-flex items-center gap-1"><Users size={12} /> {ppiu.jamaahSent.toLocaleString("id-ID")} jamaah</span>
+                <span className="inline-flex items-center gap-1"><CalendarCheck size={12} /> {ppiu.departureAccuracy}% tepat berangkat</span>
+              </div>
+              <p className="mt-3 line-clamp-2 flex-1 text-sm leading-relaxed text-ink-muted">{ppiu.about}</p>
+              <div className="mt-4 flex items-center justify-between border-t border-line-warm pt-3">
+                <span className="text-sm font-bold text-brand">
+                  {orgOf(ppiu) === "KBIHU" ? "Layanan konsultasi" : `${pkgs.length} paket aktif`}
+                </span>
+                <span className="text-sm font-bold text-brand group-hover:underline">Lihat toko →</span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      {filtered.length === 0 && (
+        <p className="mt-8 rounded-2xl border border-dashed border-line-warm p-10 text-center text-ink-muted">
+          Belum ada penyelenggara pada kombinasi filter ini — jaringan kami bertambah tiap bulan.
+        </p>
+      )}
+
       <div className="mt-10 rounded-2xl bg-brand-soft p-6 text-center">
         <p className="text-[15px] leading-relaxed text-brand-deep">
-          Anda pengelola PPIU berizin dan ingin tayang di sini?{" "}
+          Anda pengelola PPIU/PIHK/BPW/KBIHU dan ingin tayang di sini?{" "}
+          <Link to="/partner" className="font-bold underline">
+            Lihat manfaat kemitraan
+          </Link>{" "}
+          atau{" "}
           <a href={waLink(waMessages.ppiuPartner)} target="_blank" rel="noopener noreferrer" className="font-bold underline">
-            Ajukan Verifikasi 5 Lapis via WhatsApp
+            ajukan Verifikasi 5 Lapis via WhatsApp
           </a>{" "}
-          — proses audit gratis, PPIU membayar hanya saat transaksi berhasil.
+          — proses audit gratis, bayar hanya saat transaksi berhasil.
         </p>
       </div>
     </div>
@@ -94,8 +147,9 @@ export function PpiuStorePage({ slug }: { slug: string }) {
       </div>
     );
   }
-  const pkgs = packagesOfPpiu(slug);
+  const pkgs = pkgsOf(slug);
   const reviews = reviewsOfPpiu(slug);
+  const flights = flightsOfPpiu(slug);
 
   return (
     <div>
@@ -104,7 +158,7 @@ export function PpiuStorePage({ slug }: { slug: string }) {
         <div className="pattern-light absolute inset-0" />
         <div className="relative mx-auto max-w-7xl px-4 md:px-8">
           <Breadcrumb
-            items={[{ label: "Beranda", to: "/" }, { label: "PPIU", to: "/ppiu" }, { label: ppiu.shortName }]}
+            items={[{ label: "Beranda", to: "/" }, { label: "Penyelenggara", to: "/ppiu" }, { label: ppiu.shortName }]}
           />
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -112,6 +166,10 @@ export function PpiuStorePage({ slug }: { slug: string }) {
                 <ShieldBadge tier={ppiu.tier} size="lg" showLabel={false} />
               </div>
               <div>
+                <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                  <OrgBadge org={orgOf(ppiu)} />
+                  <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-bold text-ivory">{countryOf(ppiu)}</span>
+                </div>
                 <h1 className="text-[26px] font-extrabold text-ivory md:text-[32px]">{ppiu.name}</h1>
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ivory/75">
                   <span className="inline-flex items-center gap-1.5"><MapPin size={14} /> {ppiu.city}, {ppiu.province}</span>
@@ -134,13 +192,43 @@ export function PpiuStorePage({ slug }: { slug: string }) {
           <div className="space-y-10">
             {/* PAKET AKTIF */}
             <section aria-label="Paket aktif">
-              <h2 className="text-[22px] font-bold text-ink">Paket Aktif ({pkgs.length})</h2>
+              <h2 className="text-[22px] font-bold text-ink">
+                {orgOf(ppiu) === "KBIHU" ? "Layanan & Paket Pendampingan" : "Paket Aktif"} ({pkgs.length})
+              </h2>
               <div className="mt-4 grid gap-5 sm:grid-cols-2">
                 {pkgs.map((pkg) => (
                   <PackageCard key={pkg.slug} pkg={pkg} ppiu={ppiu} />
                 ))}
               </div>
+              {pkgs.length === 0 && (
+                <p className="mt-4 rounded-2xl border border-dashed border-line-warm p-6 text-center text-sm text-ink-muted">
+                  Toko ini belum memasang paket di katalog — hubungi langsung untuk permintaan khusus.
+                </p>
+              )}
             </section>
+
+            {/* JADWAL CHARTER YANG DITANGANI */}
+            {flights.length > 0 && (
+              <section aria-label="Jadwal penerbangan yang ditangani">
+                <h2 className="text-[22px] font-bold text-ink">Jadwal Charter yang Ditangani ({flights.length})</h2>
+                <div className="mt-4 space-y-3">
+                  {flights.map((f) => (
+                    <div key={f.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line-warm bg-card p-4 shadow-card">
+                      <div>
+                        <p className="font-bold text-ink">{f.route}</p>
+                        <p className="text-xs text-ink-muted">{f.airline} • {formatDate(f.depart, "short")} • {f.transit}</p>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="w-28">
+                          <SeatBar left={f.seatsLeft} total={f.seatsTotal} />
+                        </div>
+                        <p className="tabular text-lg font-extrabold text-brand">{formatRupiah(f.pricePerPax)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* REVIEW */}
             <section aria-label="Review">
