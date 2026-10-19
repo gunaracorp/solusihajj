@@ -75,6 +75,7 @@ model Company {
   notes        String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  escrowContracts EscrowContract[]
 
   @@unique([name, orgType])
   @@index([orgType])
@@ -146,4 +147,80 @@ model FlightRoute {
   notes       String?
 
   @@index([airlineId])
+}
+
+// ============================================================
+// R3 — "AMANAH ESCROW AKTIF + NURMATCH AI"
+// ============================================================
+
+/// Kontrak escrow jamaah ↔ penyelenggara (dana ditahan pihak ketiga)
+model EscrowContract {
+  id             String   @id @default(cuid())
+  ref            String   @unique // "SH-ESC-2026-00001"
+  jamaahName     String
+  jamaahPhone    String?
+  jamaahEmail    String?
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id])
+  packageTitle   String
+  departDate     String?
+  paxCount       Int      @default(1)
+  currency       String   @default("IDR")
+  totalAmount    Int // total harga paket (rupiah)
+  status         String   @default("DRAFT") // DRAFT | FUNDED | PARTIAL_RELEASE | SETTLED | DISPUTED | REFUNDED | CANCELLED
+  fundedAmount   Int      @default(0)
+  releasedAmount Int      @default(0)
+  depositRef     String?
+  note           String?
+  milestones     EscrowMilestone[]
+  events         EscrowEvent[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([status])
+}
+
+/// Milestone rilis dana skema Amanah 40/40/20
+model EscrowMilestone {
+  id         String          @id @default(cuid())
+  contractId String
+  contract   EscrowContract  @relation(fields: [contractId], references: [id])
+  seq        Int // 1..3
+  label      String // "Rilis 1 — Visa & tiket terbit", ...
+  percent    Int // 40 | 40 | 20
+  amount     Int
+  status     String          @default("HELD") // HELD | RELEASED | DISPUTED | REFUNDED
+  trigger    String // syarat rilis
+  actedAt    DateTime?
+  note       String?
+
+  @@unique([contractId, seq])
+}
+
+/// Audit trail escrow (prinsip Saksi Jamaah — setiap aksi tercatat)
+model EscrowEvent {
+  id         String         @id @default(cuid())
+  contractId String
+  contract   EscrowContract @relation(fields: [contractId], references: [id])
+  actor      String // JAMAAH | PLATFORM | OPERATOR | DUAL_CONTROL
+  action     String // CREATED | FUNDED | RELEASE_REQUESTED | RELEASED | DISPUTED | REFUNDED | RESOLVED | NOTE
+  detail     String
+  createdAt  DateTime       @default(now())
+
+  @@index([contractId])
+}
+
+/// Sesi rekomendasi NurMatch AI (LLM) — profil jamaah → paket/PPIU
+model AiMatchSession {
+  id         String   @id @default(cuid())
+  profile    String // JSON profil: budget, kota, bulan, pax, gaya, prioritas
+  verdict    String? // kesimpulan 1 kalimat
+  reasoning  String? // penjelasan AI (markdown)
+  packageIds String? // JSON array paket yang direkomendasikan
+  companyIds String? // JSON array penyelenggara yang direkomendasikan
+  followUps  String? // JSON pertanyaan lanjutan
+  model      String?
+  latencyMs  Int?
+  createdAt  DateTime @default(now())
 }

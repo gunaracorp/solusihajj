@@ -93,6 +93,7 @@ function useNavData() {
       { to: "/tiket-grup", label: t("nav.flights") },
       { to: "/maskapai", label: t("nav.airlines") },
       { to: "/nurmatch", label: t("nav.nurmatch"), icon: Sparkles },
+      { to: "/nurmatch-ai", label: t("nav.nurmatchAi"), icon: Sparkles, highlight: true },
       { to: "/bandingkan", label: "Bandingkan Paket", icon: GitCompareArrows },
     ],
     direktoriItems: [
@@ -101,6 +102,7 @@ function useNavData() {
       { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU ⭐", highlight: true },
       { to: "/verifikasi", label: t("nav.verify") },
       { to: "/escrow", label: t("nav.escrow") },
+      { to: "/escrow-aktif", label: t("nav.escrowAktif"), icon: Database, highlight: true },
     ],
     panduanItems: [
       { to: "/edukasi", label: t("nav.education") },

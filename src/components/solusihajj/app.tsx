@@ -13,6 +13,8 @@ import { FlightGroupPage, ComparePage, NurMatchPage } from "./pages/market";
 import { TravelKitPage, GlossaryPage, PartnerPage, SitemapPage } from "./pages/resources";
 import NationalDataPage from "./pages/data";
 import AirlinesPage from "./pages/airlines";
+import EscrowLivePage from "./pages/escrow-live";
+import NurMatchAiPage from "./pages/nurmatch-ai";
 import { getPackage } from "@/data/packages";
 import { getPpiu } from "@/data/ppiu";
 
@@ -27,6 +29,8 @@ import { getPpiu } from "@/data/ppiu";
  * /partner • /peta-situs
  * Rute baru R2 (Fondasi Data Nasional):
  * /pusat-data • /maskapai
+ * Rute baru R3 (AmanahEscrow Aktif + NurMatch AI Live):
+ * /escrow-aktif • /nurmatch-ai
  */
 export default function SolusiHajjApp() {
   const { path, query } = useHashRoute();
@@ -69,6 +73,10 @@ export default function SolusiHajjApp() {
     view = <ComparePage />;
   } else if (segs[0] === "nurmatch") {
     view = <NurMatchPage />;
+  } else if (segs[0] === "nurmatch-ai") {
+    view = <NurMatchAiPage />;
+  } else if (segs[0] === "escrow-aktif") {
+    view = <EscrowLivePage />;
   } else if (segs[0] === "ppiu" && segs[1]) {
     view = <PpiuStorePage slug={segs[1]} />;
   } else if (segs[0] === "ppiu") {

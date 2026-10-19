@@ -67,6 +67,16 @@ export const SEO_MAP: Record<string, SeoEntry> = {
     description:
       "Maskapai penerbangan jamaah 2025 sesuai keputusan Kemenag: Garuda Indonesia, Lion Group, dan Saudia — plus charter umrah Citilink dari 9 kota, Super Air Jet, EgyptAir, dan Turkish Airlines. Frekuensi, tipe pesawat, dan tanggal mulai operasi dari rilis resmi.",
   },
+  "/escrow-aktif": {
+    title: "Pusat AmanahEscrow Aktif — Kontrak & Rilis Dana 40/40/20 Real-time | SolusiHajj R3",
+    description:
+      "Escrow aktif, bukan simulasi: buka kontrak dengan penyelenggara dari database nasional, setor dana ke VA escrow pihak ketiga, rilis bertahap 40/40/20 lewat dual-control, lengkap audit trail Saksi Jamaah dan jalur sengketa/refund.",
+  },
+  "/nurmatch-ai": {
+    title: "NurMatch AI Live — Rekomendasi Paket Umrah oleh AI Nyata | SolusiHajj R3",
+    description:
+      "AI LLM sungguhan mencocokkan anggaran, kota, bulan, dan prioritas Anda dengan katalog paket serta database nasional penyelenggara — lengkap dengan alasan, saran, dan pertanyaan lanjutan. Transparan, bukan kotak hitam.",
+  },
   "/peta-situs": {
     title: "Peta Situs — Semua Halaman SolusiHajj",
     description:

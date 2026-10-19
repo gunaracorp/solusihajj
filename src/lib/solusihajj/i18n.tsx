@@ -16,6 +16,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   "nav.land": { id: "Land Arrangement", en: "Land Arrangement", ar: "خدمة أرضية" },
   "nav.flights": { id: "Tiket Charter Grup", en: "Group Charter Flights", ar: "رحلات جماعية" },
   "nav.nurmatch": { id: "NurMatch AI", en: "NurMatch AI", ar: "نور ماتش AI" },
+  "nav.nurmatchAi": { id: "NurMatch AI Live (R3)", en: "NurMatch AI Live (R3)", ar: "نور ماتش AI مباشر" },
+  "nav.escrowAktif": { id: "Pusat Escrow Aktif (R3)", en: "Active Escrow Hub (R3)", ar: "مركز الضمان النشط" },
   "nav.directory": { id: "Direktori", en: "Directory", ar: "الدليل" },
   "nav.providers": { id: "Penyelenggara Asia", en: "Asian Providers", ar: "منظمو آسيا" },
   "nav.verify": { id: "Verifikasi", en: "Verification", ar: "التحقق" },

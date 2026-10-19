@@ -82,3 +82,33 @@ Stage Summary:
 - Tool Cek Izin kini benar-benar berguna publik: mengenali PIHK ber-KMA, PPIU izin baru 2025, dan perusahaan tersanksi
 - Screenshot: download/solusihajj/screenshot-r2-pusat-data.png, screenshot-r2-maskapai.png, screenshot-r2-desktop.png
 - Seed script persisten di scripts/seed-r2.ts — pipeline siap diperluas (tambah halaman HIMPUH 2-18, eservices.haj.gov.sa Asia-wide) pada iterasi berikutnya
+
+---
+Task ID: 5
+Agent: Z.ai Main Agent (SolusiHajj R3 Builder)
+Task: "Gas semua" — (1) HIMPUF halaman 2-18 -> 450+ anggota, (2) sumber Asia (Saudi MOHU eservices/Nusuk) direktori lintas negara, (3) R3 escrow aktif + AI, (4) README ID/EN terbaik dunia.
+
+Work Log:
+- Riset & probe sumber: HIMPUH daftar-anggota punya 19 halaman (bukan 18); eservices.haj.gov.sa timeout dari sandbox -> substitusi resmi: umrah.nusuk.sa/ServiceProviders (platform MOHU) + mora.gov.pk (MORA Pakistan)
+- Scraper fetch-himpuh-full.ts (resumable, checkpoint JSONL): 19 halaman daftar -> 474 baris; 474 halaman detail 100% sukses -> jenis anggota (PIHK 249/PPIU 223/BPW 2), no registrasi, telepon, email, website, provinsi (22 provinsi)
+- Scraper fetch-asia.ts: Nusuk 47 provider (nama, kota, telepon, email Cloudflare-decoded, about) + Pakistan 344 baris mentah -> 228 nama operator bersih
+- Bug diperbaiki: split regex <td menelan atribut style -> filter 120 char gagal (0 hasil Pakistan) -> perbaiki pemotongan atribut tag pembuka + fallback pola span color:black
+- Prisma +3 model R3: EscrowContract, EscrowMilestone (unik contractId+seq), EscrowEvent (append-only), AiMatchSession + relasi Company.escrowContracts; db push OK
+- seed-r3.ts: hapus import HIMPUH lama, import 474 HIMPUH (dedup by normalized name, merge vs create), 47 NUSUK (orgType USP, SA), 228 UTO (PK), status TERDAFTAR; update DataSource recordsIndexed + SyncEvent SUCCESS; 4 kontrak escrow contoh (DRAFT/FUNDED/PARTIAL_RELEASE/SETTLED)
+- HASIL DB: 796 organisasi (PPIU 258, PIHK 261, USP 47, UTO 228, BPW 2) di ID 521/PK 228/SA 47
+- API R3: /api/r3/escrow (GET list+volume, POST create dengan milestone 40/40/20 otomatis + validasi), /api/r3/escrow/[id] (GET detail+audit, POST mesin status FUND/RELEASE/DISPUTE/RESOLVE/REFUND dengan guard: rilis berurutan, sengketa min 10 char, refund hanya sisa), /api/r3/ai/match (POST: kandidat nyata katalog<=115% budget + 8 operator DB -> GLM-4 JSON ketat -> simpan sesi; fallback skor deterministik; GET riwayat)
+- Halaman R3: /#/escrow-aktif (Pusat AmanahEscrow: stat volume dana, form buka kontrak dengan pencarian operator DB nasional, kartu kontrak + progress rilis, dialog detail milestone + aksi dual-control + audit trail Saksi Jamaah, JSON-LD Service), /#/nurmatch-ai (form profil: slider budget, kota, bulan, pax, paspor, gaya, prioritas, catatan -> hasil AI: verdict+reasoning mini-markdown+picks dengan link paket/DB+saran+follow-up klik-untuk-pertajam+riwayat transparan, JSON-LD SoftwareApplication)
+- Integrasi: app.tsx 2 route baru, chrome.tsx nav (Direktori + Cari Paket), i18n 3 bahasa, SEO_MAP 2 entri, peta situs 2 link
+- Insiden: dev server bawaan (lama) di-restart manual setelah Prisma client stale; server latar mati antar panggilan -> solve: daemon double-fork Python + semua uji API dalam satu panggilan; insiden kedua OOM diduga akar penyebab (next-server 1.5GB + seed/scrape paralel)
+- Verifikasi API: FUND->FUNDED, RELEASE seq1 40% -> PARTIAL_RELEASE, guard urutan menolak seq3, DISPUTE->RESOLVE->audit trail 9 event, CREATE->SH-ESC-2026-00005, validasi form ditolak
+- NurMatch AI LIVE teruji: GLM-4-plus 9.1 dtk, verdict+reasoning+paket LA Ramadhan 1448+2 operator PIHK DB nasional+saran+followUps; patch prompt agar tak membocorkan refId mentah
+- Agent Browser: /#/escrow-aktif desktop+mobile 390px (stat cards, form, kartu kontrak, dialog milestone RELEASED/HELD, audit trail), rilis dari UI -> DB 80% cair, /#/nurmatch-ai golden path sampai hasil AI tampil, homepage 17 section tanpa error, title SEO dinamis per route benar
+- Lint: 0 error (1 warning font lama)
+- README: README.md (EN) + README_ID.md (ID) dengan badges, mermaid (arsitektur + state diagram escrow), tabel angka kunci, API reference, design system, roadmap; arsip salinan di download/solusihajj/README-EN.md & README-ID.md
+
+Stage Summary:
+- R3 "AmanahEscrow Aktif + NurMatch AI" jadi: escrow bukan lagi simulasi — mesin status nyata di DB dengan dual-control & audit trail; NurMatch AI LLM hidup dengan pagar anti-halusinasi + fallback
+- Direktori Asia penuh: 796 organisasi — HIMPUH 474/474 detail lengkap (22 provinsi), Nusuk Saudi 47, Pakistan MORA 228, ditambah data R2 (Kemenag/Kemenhaj/SISKOPATUH/sanksi)
+- Scraper persisten: scripts/fetch-himpuh-full.ts (resumable), scripts/fetch-asia.ts, seed-r3.ts — pipeline dapat diulang kapan saja
+- README dwibahasa kelas dunia: README.md + README_ID.md (badges, mermaid, tabel, arsitektur)
+- Screenshot baru: screenshot-r3-escrow.png, screenshot-r3-nurmatch.png, screenshot-r3-nurmatch-result.png, screenshot-r3-desktop.png (download/solusihajj/)

@@ -541,6 +541,7 @@ export function SitemapPage() {
         { to: "/maskapai", label: "Jaringan Maskapai Ibadah (data riil)" },
         { to: "/bandingkan", label: "Bandingkan Paket" },
         { to: "/nurmatch", label: "NurMatch AI" },
+        { to: "/nurmatch-ai", label: "NurMatch AI Live (R3 — AI LLM nyata)" },
       ],
     },
     {
@@ -555,6 +556,7 @@ export function SitemapPage() {
         { to: "/verifikasi", label: "Verifikasi 5 Lapis" },
         { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU (tool publik)" },
         { to: "/escrow", label: "AmanahEscrow" },
+        { to: "/escrow-aktif", label: "Pusat AmanahEscrow Aktif (R3 — kontrak 40/40/20)" },
       ],
     },
     {
