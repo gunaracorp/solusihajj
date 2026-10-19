@@ -26,6 +26,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   "nav.kit": { id: "Travel Kit", en: "Travel Kit", ar: "حقيبة السفر" },
   "nav.partner": { id: "Untuk Partner", en: "For Partners", ar: "للشركاء" },
   "nav.about": { id: "Tentang", en: "About", ar: "حول" },
+  "nav.airlines": { id: "Maskapai Ibadah", en: "Hajj Airlines", ar: "شركات الطيران" },
+  "nav.data": { id: "Pusat Data Nasional", en: "National Data Hub", ar: "مركز البيانات" },
   "cta.search": { id: "Cari Sekarang →", en: "Search Now →", ar: "ابحث الآن →" },
 };
 

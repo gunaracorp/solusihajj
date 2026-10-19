@@ -538,6 +538,7 @@ export function SitemapPage() {
         { to: "/paket?type=ramadhan", label: "Paket Ramadhan" },
         { to: "/paket?type=plus-turki", label: "Umrah Plus Turki" },
         { to: "/tiket-grup", label: `Tiket Charter Grup (${flightList.length} jadwal)` },
+        { to: "/maskapai", label: "Jaringan Maskapai Ibadah (data riil)" },
         { to: "/bandingkan", label: "Bandingkan Paket" },
         { to: "/nurmatch", label: "NurMatch AI" },
       ],
@@ -546,6 +547,7 @@ export function SitemapPage() {
       title: "Direktori Penyelenggara",
       links: [
         { to: "/ppiu", label: `Semua Penyelenggara (${ppiuList.length})` },
+        { to: "/pusat-data", label: "Pusat Data Nasional (database riil PPIU/PIHK)" },
         ...[...new Set(ppiuList.map((p) => p.country ?? "Indonesia"))].map((c) => ({
           to: `/ppiu?negara=${encodeURIComponent(c)}`,
           label: `Penyelenggara ${c}`,

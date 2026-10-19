@@ -60,3 +60,25 @@ Stage Summary:
 - 30 Super Ideas terwujud dalam 6 pilar: Marketplace Engine (search/vertikal/compare/kalender harga), Trust & Syariah (simulator escrow/Hafizh demo/cek izin), AI (NurMatch transparan), SEO Mega-Stack (29 JSON-LD + glosarium + landing kota + peta situs + dynamic title), Aksesibilitas (dark/elder/lang), Jaringan Asia (PIHK/BPW/KBIHU lintas negara)
 - Arsitektur hydration-safe: useSyncExternalStore untuk hash-route, prefs, bahasa, checklist, jam — siap static export R1.5 tanpa refactor
 - Screenshot: download/solusihajj/screenshot-home.png, screenshot-home-dark.png, screenshot-katalog-compare-tray.png
+
+---
+Task ID: 4
+Agent: Z.ai Main Agent (SolusiHajj R2 Builder)
+Task: "Lanjut R2" — Fondasi Data Nasional: update semua PPIU/PIHK dari situs resmi Kemenag, Kementerian Haji & Umrah, Kementerian Pariwisata + semua maskapai, masuk ke database platform.
+
+Work Log:
+- Riset data riil (WebSearch/WebFetch 20 Okt 2026): 31 PPIU baru izin Kemenag Mei 2025 (kemenag.go.id); 18 PIHK + nomor KMA lengkap dari dokumen resmi "Daftar Resmi PIHK Kemenag 2025"; 22 anggota HIMPUH + alamat kantor (himpuh.or.id); 7 perusahaan tersanksi Kemenag Jatim 2025; 3.631 PPIU terdaftar SISKOPATUH (Kemenhaj); kuota haji khusus 2025 = 17.680; regulasi UU 8/2019, UU 14/2025, PMHU 1/2025, PMHU 6/2025, PMA 8/2018; maskapai haji 2025 resmi = Garuda + Lion Group + Saudia (Kemenag, 6 Jan 2025); Lion Air CGK-JED 8x/minggu A330-300 433 kursi sejak 13 Jul 2025; Citilink charter umrah dari 9 kota sejak 27 Jul 2024 (mitra resmi: PT Riau Wisata Hati)
+- Prisma schema R2 (6 model): DataSource, SyncEvent, Company (unique name+orgType), SanctionRecord, GovRegulation, Airline + FlightRoute → db push ✓
+- Seed scripts/seed-r2.ts: 78 penyelenggara riil (18 PIHK ber-KMA + 22 HIMPUH + 31 PPIU baru + 7 SANKSI), 7 maskapai (GA/SV/JT/QG/IU/MS/TK), 19 rute, 9 sumber resmi, 6 regulasi + bootstrap SyncEvent audit trail
+- API R2 (5 endpoint): /api/r2/companies (filter q/type/province/status + facets), /api/r2/airlines (+rute & byService), /api/r2/stats (agregat + konteks industri), /api/r2/sources (+riwayat sync), /api/r2/sync (POST — pipeline validasi + audit trail)
+- Frontend R2: halaman /#/pusat-data (Pusat Data Nasional: stat cards, konteks industri, panel 9 sumber dengan tombol Sinkronkan live, direktori DB filterable + provenance link, daftar sanksi publik, JSON-LD Dataset); halaman /#/maskapai (7 kartu maskapai + tabel rute riil + filter kategori + JSON-LD ItemList/Airline); tool Cek Izin PPIU di-upgrade cek database nasional riil dulu (panel R2: AKTIF hijau/BARU kuning/SANKSI merah + sumber resmi), fallback master Founding Partner
+- Integrasi: route app.tsx, nav chrome.tsx (dropdown Direktori + Cari Paket), i18n 3 bahasa (nav.data/nav.airlines), SEO_MAP /pusat-data & /maskapai, Peta Situs +2 link
+- Defect diperbaiki: sintaks await-in-map seed; lint set-state-in-effect → refactor effect ke pattern fetch-then-setState dengan alive guard; error "Database is not defined" hanya artefak hot-reload transisi (setelah reload fresh: 0 error, semua 200)
+- Verifikasi Agent Browser: /#/pusat-data (stats 78/9/7/7 ✓, konteks 3.631 PPIU + 17.680 ✓, sinkronkan HIMPUH → "22 record tervalidasi unik" ✓, filter PIHK → 18 baris ✓, search Al Ahram → 1 hasil presisi ✓, chip provinsi ✓, sanksi PT Mulia Wisata Abadi tampil ✓); /#/maskapai (7 kartu ✓, filter charter → 3 kartu 11 rute ✓, Lion 8x/minggu A330-300 ✓); Cek Izin "Al Ahram" → DITEMUKAN + KMA 785/2017 + alamat + sumber ✓; Cek Izin "Mulia Wisata Abadi" → WASPADA SANKSI + sumber Kemenag Jatim ✓; title SEO dinamis ✓; mobile 390px + dark mode ✓; lint 0 error ✓; GET / & API 200 ✓
+
+Stage Summary:
+- R2 "Fondasi Data Nasional" jadi: platform bertransisi dari data demo → DATABASE RIIL dengan provenance auditable
+- 78 penyelenggara terindeks dari 9 sumber resmi (Kemenag, Kemenhaj/SISKOPATUH, Satu Data, Saudi MOHU, Kemenparekraf, HIMPUH, Kemenag Jatim, maskapai) + 7 maskapai/19 rute riil
+- Tool Cek Izin kini benar-benar berguna publik: mengenali PIHK ber-KMA, PPIU izin baru 2025, dan perusahaan tersanksi
+- Screenshot: download/solusihajj/screenshot-r2-pusat-data.png, screenshot-r2-maskapai.png, screenshot-r2-desktop.png
+- Seed script persisten di scripts/seed-r2.ts — pipeline siap diperluas (tambah halaman HIMPUH 2-18, eservices.haj.gov.sa Asia-wide) pada iterasi berikutnya

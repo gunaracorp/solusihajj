@@ -114,19 +114,45 @@ export function VerifyPage() {
 }
 
 /* ================= TOOL CEK IZIN PPIU ================= */
+/* R2 upgrade: cek dulu ke DATABASE RIIL hasil sinkronisasi sumber resmi
+   (Kemenag, HIMPUH, Kemenag Jatim) via /api/r2/companies — hasil lokal
+   (Founding Partner) tetap ditampilkan sebagai konteks platform. */
+
+interface R2DbHit {
+  id: string;
+  name: string;
+  brandName: string | null;
+  orgType: string;
+  licenseNo: string | null;
+  leader: string | null;
+  address: string | null;
+  city: string | null;
+  province: string | null;
+  status: string;
+  dataAsOf: string | null;
+  notes: string | null;
+  sourceRef: string | null;
+  sourceInstitution: string;
+}
+
 export function CheckLicensePage() {
   const [q, setQ] = useState("");
   const [result, setResult] = useState<LicenseRecord | null | undefined>(undefined);
   const [searched, setSearched] = useState("");
+  const [dbHit, setDbHit] = useState<R2DbHit | null | undefined>(undefined);
+  const [checking, setChecking] = useState(false);
 
   const doSearch = (term?: string) => {
     const needle = (term ?? q).trim().toLowerCase();
     if (needle.length < 3) {
       setResult(null);
+      setDbHit(null);
       setSearched(needle);
       return;
     }
     setSearched(needle);
+
+    // 1) basis data lokal platform (Verifikasi 5 Lapis)
     const found = licenseMaster.find(
       (r) =>
         r.name.toLowerCase().includes(needle) ||
@@ -134,6 +160,18 @@ export function CheckLicensePage() {
         (r.licenseNo !== "—" && needle.includes(r.licenseNo.toLowerCase()))
     );
     setResult(found ?? null);
+
+    // 2) database nasional riil R2 (sumber resmi pemerintah/asosiasi)
+    setChecking(true);
+    fetch(`/api/r2/companies?q=${encodeURIComponent(needle)}&limit=10`)
+      .then((r) => r.json())
+      .then((r) => {
+        const list = (r.companies ?? []) as R2DbHit[];
+        // cocokkan paling mirip: nama mengandung kata kunci (API sudah contains)
+        setDbHit(list[0] ?? null);
+      })
+      .catch(() => setDbHit(null))
+      .finally(() => setChecking(false));
   };
 
   const statusMeta = {
@@ -195,7 +233,82 @@ export function CheckLicensePage() {
         </div>
       </div>
 
-      {/* HASIL */}
+      {/* HASIL — DATABASE NASIONAL R2 (data riil pemerintah/asosiasi) */}
+      {searched && (
+        <div className="mt-6" aria-live="polite">
+          {checking ? (
+            <div className="rounded-2xl border border-line-warm bg-card p-6 text-center text-sm font-semibold text-ink-muted">
+              Memeriksa database nasional R2 (sumber resmi)…
+            </div>
+          ) : dbHit ? (
+            <div className="overflow-hidden rounded-2xl border bg-card shadow-warm">
+              <div
+                className="flex flex-wrap items-center gap-3 px-5 py-4"
+                style={{
+                  backgroundColor: dbHit.status === "SANKSI" ? "#FBEAE7" : dbHit.status === "BARU" ? "#F5EEDA" : "#E7F0EC",
+                }}
+              >
+                {dbHit.status === "SANKSI" ? (
+                  <ShieldX size={24} className="text-[#B3372B]" />
+                ) : dbHit.status === "BARU" ? (
+                  <Clock size={24} className="text-[#B7791F]" />
+                ) : (
+                  <ShieldCheck size={24} className="text-[#1E7F4F]" />
+                )}
+                <p
+                  className="text-[15px] font-extrabold tracking-wide"
+                  style={{ color: dbHit.status === "SANKSI" ? "#B3372B" : dbHit.status === "BARU" ? "#B7791F" : "#1E7F4F" }}
+                >
+                  {dbHit.status === "SANKSI"
+                    ? "WASPADA — ADA CATATAN SANKSI/TEGURAN"
+                    : dbHit.status === "BARU"
+                      ? "DITEMUKAN — IZIN BARU TERBIT (KEMENAG 2025)"
+                      : "DITEMUKAN DI DATABASE NASIONAL RIIL"}
+                </p>
+                <span className="ml-auto rounded-full bg-brand px-3 py-1 text-xs font-bold text-ivory">
+                  {dbHit.orgType === "PIHK" ? "PIHK — Haji Khusus" : dbHit.orgType === "PPIU" ? "PPIU — Umrah" : dbHit.orgType}
+                </span>
+              </div>
+              <div className="p-5 md:p-6">
+                <h3 className="text-[20px] font-extrabold text-ink">{dbHit.name}</h3>
+                {dbHit.brandName && <p className="text-sm text-ink-muted">Merek dagang: {dbHit.brandName}</p>}
+                <div className="mt-3 grid gap-3 text-sm md:grid-cols-2">
+                  {dbHit.licenseNo && <p className="font-semibold text-ink">No. Izin: <span className="tabular">{dbHit.licenseNo}</span></p>}
+                  {dbHit.leader && <p className="text-ink-muted">Pimpinan: {dbHit.leader}</p>}
+                  {dbHit.address && <p className="text-ink-muted md:col-span-2">Alamat: {dbHit.address}</p>}
+                  {dbHit.dataAsOf && <p className="text-xs text-ink-muted">Kebaruan data: {dbHit.dataAsOf}</p>}
+                  {dbHit.sourceInstitution && <p className="text-xs text-ink-muted">Sumber: {dbHit.sourceInstitution}</p>}
+                </div>
+                {dbHit.notes && <p className="mt-4 rounded-xl bg-muted p-4 text-[15px] leading-relaxed text-ink">{dbHit.notes}</p>}
+                <div className="mt-4 flex flex-wrap gap-2.5">
+                  {dbHit.sourceRef && (
+                    <a
+                      href={dbHit.sourceRef}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-brand px-5 text-sm font-bold text-ivory hover:bg-brand-deep"
+                    >
+                      <ExternalLink size={15} /> Lihat sumber resmi asli
+                    </a>
+                  )}
+                  <Link
+                    to="/pusat-data"
+                    className="inline-flex min-h-11 items-center rounded-xl border border-line-warm px-4 text-sm font-semibold text-ink-muted hover:bg-muted"
+                  >
+                    Jelajahi Pusat Data Nasional →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-line-warm bg-ivory p-4 text-sm text-ink-muted">
+              Tidak ada padanan di database nasional R2 ({searched}). Cek panel di bawah untuk konteks platform & kanal resmi.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* HASIL — BASIS DATA PLATFORM (Verifikasi 5 Lapis) */}
       {result !== undefined && (
         <div className="mt-6" aria-live="polite">
           {result === null ? (

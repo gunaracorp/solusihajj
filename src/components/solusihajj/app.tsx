@@ -11,6 +11,8 @@ import { CalculatorPage, EducationPage, ArticlePage } from "./pages/tools";
 import { AboutPage, ContactPage, FaqPage, PrivacyPage, TermsPage, NotFoundPage } from "./pages/static-pages";
 import { FlightGroupPage, ComparePage, NurMatchPage } from "./pages/market";
 import { TravelKitPage, GlossaryPage, PartnerPage, SitemapPage } from "./pages/resources";
+import NationalDataPage from "./pages/data";
+import AirlinesPage from "./pages/airlines";
 import { getPackage } from "@/data/packages";
 import { getPpiu } from "@/data/ppiu";
 
@@ -23,6 +25,8 @@ import { getPpiu } from "@/data/ppiu";
  * Rute R1 (dipertahankan) + Rute baru R1.5:
  * /tiket-grup • /bandingkan • /nurmatch • /travel-kit • /glosarium
  * /partner • /peta-situs
+ * Rute baru R2 (Fondasi Data Nasional):
+ * /pusat-data • /maskapai
  */
 export default function SolusiHajjApp() {
   const { path, query } = useHashRoute();
@@ -57,6 +61,10 @@ export default function SolusiHajjApp() {
     view = <CatalogPage query={query} />;
   } else if (segs[0] === "tiket-grup") {
     view = <FlightGroupPage />;
+  } else if (segs[0] === "maskapai") {
+    view = <AirlinesPage />;
+  } else if (segs[0] === "pusat-data") {
+    view = <NationalDataPage />;
   } else if (segs[0] === "bandingkan") {
     view = <ComparePage />;
   } else if (segs[0] === "nurmatch") {

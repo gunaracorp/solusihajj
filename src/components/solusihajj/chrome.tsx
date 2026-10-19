@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows } from "lucide-react";
+import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database } from "lucide-react";
 import { Link, useHashRoute, scrollToId } from "@/lib/solusihajj/router";
 import { waLink, waMessages } from "@/lib/solusihajj/wa";
 import { I18nProvider, useI18n, type Lang } from "@/lib/solusihajj/i18n";
@@ -91,11 +91,13 @@ function useNavData() {
       { to: "/paket?produk=full", label: t("nav.full") },
       { to: "/paket?produk=land", label: t("nav.land") },
       { to: "/tiket-grup", label: t("nav.flights") },
+      { to: "/maskapai", label: t("nav.airlines") },
       { to: "/nurmatch", label: t("nav.nurmatch"), icon: Sparkles },
       { to: "/bandingkan", label: "Bandingkan Paket", icon: GitCompareArrows },
     ],
     direktoriItems: [
       { to: "/ppiu", label: t("nav.providers") },
+      { to: "/pusat-data", label: t("nav.data"), icon: Database, highlight: true },
       { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU ⭐", highlight: true },
       { to: "/verifikasi", label: t("nav.verify") },
       { to: "/escrow", label: t("nav.escrow") },

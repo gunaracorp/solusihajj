@@ -57,6 +57,16 @@ export const SEO_MAP: Record<string, SeoEntry> = {
     description:
       "PPIU, PIHK, BPW, dan KBIHU: bergabung sebagai partner marketplace umrah terbesar Asia. Gratis tayang, bayar hanya saat transaksi sukses (komisi 4-6%), plus dashboard escrow & review.",
   },
+  "/pusat-data": {
+    title: "Pusat Data Nasional — Database Riil PPIU, PIHK, BPW & KBIHU | SolusiHajj R2",
+    description:
+      "Database penyelenggara ibadah hasil sinkronisasi sumber resmi: Kemenag (SIMPU), Kementerian Haji dan Umrah (SISKOPATUH), Satu Data Kemenag, Saudi MOHU, Kemenparekraf, HIMPUH, dan situs maskapai. Nomor izin KMA, alamat kantor, catatan sanksi publik, dan jejak sumber yang bisa diaudit.",
+  },
+  "/maskapai": {
+    title: "Jaringan Maskapai Haji & Umrah — Rute Riil Garuda, Saudia, Lion, Citilink | SolusiHajj",
+    description:
+      "Maskapai penerbangan jamaah 2025 sesuai keputusan Kemenag: Garuda Indonesia, Lion Group, dan Saudia — plus charter umrah Citilink dari 9 kota, Super Air Jet, EgyptAir, dan Turkish Airlines. Frekuensi, tipe pesawat, dan tanggal mulai operasi dari rilis resmi.",
+  },
   "/peta-situs": {
     title: "Peta Situs — Semua Halaman SolusiHajj",
     description:

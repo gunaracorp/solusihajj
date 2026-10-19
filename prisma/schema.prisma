@@ -1,8 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// ============================================================
+// SolusiHajj R2 — "Fondasi Data Nasional"
+// Database marketplace dengan data RIIL hasil penarikan dari
+// situs resmi: Kemenag, Kementerian Haji & Umrah (Kemenhaj),
+// SISKOPATUH, Satu Data Kemenag, Saudi MOHU, Kemenparekraf,
+// HIMPUH, Kemenag Jatim, dan situs resmi maskapai.
+// ============================================================
 
 generator client {
   provider = "prisma-client-js"
@@ -13,20 +15,135 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// ---------- SUMBER DATA & PIPELINE SINKRONISASI ----------
+
+/// Sumber data resmi yang dipantau pipeline R2
+model DataSource {
+  id             String      @id @default(cuid())
+  key            String      @unique // "kemenag", "kemenhaj", ...
+  name           String // "Sistem Informasi Izin Umrah (SIMPU)"
+  institution    String // "Kementerian Agama RI"
+  url            String
+  category       String // KEMENTERIAN | LEMBAGA | ASOSIASI | MASKAPAI | INTERNASIONAL
+  country        String      @default("ID")
+  description    String
+  recordsIndexed Int         @default(0)
+  lastSyncedAt   DateTime?
+  syncEvents     SyncEvent[]
+  companies      Company[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+/// Log setiap proses sinkronisasi (audit trail — prinsip Amanah)
+model SyncEvent {
+  id              String     @id @default(cuid())
+  sourceId        String
+  source          DataSource @relation(fields: [sourceId], references: [id])
+  status          String // SUCCESS | FAILED | RUNNING
+  recordsAffected Int        @default(0)
+  note            String?
+  startedAt       DateTime   @default(now())
+  finishedAt      DateTime?
+}
+
+// ---------- PENYELENGGARA (PPIU / PIHK / BPW / KBIHU) ----------
+
+/// Perusahaan penyelenggara ibadah — data riil dari sumber resmi
+model Company {
+  id           String    @id @default(cuid())
+  name         String // "PT. Al Ahram Sarana Wisata"
+  brandName    String? // "AL AHRAM"
+  orgType      String // PPIU | PIHK | BPW | KBIHU | PENERBANGAN_PARTNER
+  licenseNo    String? // "KMA Nomor 785 Tahun 2017" / "TUPU ..."
+  licenseYear  Int?
+  leader       String?
+  address      String?
+  city         String?
+  province     String?
+  country      String    @default("ID") // ISO-2; MY/SG/BN/TH/SA untuk Asia
+  phone        String?
+  email        String?
+  website      String?
+  status       String    @default("AKTIF") // AKTIF | BARU | SANKSI | KURASI
+  tier         String? // Platinum | Gold | Silver (hanya partner terkurasi)
+  verified     Boolean   @default(false)
+  sourceId     String?
+  source       DataSource? @relation(fields: [sourceId], references: [id])
+  sourceRef    String? // URL halaman sumber tempat data ditarik
+  dataAsOf     String? // "Mei 2025" — kebaruan data saat ditarik
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([name, orgType])
+  @@index([orgType])
+  @@index([province])
+  @@index([country])
+  @@index([status])
+}
+
+/// Catatan sanksi/teguran dari otoritas (transparansi kepercayaan)
+model SanctionRecord {
+  id           String   @id @default(cuid())
+  companyName  String
+  province     String?
+  authority    String // "Kemenag Jawa Timur"
+  sanctionType String // Teguran | Pembekuan | Pencabutan
+  year         Int
+  sourceUrl    String?
+  note         String?
+  createdAt    DateTime @default(now())
+
+  @@index([companyName])
+}
+
+/// Regulasi yang menjadi dasar hukum industri (konten SEO + edukasi)
+model GovRegulation {
+  id          String @id @default(cuid())
+  title       String
+  number      String // "UU 14/2025"
+  year        Int
+  institution String
+  kind        String // UU | PMHU | PMA | KEPPRES
+  url         String?
+  summary     String
+
+  @@unique([number, title])
+}
+
+// ---------- MASKAPAI & RUTE (Jaringan Transportasi Ibadah) ----------
+
+/// Maskapai yang melayani jamaah haji & umrah
+model Airline {
+  id       String        @id @default(cuid())
+  name     String
+  iata     String        @unique // GA, SV, JT, QG, IU, MS, TK
+  icao     String?
+  country  String        @default("ID")
+  category String // PEMERINTAH_HAJI | REGULER | CHARTER_UMRAH
+  hub      String?
+  notes    String?
+  active   Boolean       @default(true)
+  routes   FlightRoute[]
+}
+
+/// Rute penerbangan jamaah (reguler/charter umrah/charter haji)
+model FlightRoute {
+  id          String  @id @default(cuid())
+  airlineId   String
+  airline     Airline @relation(fields: [airlineId], references: [id])
+  originCity  String
+  originCode  String // CGK, SUB, KNO, ...
+  destCity    String
+  destCode    String // JED, MED
+  destCountry String  @default("SA")
+  freqText    String? // "8x/minggu", "Musiman"
+  aircraft    String? // "A330-300", "B777-300ER"
+  seats       Int?
+  serviceType String // REGULER | CHARTER_UMRAH | CHARTER_HAJI
+  sinceText   String? // "13 Juli 2025"
+  notes       String?
+
+  @@index([airlineId])
 }
