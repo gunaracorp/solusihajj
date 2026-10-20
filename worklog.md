@@ -235,3 +235,21 @@ Work Log:
 Stage Summary:
 - Nama founder kini terhubung Knowledge Graph (Person+sameAs) → prasyarat knowledge panel "Gugun Gunara"; 2 backlink domain PT mengalir dari setiap halaman
 - Prinsip dipegang: tersembunyi dari keramaian, terbaca oleh mesin — 0 gangguan UX, 0 klaim palsu (founder memang pemilik sistem)
+
+---
+Task ID: 11
+Agent: Z.ai Main Agent (SolusiHajj Master Builder)
+Task: Laporan user — Console Error hydration mismatch: "A tree hydrated but some attributes of the server rendered HTML didn't match" pada seluruh id Radix Accordion FAQ beranda (radix-_R_* server vs radix-_R_* client bergeser semua).
+
+Work Log:
+- Analisis pola ID: semua item accordion server & client berbagi suffix panjang (aatmlb_) tapi prefix bergeser → posisi fiber ancestor dekat root berbeda antara HTML yang dilayani dan bundle yang dihidrasi, BUKAN bug pada accordion itu sendiri
+- Audit menyeluruh rantai render: router.tsx (useSyncExternalStore, server snapshot "/" konstan ✓), i18n.tsx (server snapshot "id" ✓), chrome.tsx usePrefs (server snapshot "{}" ✓), layout.tsx statis ✓, page.tsx JSON-LD array deterministik ✓, home.tsx 877 baris tanpa typeof window/Math.random/Date.now di render path ✓, ui-bits LiveTicker idx useState(0) ✓
+- Cek infrastruktur: react 19.2.3 single copy (npm ls deduped), @radix-ui/react-accordion 1.2.11, reactStrictMode false, tanpa Suspense/lazy/dynamic — tidak ada sumber duplikasi tree
+- EMPIRIS — scripts/hydration-audit.mjs: curl SSR HTML vs Playwright DOM hidup → id accordion SSR = client IDENTIK (radix-_R_ptaatmlb_ family), NOL pesan konsol error/warning
+- EMPIRIS — scripts/hydration-smoke.mjs: klik accordion (expand ✓) + navigasi hash 5 halaman (faq/paket/ppiu/escrow/home) + kembali + klik lagi → NOL error/warning konsol
+- Root cause final: artefak TRANSIEN dev mode — browser memegang HTML dari compile lama (sebelum edit Task 9b/restart daemon) sementara Turbopack menyajikan bundle baru; tree sedikit beda → semua useId bergeser. Tidak ada bug kode; pada production build (output: standalone) HTML+JS selalu dari compile yang sama = kelas error ini mustahil terjadi
+- Bonus verifikasi: layer brand Task 10 tetap live di HTML (JSON-LD Person + 6 sameAs + meta creator + footer credit) ✓
+
+Stage Summary:
+- Kesimpulan: fresh load 100% bersih — tidak ada perubahan kode yang diperlukan; dua skrip audit tersimpan (hydration-audit.mjs, hydration-smoke.mjs) sebagai regesi permanen
+- Panduan user: bila pesan serupa muncul lagi di dev saat agent sedang mengedit kode → cukup hard refresh (Ctrl+Shift+R); di build production error kelas ini tidak mungkin muncul
