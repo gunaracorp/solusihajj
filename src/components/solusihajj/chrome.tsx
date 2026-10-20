@@ -68,7 +68,7 @@ function usePrefs(): [Prefs, (p: Prefs) => void] {
 export function Logo({ compact = false, light = false }: { compact?: boolean; light?: boolean }) {
   return (
     <Link to="/" className="inline-flex items-center gap-2.5" ariaLabel="SolusiHajj — Beranda">
-      <img src="/logo.svg?v=8" alt="Logo SolusiHajj — Gerbang Nur" className="h-9 w-9" />
+      <img src="/logo-gerbang-nur.svg?v=8" alt="Logo SolusiHajj — Gerbang Nur" className="h-9 w-9" />
       {!compact && (
         <span
           className={cn(

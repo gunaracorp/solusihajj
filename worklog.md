@@ -198,3 +198,21 @@ Stage Summary:
 - Brand identity final v8 "Gerbang Nur": gerbang emas + Ka'bah gading + sabit Nur — cerita brand tunggal yang memantulkan copy hero "Satu Gerbang untuk Ibadah Anda" dan konsep platform "wadah"
 - Jejak logo Z punah total: file diganti + query param v=8 memaksa refresh cache semua browser
 - OG image (1200x630) kini hidup di WhatsApp/X/FB share — sebelumnya tidak ada
+
+---
+Task ID: 9b
+Agent: Z.ai Main Agent (SolusiHajj Brand Master)
+Task: "logo di header belum berubah masih logo Z" — pemberantasan cache lapis terakhir.
+
+Work Log:
+- Diagnosis: server dev sudah menyajikan logo baru (curl 3428B + screenshot Playwright), HTML no-store, asset max-age=0 — Z bertahan dari cache browser/middlebox yang mengabaikan revalidasi pada URL /logo.svg yang sama
+- SOLUSI PAMUNGKAS: file logo di-RENAME menjadi /logo-gerbang-nur.svg (URL yang belum pernah ada = mustahil tersaji dari cache mana pun); referensi header chrome.tsx + JSON-LD page.tsx dipindah ke nama baru
+- next.config.ts + headers(): 11 aset brand (logo*, favicon*, icon*, apple-touch, og-image) dipaksa Cache-Control: no-cache, must-revalidate — percobaan pertama dengan pola glob Next tidak match utk nama baru, diganti daftar path eksplisit
+- Server di-restart via daemon double-fork baru scripts/daemon-next-dev.py (pola tahan-mati antar sesi) utk menerapkan config
+- Verifikasi: curl logo-gerbang-nur.svg 200 3428B + no-cache ✓, favicon.ico 7432B + no-cache ✓, HTML memuat logo-gerbang-nur.svg?v=8 ✓, Playwright header img src=/logo-gerbang-nur.svg?v=8 natural 512 ✓, screenshot light ✓
+- Bonus konsistensi copy hero: "18 penyelenggara" (statis R1.5) → "penyelenggara terverifikasi di 5 negara Asia — dengan 3.966 penyelenggara terindeks di direktori nasional" + TrustPill "3.966 penyelenggara terindeks • 5 negara" (selaras R5)
+
+Stage Summary:
+- Z mustahil muncul lagi: URL lama ditinggalkan sepenuhnya, aset brand kini no-cache revalidate di level server
+- Copy hero selaras data nasional 3.966 — tidak ada lagi klaxi kontradiktif 18 vs 3.966
+- Daemon server baru tahan hidup antar sesi bash

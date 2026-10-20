@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Logo SolusiHajj">
+  <!-- ============================================================
+       SolusiHajj — Mark "GERBANG NUR" (v8 Master)
+       Gerbang emas runcing (equilateral pointed arch) memayungi
+       Ka'bah gading ber-hizam emas di atas ambang; bulan sabit Nur
+       mengangkat bintang segi delapan di puncak gerbang.
+       Brand: hijau #0E6B4E — emas #C9A227 — gading #FAF7F2
+       ============================================================ -->
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#138362"/>
+      <stop offset="0.55" stop-color="#0E6B4E"/>
+      <stop offset="1" stop-color="#09412F"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDD690"/>
+      <stop offset="0.5" stop-color="#C9A227"/>
+      <stop offset="1" stop-color="#A9841B"/>
+    </linearGradient>
+    <linearGradient id="goldV" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E3C766"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+    <linearGradient id="cube" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF6"/>
+      <stop offset="1" stop-color="#EFE7D4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.32" cy="0.2" r="0.9">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="cres">
+      <circle cx="256" cy="102" r="26" fill="#ffffff"/>
+      <circle cx="256" cy="86" r="22" fill="#000000"/>
+    </mask>
+  </defs>
+
+  <!-- Ubin dasar -->
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#tile)"/>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#glow)"/>
+  <rect x="44" y="44" width="424" height="424" rx="90" fill="none" stroke="#E9DFC8" stroke-opacity="0.15" stroke-width="2.5"/>
+
+  <!-- GERBANG — arch runcing dua pusat -->
+  <path d="M 156 466 L 156 320 A 200 200 0 0 1 256 146.8 A 200 200 0 0 1 356 320 L 356 466"
+        fill="none" stroke="url(#goldV)" stroke-width="30" stroke-linejoin="round"/>
+
+  <!-- Ambang gerbang -->
+  <rect x="182" y="398" width="148" height="14" rx="7" fill="url(#goldV)" opacity="0.92"/>
+
+  <!-- KA'BAH gading — duduk presisi di ambang -->
+  <g>
+    <rect x="200" y="270" width="112" height="128" rx="7" fill="url(#cube)"/>
+    <!-- hizam emas -->
+    <rect x="200" y="316" width="112" height="24" fill="url(#gold)"/>
+    <rect x="200" y="340" width="112" height="2.5" fill="#8A6D14" opacity="0.45"/>
+    <!-- bayang sisi kanan -->
+    <path d="M 290 270 h 15 a 7 7 0 0 1 7 7 v 114 a 7 7 0 0 1 -7 7 h -15 Z" fill="#0E6B4E" opacity="0.10"/>
+    <!-- highlight sisi atas -->
+    <rect x="200" y="270" width="112" height="9" rx="4.5" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+
+  <!-- BULAN SABIT NUR (mask sempurna) + bintang segi delapan -->
+  <circle cx="256" cy="102" r="26" fill="url(#gold)" mask="url(#cres)"/>
+  <g transform="translate(256 96)" fill="url(#gold)">
+    <path d="M0 -9 Q1.8 -1.8 9 0 Q1.8 1.8 0 9 Q-1.8 1.8 -9 0 Q-1.8 -1.8 0 -9 Z"/>
+    <path d="M0 -5 Q1 -1 5 0 Q1 1 0 5 Q-1 1 -5 0 Q-1 -1 0 -5 Z" transform="rotate(45)" fill="#FFF7DC"/>
+  </g>
+</svg>

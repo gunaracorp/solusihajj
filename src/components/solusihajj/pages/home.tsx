@@ -114,8 +114,8 @@ export default function HomePage() {
             Satu Gerbang untuk Ibadah Anda. <span className="text-gold">Amanah Anda, Aman.</span>
           </h1>
           <p className="fade-up fade-up-3 mt-6 max-w-2xl text-[17px] leading-relaxed text-ivory/80 md:text-lg">
-            Bandingkan 30+ paket umrah, land arrangement, dan tiket charter grup dari 18 penyelenggara terverifikasi di
-            5 negara Asia. Dana Anda dijaga escrow syariah, ulasan hanya dari jamaah yang benar-benar berangkat.
+            Bandingkan 30+ paket umrah, land arrangement, dan tiket charter grup dari penyelenggara terverifikasi di
+            5 negara Asia — dengan 3.966 penyelenggara terindeks di direktori nasional. Dana Anda dijaga escrow syariah, ulasan hanya dari jamaah yang benar-benar berangkat.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -134,7 +134,7 @@ export default function HomePage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <TrustPill icon={LockKeyhole}>Dana di escrow syariah</TrustPill>
             <TrustPill icon={UserRoundCheck}>Review jamaah nyata</TrustPill>
-            <TrustPill icon={Globe2}>18 penyelenggara • 5 negara</TrustPill>
+            <TrustPill icon={Globe2}>3.966 penyelenggara terindeks • 5 negara</TrustPill>
             <TrustPill icon={ShieldCheck}>Verifikasi 5 lapis</TrustPill>
           </div>
           <div className="fade-up fade-up-3 mt-8 w-full max-w-xl">
