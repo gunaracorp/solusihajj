@@ -70,7 +70,7 @@ const orgJsonLd = {
     {
       "@type": "PostalAddress",
       name: "Kantor Terdaftar (NIB)",
-      streetAddress: "Infiniti Office, Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih",
+      streetAddress: "Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih",
       addressLocality: "Menteng, Jakarta Pusat",
       addressRegion: "DKI Jakarta",
       postalCode: "10340",
@@ -79,9 +79,10 @@ const orgJsonLd = {
     {
       "@type": "PostalAddress",
       name: "Kantor Operasional",
-      streetAddress: "Solusi Tour Lt. 1, Jl. Cinere Raya No. 32, Cinere",
-      addressLocality: "Depok",
+      streetAddress: "Perumahan Andalusia Garden Cluster Granada No.11, Mangkubumi, Mangkubumi",
+      addressLocality: "Tasikmalaya",
       addressRegion: "Jawa Barat",
+      postalCode: "46181",
       addressCountry: "ID",
     },
   ],

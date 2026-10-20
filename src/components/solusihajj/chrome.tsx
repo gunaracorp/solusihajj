@@ -461,8 +461,8 @@ export function Footer() {
           <div className="mt-10 rounded-2xl bg-white/5 p-5">
             <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-gold">Kontak & Legal</h3>
             <address className="space-y-1.5 text-[15px] not-italic text-ivory/75">
-              <p>PT Syarikat Solution Haji Indonesia — Infiniti Office, Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih, Menteng, Jakarta Pusat 10340</p>
-              <p>Kantor operasional: Solusi Tour Lt. 1, Jl. Cinere Raya No. 32, Cinere, Depok, Jawa Barat</p>
+              <p>PT Syarikat Solution Haji Indonesia — Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih, Menteng, Jakarta Pusat 10340</p>
+              <p>Kantor operasional: Perumahan Andalusia Garden Cluster Granada No.11, Mangkubumi, Mangkubumi, Tasikmalaya 46181</p>
               <p>
                 WA:{" "}
                 <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold hover:underline">

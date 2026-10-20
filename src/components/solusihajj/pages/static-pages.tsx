@@ -76,7 +76,7 @@ export function AboutPage() {
         <div className="mt-10 rounded-2xl bg-brand-soft p-6">
           <h2 className="font-bold text-brand-deep">Legalitas & Struktur</h2>
           <ul className="mt-3 space-y-2 text-[15px] text-brand-deep/85">
-            <li>• PT SolusiHajj Digital Amanah — platform teknologi (bukan PPIU, bukan penyelenggara perjalanan).</li>
+            <li>• PT Syarikat Solution Haji Indonesia — platform teknologi (bukan PPIU, bukan penyelenggara perjalanan).</li>
             <li>• Dewan Syariah independen memantau akad escrow, komisi, dan mitra pembayaran.</li>
             <li>• Kerja sama rekening escrow dengan bank syariah mitra (proses perjanjian tahap R2).</li>
             <li>• R1 ini adalah rilis pertama: katalog statis dengan data demo yang akan diganti data terverifikasi.</li>
@@ -176,21 +176,21 @@ export function ContactPage() {
           <div className="rounded-2xl border border-line-warm bg-card p-6 shadow-card">
             <h2 className="flex items-center gap-2 font-extrabold text-ink"><MessageCircle size={19} className="text-brand" /> WhatsApp</h2>
             <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="mt-2 block text-xl font-extrabold text-brand hover:underline">
-              +62 812-0000-0000
+              +62 813-1651-6524
             </a>
             <p className="mt-1 text-sm text-ink-muted">Respons &lt; 15 menit jam kerja</p>
           </div>
           <div className="rounded-2xl border border-line-warm bg-card p-6 shadow-card">
             <h2 className="flex items-center gap-2 font-extrabold text-ink"><Mail size={19} className="text-brand" /> Email</h2>
-            <a href="mailto:salam@solusihajj.com" className="mt-2 block font-bold text-brand hover:underline">salam@solusihajj.com</a>
+            <a href="mailto:syarikat.haji@gmail.com" className="mt-2 block font-bold text-brand hover:underline">syarikat.haji@gmail.com</a>
             <p className="mt-1 text-sm text-ink-muted">Untuk kerja sama & kepatuhan</p>
           </div>
           <div className="rounded-2xl border border-line-warm bg-card p-6 shadow-card">
             <h2 className="flex items-center gap-2 font-extrabold text-ink"><MapPin size={19} className="text-brand" /> Kantor</h2>
             <address className="mt-2 text-[15px] not-italic leading-relaxed text-ink-muted">
-              PT SolusiHajj Digital Amanah<br />
-              Jl. Bumi Raya No. 8, Pasar Minggu,<br />
-              Jakarta Selatan 12520
+              PT Syarikat Solution Haji Indonesia — Menara Cakrawala Lt. 12 Unit 05A,<br />
+              Jl. MH Thamrin Kav. 9, Kebon Sirih, Menteng, Jakarta Pusat 10340<br />
+              Kantor operasional: Perumahan Andalusia Garden Cluster Granada No.11, Mangkubumi, Tasikmalaya 46181
             </address>
             <p className="mt-3 flex items-center gap-1.5 text-sm text-ink-muted">
               <Clock size={14} /> Senin–Sabtu 08.00–17.00 WIB
@@ -274,7 +274,7 @@ export function PrivacyPage() {
       "Meminta akses, koreksi, dan penghapusan data pribadi Anda.",
       "Meminta penghentian pemrosesan atau penarikan persetujuan.",
       "Mengajukan keberatan langsung kepada kami atau ke lembaga pengawas perlindungan data.",
-      "Permintaan dijawab maksimal 3×24 jam kerja melalui salam@solusihajj.com.",
+      "Permintaan dijawab maksimal 3×24 jam kerja melalui syarikat.haji@gmail.com.",
     ]],
     ["5. Retensi & Keamanan", [
       "Data akun aktif disimpan selama akun berjalan; setelah dihapus, data disanitasi dalam 30 hari.",
@@ -283,7 +283,7 @@ export function PrivacyPage() {
       "Enkripsi saat transit (HTTPS) dan saat disimpan (data sensitif), akses internal berbasis peran (least privilege).",
     ]],
     ["6. Kontak Petugas Pelindungan Data (DPO)", [
-      "Email: dpo@solusihajj.com — untuk semua permintaan terkait data pribadi Anda.",
+      "Email: syarikat.haji@gmail.com — untuk semua permintaan terkait data pribadi Anda.",
       "Kami menugaskan DPO sejak R1 sebagai komitmen kepatuhan, meskipun skala data R1 masih kecil.",
     ]],
   ];
@@ -372,7 +372,7 @@ export function TermsPage() {
       ))}
       <div className="mt-10 rounded-2xl border border-line-warm bg-card p-6 text-[15px] leading-relaxed text-ink-muted">
         Syarat & ketentuan ini tunduk pada hukum Republik Indonesia. Pertanyaan lebih lanjut:{" "}
-        <a href="mailto:salam@solusihajj.com" className="font-bold text-brand hover:underline">salam@solusihajj.com</a>.
+        <a href="mailto:syarikat.haji@gmail.com" className="font-bold text-brand hover:underline">syarikat.haji@gmail.com</a>.
       </div>
     </div>
   );

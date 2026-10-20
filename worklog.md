@@ -253,3 +253,20 @@ Work Log:
 Stage Summary:
 - Kesimpulan: fresh load 100% bersih — tidak ada perubahan kode yang diperlukan; dua skrip audit tersimpan (hydration-audit.mjs, hydration-smoke.mjs) sebagai regesi permanen
 - Panduan user: bila pesan serupa muncul lagi di dev saat agent sedang mengedit kode → cukup hard refresh (Ctrl+Shift+R); di build production error kelas ini tidak mungkin muncul
+
+---
+Task ID: 12
+Agent: Z.ai (main)
+Task: Revisi alamat lengkap + kantor operasional + verifikasi WA/email sesuai instruksi Pak Gugun
+
+Work Log:
+- Grep menyeluruh: semua kemunculan alamat/WA/email di src (chrome.tsx, page.tsx, static-pages.tsx, wa.ts)
+- chrome.tsx (footer): hapus "Infiniti Office," dari alamat terdaftar; kantor operasional diganti Cinere/Depok → Perumahan Andalusia Garden Cluster Granada No.11, Mangkubumi, Mangkubumi, Tasikmalaya 46181
+- page.tsx (JSON-LD PostalAddress): streetAddress terdaftar tanpa "Infiniti Office"; operasional → Andalusia Garden + Tasikmalaya + postalCode 46181
+- static-pages.tsx: WA card 812-0000-0000 → +62 813-1651-6524; salam@solusihajj.com & dpo@solusihajj.com → syarikat.haji@gmail.com (Kontak, Privasi, Syarat & Ketentuan); kartu Kantor diganti alamat baru terdaftar + operasional; entitas "PT SolusiHajj Digital Amanah" → "PT Syarikat Solution Haji Indonesia" (Legalitas & Struktur)
+- WA number 6281316516524 sudah terpasang sebelumnya di wa.ts (WA_NUMBER) + footer — dikonfirmasi ulang, konsisten
+- Verifikasi: grep nol sisa string lama (812-0000/salam@/dpo@/Cinere/Bumi Raya/Infiniti/Solusi Tour); curl :3000 → 5 penanda baru ada di SSR HTML (JSON-LD 2 streetAddress + footer operasional + WA + email)
+
+Stage Summary:
+- Semua titik kontak kini tunggal & konsisten: alamat terdaftar Menara Cakrawala Lt.12 Unit 05A Jakarta Pusat 10340; operasional Andalusia Garden Tasikmalaya 46181; WA +6281316516524; email syarikat.haji@gmail.com
+- File tersentuh: chrome.tsx, page.tsx, static-pages.tsx (string-only, tanpa risiko hydration)
