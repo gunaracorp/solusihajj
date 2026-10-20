@@ -224,3 +224,86 @@ model AiMatchSession {
   latencyMs  Int?
   createdAt  DateTime @default(now())
 }
+
+// ============================================================
+// R4 — "KADO & CICILAN AMANAH" (Gift Umrah + Cicilan Syariah)
+// ============================================================
+
+/// Kado Umrah (Gift Umrah) — voucher/paket yang diberikan seseorang
+/// kepada orang tersayang. Dana masuk escrow pihak ketiga, kode unik
+/// dapat dilacak publik, bisa diklaim sebagai pemilik akun baru.
+model GiftOrder {
+  id            String   @id @default(cuid())
+  code          String   @unique // "SH-KADO-2026-00001"
+  kind          String   @default("VOUCHER") // VOUCHER | PACKAGE
+  occasion      String // orangtua | pernikahan | kelahiran | pensiun | wisuda | ramadhan | umum
+  senderName    String
+  senderPhone   String
+  senderEmail   String?
+  recipientName String
+  relation      String? // "Ibu", "Ayah", "Pasangan", "Anak", "Sahabat", "Karyawan"
+  recipientPhone String?
+  message       String? // pesan personal di kartu kado
+  packageSlug   String? // bila kind=PACKAGE
+  amount        Int // nominal voucher / harga paket (IDR)
+  paymentMode   String   @default("LUNAS") // LUNAS | CICILAN_SYARIAH
+  deliveryChannel String @default("WA") // WA | EMAIL
+  status        String   @default("MENUNGGU_PEMBAYARAN") // MENUNGGU_PEMBAYARAN | DIBAYAR | TERKIRIM | DIKLAIM | DIBERANGKATKAN | DIBATALKAN | DANA_KEMBALI
+  validUntil    String? // masa aktif voucher (ISO)
+  events        GiftEvent[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+}
+
+/// Audit trail kado (selaras prinsip Saksi Jamaah)
+model GiftEvent {
+  id      String    @id @default(cuid())
+  giftId  String
+  gift    GiftOrder @relation(fields: [giftId], references: [id])
+  action  String // CREATED | PAID | SENT | CLAIMED | DEPARTED | CANCELLED | REFUNDED
+  detail  String
+  createdAt DateTime @default(now())
+
+  @@index([giftId])
+}
+
+/// Pengajuan/simulasi cicilan syariah (murabahah) — lead ke mitra pembiayaan
+model CicilanLead {
+  id            String   @id @default(cuid())
+  ref           String   @unique // "SH-CIC-2026-00001"
+  fullName      String
+  phone         String
+  email         String?
+  city          String?
+  packageSlug   String? // paket katalog yang dipilih
+  packageName   String? // snapshot judul
+  packagePrice  Int
+  downPayment   Int
+  tenorMonths   Int // 3 | 6 | 9 | 12 | 18 | 24
+  monthlyAmount Int // angsuran per bulan hasil kalkulasi
+  monthlyLabel  String // format "Rp 2.083.333"
+  contractType  String   @default("MURABAHAH") // MURABAHAH | IJARAH | QARDH
+  partnerKey    String? // mitra pembiayaan terpilih (key dari katalog partner)
+  status        String   @default("BARU") // BARU | DIKONTAK | AKAD | CAIR | SELESAI | DIBATALKAN
+  note          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+}
+
+/// Mitra pembiayaan syariah (katalog publik — institusi riil)
+model FinancingPartner {
+  id         String  @id @default(cuid())
+  key        String  @unique // "bsi", "alulaa", "share", ...
+  name       String
+  parent     String? // induk / pemilik
+  contract   String // akad utama: MURABAHAH | IJARAH | QARDH
+  tenorMax   Int // tenor maksimum (bulan)
+  dpMinPct   Int // DP minimum persen
+  coverage   String? // "Umrah & Haji", "Umrah"
+  note       String?
+  active     Boolean @default(true)
+}

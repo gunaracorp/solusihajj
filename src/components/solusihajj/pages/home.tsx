@@ -248,6 +248,60 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ================= S2B KADO & CICILAN (R4) ================= */}
+      <section className="mx-auto mt-14 max-w-7xl px-4 md:px-8" aria-label="Kado umrah dan cicilan syariah">
+        <div className="grid gap-5 lg:grid-cols-2">
+          {/* KADO UMRAH */}
+          <Link
+            to="/kado-umrah"
+            className="group relative overflow-hidden rounded-3xl bg-brand-deep p-7 shadow-warm transition-transform hover:-translate-y-0.5 md:p-8"
+          >
+            <div className="pattern-light absolute inset-0" aria-hidden="true" />
+            <div className="relative">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
+                  <HeartHandshake size={24} className="text-gold" />
+                </span>
+                <span className="rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-[#1F1805]">Baru</span>
+              </div>
+              <h3 className="mt-4 text-[22px] font-extrabold text-ivory md:text-2xl">
+                Kado Umrah — <span className="text-gold">hadiah yang mengubah hidup</span>
+              </h3>
+              <p className="mt-2 max-w-md text-[15px] leading-relaxed text-ivory/75">
+                Kirami Ayah/Ibu berangkat umrah: voucher mulai Rp 5 juta, kartu digital berkode pelacakan,
+                dana aman di escrow, refund 100% bila tak diklaim 24 bulan.
+              </p>
+              <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-gold">
+                Rancang kado sekarang <ChevronRight size={15} />
+              </p>
+            </div>
+          </Link>
+
+          {/* CICILAN SYARIAH */}
+          <Link
+            to="/cicilan-syariah"
+            className="group rounded-3xl border border-line-warm bg-card p-7 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-warm md:p-8"
+          >
+            <div className="flex items-center justify-between">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-soft">
+                <Wallet size={24} className="text-gold-deep" />
+              </span>
+              <span className="rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-[#1F1805]">Baru</span>
+            </div>
+            <h3 className="mt-4 text-[22px] font-extrabold text-ink md:text-2xl">
+              Cicilan Syariah — <span className="text-brand">umrah dulu, bayar bertahap</span>
+            </h3>
+            <p className="mt-2 max-w-md text-[15px] leading-relaxed text-ink-muted">
+              Akad murabahah tanpa bunga bersama mitra riil (ALULAA, sharE, BSI, Pegadaian Syariah).
+              Tanpa denda majemuk, denda sosial untuk infaq — dana tetap dilindungi escrow 40/40/20.
+            </p>
+            <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+              Hitung cicilan Anda <ChevronRight size={15} />
+            </p>
+          </Link>
+        </div>
+      </section>
+
       {/* ================= S3 TRUST BAR ================= */}
       <section className="mx-auto mt-14 max-w-7xl px-4 md:px-8" aria-label="Statistik kepercayaan">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

@@ -82,6 +82,16 @@ export const SEO_MAP: Record<string, SeoEntry> = {
     description:
       "AI LLM sungguhan mencocokkan anggaran, kota, bulan, dan prioritas Anda dengan katalog paket serta database nasional penyelenggara — lengkap dengan alasan, saran, dan pertanyaan lanjutan. Transparan, bukan kotak hitam.",
   },
+  "/kado-umrah": {
+    title: "Kado Umrah (Gift Umrah) — Beri Umrah untuk Orang Tersayang | SolusiHajj",
+    description:
+      "Kirim umrah sebagai hadiah: voucher mulai Rp 5 juta atau paket spesifik untuk Ayah/Ibu, pasangan, atau karyawan. Kartu kado digital berkode pelacakan, dana aman di escrow syariah, masa aktif 24 bulan, refund 100% bila tak diklaim, bisa digabung dana se-saudara dan dibayar cicilan syariah.",
+  },
+  "/cicilan-syariah": {
+    title: "Cicilan Umrah Syariah 0% — Murabahah Tanpa Bunga & Denda Majemuk | SolusiHajj",
+    description:
+      "Simulasi & pengajuan cicilan umrah syariah bersama mitra riil: ALULAA (BTPN Syariah), sharE (Mega Syariah), BSI, Pegadaian Syariah, Bank Muamalat. Akad murabahah/ijarah/qardh tanpa bunga, denda sosial untuk infaq, kalkulator transparan, dana paket tetap dilindungi escrow 40/40/20.",
+  },
   "/peta-situs": {
     title: "Peta Situs — Semua Halaman SolusiHajj",
     description:

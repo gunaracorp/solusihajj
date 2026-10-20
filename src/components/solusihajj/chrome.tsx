@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database, Lightbulb } from "lucide-react";
+import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database, Lightbulb, Gift, HandCoins } from "lucide-react";
 import { Link, useHashRoute, scrollToId } from "@/lib/solusihajj/router";
 import { waLink, waMessages } from "@/lib/solusihajj/wa";
 import { I18nProvider, useI18n, type Lang } from "@/lib/solusihajj/i18n";
@@ -95,6 +95,8 @@ function useNavData() {
       { to: "/nurmatch", label: t("nav.nurmatch"), icon: Sparkles },
       { to: "/nurmatch-ai", label: t("nav.nurmatchAi"), icon: Sparkles, highlight: true },
       { to: "/bandingkan", label: "Bandingkan Paket", icon: GitCompareArrows },
+      { to: "/kado-umrah", label: t("nav.kado"), icon: Gift, highlight: true },
+      { to: "/cicilan-syariah", label: t("nav.cicilan"), icon: HandCoins, highlight: true },
     ],
     direktoriItems: [
       { to: "/ppiu", label: t("nav.providers") },
@@ -396,6 +398,8 @@ export function Footer() {
                   { to: "/paket?produk=land", label: "Land Arrangement" },
                   { to: "/tiket-grup", label: "Tiket Charter Grup" },
                   { to: "/bandingkan", label: "Bandingkan Paket" },
+                  { to: "/kado-umrah", label: "Kado Umrah (Gift)" },
+                  { to: "/cicilan-syariah", label: "Cicilan Syariah 0%" },
                   { to: "/nurmatch", label: "NurMatch AI" },
                   { to: "/ppiu", label: "Direktori Penyelenggara Asia" },
                 ].map((l) => (

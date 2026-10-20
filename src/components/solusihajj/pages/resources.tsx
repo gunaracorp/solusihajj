@@ -557,6 +557,8 @@ export function SitemapPage() {
         { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU (tool publik)" },
         { to: "/escrow", label: "AmanahEscrow" },
         { to: "/escrow-aktif", label: "Pusat AmanahEscrow Aktif (R3 — kontrak 40/40/20)" },
+        { to: "/kado-umrah", label: "Kado Umrah (Gift) — beri umrah untuk orang tersayang" },
+        { to: "/cicilan-syariah", label: "Cicilan Syariah 0% — murabahah tanpa bunga" },
       ],
     },
     {

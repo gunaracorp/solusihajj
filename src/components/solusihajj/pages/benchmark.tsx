@@ -16,6 +16,7 @@ import {
   MessageCircle,
   BookOpen,
   Globe2,
+  HandCoins,
   ArrowRight,
   ExternalLink,
   Trophy,
@@ -54,12 +55,14 @@ const FUSION_ICONS: Record<string, React.ElementType> = {
   MessageCircle,
   BookOpen,
   Globe2,
+  HandCoins,
 };
 
 const STATUS_META: Record<string, { label: string; cls: string }> = {
   LIVE: { label: "Sudah Live", cls: "bg-brand-soft text-brand border-brand/30" },
   "LIVE (R2)": { label: "Live — R2", cls: "bg-brand-soft text-brand border-brand/30" },
   "LIVE (R3)": { label: "Live — R3", cls: "bg-gold-soft text-gold-deep border-gold/40" },
+  "LIVE (R4)": { label: "Live — R4 Baru", cls: "bg-gold-soft text-gold-deep border-gold/40" },
   ROADMAP: { label: "Roadmap", cls: "bg-ivory text-ink-muted border-line-warm" },
 };
 

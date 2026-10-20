@@ -458,7 +458,7 @@ export const fusionFeatures: {
   title: string;
   desc: string;
   from: string[];
-  status: "LIVE" | "LIVE (R2)" | "LIVE (R3)" | "ROADMAP";
+  status: "LIVE" | "LIVE (R2)" | "LIVE (R3)" | "LIVE (R4)" | "ROADMAP";
 }[] = [
   {
     icon: "Library",
@@ -543,6 +543,20 @@ export const fusionFeatures: {
     desc: "Jangkauan Wego (multi-bahasa) + kepedulian Jejak Imani (ramah lansia): font besar, kontras tinggi, navigasi sederhana.",
     from: ["Wego", "Almatar", "Jejak Imani"],
     status: "LIVE",
+  },
+  {
+    icon: "Gift",
+    title: "Kado Umrah (Gift Umrah)",
+    desc: "Praktik voucher umrah Indonesia (hantaran pernikahan, kado pensiun, undian korporat) diadopsi jadi vertikal: voucher nominal atau paket spesifik, kartu digital berkode pelacakan, dana escrow, masa aktif 24 bulan, refund 100%, gabung dana se-saudara.",
+    from: ["Umrah Gift programs", "Traveloka voucher", "praktik PPIU Indonesia"],
+    status: "LIVE (R4)",
+  },
+  {
+    icon: "HandCoins",
+    title: "Cicilan Syariah 0% (Murabahah)",
+    desc: "Mekanisme paylater umrah ALULAA (BTPN Syariah) & sharE (Mega Syariah) plus pembiayaan BSI/Pegadaian/Muamalat: kalkulator DP-tenor transparan, tanpa bunga, tanpa denda majemuk, denda sosial ke infaq, dana tetap di escrow 40/40/20.",
+    from: ["ALULAA (BTPN Syariah)", "sharE (Mega Syariah)", "BSI", "DawnTravels (installments)"],
+    status: "LIVE (R4)",
   },
 ];
 

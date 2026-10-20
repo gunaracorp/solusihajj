@@ -31,6 +31,8 @@ const DICT: Record<string, Record<Lang, string>> = {
   "nav.airlines": { id: "Maskapai Ibadah", en: "Hajj Airlines", ar: "شركات الطيران" },
   "nav.data": { id: "Pusat Data Nasional", en: "National Data Hub", ar: "مركز البيانات" },
   "nav.benchmark": { id: "Benchmark 20 Teratas Dunia", en: "Top-20 Global Benchmark", ar: "أفضل ٢٠ منصة عالمياً" },
+  "nav.kado": { id: "Kado Umrah (Gift)", en: "Umrah Gift", ar: "هدية العمرة" },
+  "nav.cicilan": { id: "Cicilan Syariah 0%", en: "Sharia Installments 0%", ar: "تقسيط شرعي بلا فائدة" },
   "cta.search": { id: "Cari Sekarang →", en: "Search Now →", ar: "ابحث الآن →" },
 };
 

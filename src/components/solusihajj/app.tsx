@@ -16,6 +16,8 @@ import AirlinesPage from "./pages/airlines";
 import EscrowLivePage from "./pages/escrow-live";
 import NurMatchAiPage from "./pages/nurmatch-ai";
 import BenchmarkPage from "./pages/benchmark";
+import KadoPage from "./pages/kado";
+import CicilanPage from "./pages/cicilan";
 import { getPackage } from "@/data/packages";
 import { getPpiu } from "@/data/ppiu";
 
@@ -32,6 +34,8 @@ import { getPpiu } from "@/data/ppiu";
  * /pusat-data • /maskapai
  * Rute baru R3 (AmanahEscrow Aktif + NurMatch AI Live):
  * /escrow-aktif • /nurmatch-ai
+ * Rute baru R4 (Kado Umrah + Cicilan Syariah):
+ * /kado-umrah • /cicilan-syariah
  */
 export default function SolusiHajjApp() {
   const { path, query } = useHashRoute();
@@ -80,6 +84,10 @@ export default function SolusiHajjApp() {
     view = <EscrowLivePage />;
   } else if (segs[0] === "benchmark") {
     view = <BenchmarkPage />;
+  } else if (segs[0] === "kado-umrah") {
+    view = <KadoPage />;
+  } else if (segs[0] === "cicilan-syariah") {
+    view = <CicilanPage />;
   } else if (segs[0] === "ppiu" && segs[1]) {
     view = <PpiuStorePage slug={segs[1]} />;
   } else if (segs[0] === "ppiu") {
