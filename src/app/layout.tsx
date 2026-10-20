@@ -3,6 +3,7 @@ import "./globals.css";
 import "./theme-extra.css";
 import { Toaster } from "@/components/ui/toaster";
 import SolusiHajjApp from "@/components/solusihajj/app";
+import { Analytics } from "@vercel/analytics/next";
 
 /* Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
    (prabudanling · Santri Angon) · PT Top Konsultan Internasional
@@ -113,6 +114,7 @@ export default function RootLayout({
       <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
