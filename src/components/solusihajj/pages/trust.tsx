@@ -245,11 +245,20 @@ export function CheckLicensePage() {
               <div
                 className="flex flex-wrap items-center gap-3 px-5 py-4"
                 style={{
-                  backgroundColor: dbHit.status === "SANKSI" ? "#FBEAE7" : dbHit.status === "BARU" ? "#F5EEDA" : "#E7F0EC",
+                  backgroundColor:
+                    dbHit.status === "SANKSI" || dbHit.status === "DIBLOKIR"
+                      ? "#FBEAE7"
+                      : dbHit.status === "TIDAK AKTIF"
+                        ? "#EFEDE6"
+                        : dbHit.status === "BARU"
+                          ? "#F5EEDA"
+                          : "#E7F0EC",
                 }}
               >
-                {dbHit.status === "SANKSI" ? (
+                {dbHit.status === "SANKSI" || dbHit.status === "DIBLOKIR" ? (
                   <ShieldX size={24} className="text-[#B3372B]" />
+                ) : dbHit.status === "TIDAK AKTIF" ? (
+                  <ShieldX size={24} className="text-[#6B6558]" />
                 ) : dbHit.status === "BARU" ? (
                   <Clock size={24} className="text-[#B7791F]" />
                 ) : (
@@ -257,13 +266,26 @@ export function CheckLicensePage() {
                 )}
                 <p
                   className="text-[15px] font-extrabold tracking-wide"
-                  style={{ color: dbHit.status === "SANKSI" ? "#B3372B" : dbHit.status === "BARU" ? "#B7791F" : "#1E7F4F" }}
+                  style={{
+                    color:
+                      dbHit.status === "SANKSI" || dbHit.status === "DIBLOKIR"
+                        ? "#B3372B"
+                        : dbHit.status === "TIDAK AKTIF"
+                          ? "#6B6558"
+                          : dbHit.status === "BARU"
+                            ? "#B7791F"
+                            : "#1E7F4F",
+                  }}
                 >
                   {dbHit.status === "SANKSI"
                     ? "WASPADA — ADA CATATAN SANKSI/TEGURAN"
-                    : dbHit.status === "BARU"
-                      ? "DITEMUKAN — IZIN BARU TERBIT (KEMENAG 2025)"
-                      : "DITEMUKAN DI DATABASE NASIONAL RIIL"}
+                    : dbHit.status === "DIBLOKIR"
+                      ? "HENTIKAN — IZIN DIBLOKIR REGISTRI SISKOPATUH, JANGAN TRANSFER"
+                      : dbHit.status === "TIDAK AKTIF"
+                        ? "PERHATIAN — STATUS IZIN TIDAK AKTIF DI REGISTRI"
+                        : dbHit.status === "BARU"
+                          ? "DITEMUKAN — IZIN BARU TERBIT (KEMENAG 2025)"
+                          : "DITEMUKAN DI DATABASE NASIONAL RIIL"}
                 </p>
                 <span className="ml-auto rounded-full bg-brand px-3 py-1 text-xs font-bold text-ivory">
                   {dbHit.orgType === "PIHK" ? "PIHK — Haji Khusus" : dbHit.orgType === "PPIU" ? "PPIU — Umrah" : dbHit.orgType}
@@ -312,6 +334,13 @@ export function CheckLicensePage() {
       {result !== undefined && (
         <div className="mt-6" aria-live="polite">
           {result === null ? (
+            dbHit ? (
+              <div className="rounded-2xl border border-line-warm bg-ivory p-4 text-sm text-ink-muted">
+                Perusahaan ini <strong>bukan</strong> Founding Partner terkurasi SolusiHajj — namun status perizinannya
+                telah ditemukan di database nasional pemerintah pada panel di atas. Gunakan panel tersebut sebagai rujukan
+                resmi sebelum bertransaksi.
+              </div>
+            ) : (
             <div className="rounded-2xl border-2 border-dashed border-line-warm bg-card p-6 md:p-8">
               <div className="flex items-start gap-4">
                 <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#F5EEDA" }}>
@@ -337,6 +366,7 @@ export function CheckLicensePage() {
                 </div>
               </div>
             </div>
+            )
           ) : (
             <div className="overflow-hidden rounded-2xl border border-line-warm bg-card shadow-warm">
               <div className="flex items-center gap-3 px-5 py-4" style={{ backgroundColor: statusMeta[result.status].bg }}>

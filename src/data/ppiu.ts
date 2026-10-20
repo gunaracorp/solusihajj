@@ -1,4 +1,4 @@
-import type { Ppiu, LicenseRecord } from "./types";
+import type { Ppiu, LicenseRecord, OrgType } from "./types";
 
 /**
  * 10 PPIU Founding Partner (R1).

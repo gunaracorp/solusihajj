@@ -39,7 +39,8 @@ export async function GET() {
       recentSyncs: lastSync,
       // konteks industri riil (riset Kemenhaj/Kemenag 2025)
       context: {
-        ppiuSiskopatuh: 3631, // PPIU terdaftar SISKOPATUH (Kemenhaj, 2025)
+        ppiuSiskopatuh: 3634, // baris PPIU registri SISKOPATUH (sinkron penuh Okt 2026)
+        pihkSiskopatuh: 967, // baris PIHK registri SISKOPATUH (semua PIHK juga PPIU)
         kuotaHajiKhusus2025: 17680, // kuota haji khusus 2025 (Kemenag, Jan 2025)
         petugasPer45Jamaah: 3, // PMHU formula petugas PIHK
       },

@@ -16,6 +16,7 @@ export async function GET(request: Request) {
 
     const where: Record<string, unknown> = {};
     if (q) {
+      // SQLite LIKE sudah case-insensitive (ASCII) — cukup contains polos
       where.OR = [
         { name: { contains: q } },
         { brandName: { contains: q } },

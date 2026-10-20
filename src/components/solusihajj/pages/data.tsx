@@ -51,7 +51,7 @@ interface R2Stats {
   regulations: number;
   countries: { country: string; count: number }[];
   provinces: { province: string; count: number }[];
-  context: { ppiuSiskopatuh: number; kuotaHajiKhusus2025: number; petugasPer45Jamaah: number };
+  context: { ppiuSiskopatuh: number; pihkSiskopatuh: number; kuotaHajiKhusus2025: number; petugasPer45Jamaah: number };
 }
 interface R2Source {
   id: string;
@@ -91,6 +91,10 @@ function StatusChip({ status }: { status: string }) {
     return <span className="inline-flex items-center gap-1 rounded-full bg-[#F5EEDA] px-2.5 py-1 text-xs font-bold text-[#B7791F]"><BadgeCheck size={12} /> IZIN BARU</span>;
   if (status === "SANKSI")
     return <span className="inline-flex items-center gap-1 rounded-full bg-[#FBEAE7] px-2.5 py-1 text-xs font-bold text-[#B3372B]"><ShieldX size={12} /> SANKSI</span>;
+  if (status === "DIBLOKIR")
+    return <span className="inline-flex items-center gap-1 rounded-full bg-[#FBEAE7] px-2.5 py-1 text-xs font-bold text-[#B3372B]"><ShieldX size={12} /> DIBLOKIR REGISTRI</span>;
+  if (status === "TIDAK AKTIF")
+    return <span className="inline-flex items-center gap-1 rounded-full bg-[#EFEDE6] px-2.5 py-1 text-xs font-bold text-[#6B6558]"><ShieldX size={12} /> TIDAK AKTIF</span>;
   return <span className="rounded-full bg-ivory px-2.5 py-1 text-xs font-bold text-ink-muted">{status}</span>;
 }
 
@@ -232,9 +236,9 @@ export default function NationalDataPage() {
       {/* KONTEKS INDUSTRI RIIL */}
       {stats && (
         <div className="mt-4 rounded-2xl border border-[#C9A227]/30 bg-[#FAF5E4] p-4 md:p-5">
-          <p className="text-sm font-bold text-ink">Konteks industri nasional (riset 2025):</p>
+          <p className="text-sm font-bold text-ink">Konteks industri nasional (riset 2025–2026):</p>
           <ul className="mt-2 grid gap-1.5 text-[15px] text-ink md:grid-cols-3">
-            <li className="flex items-start gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-brand" /> <span><b className="tabular">{stats.context.ppiuSiskopatuh.toLocaleString("id-ID")}</b> PPIU terdaftar di SISKOPATUH (Kemenhaj)</span></li>
+            <li className="flex items-start gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-brand" /> <span><b className="tabular">{stats.context.ppiuSiskopatuh.toLocaleString("id-ID")}</b> PPIU + <b className="tabular">{stats.context.pihkSiskopatuh.toLocaleString("id-ID")}</b> PIHK di registri SISKOPATUH (Kemenhaj) — <b>seluruhnya telah tersinkron ke database kita</b></span></li>
             <li className="flex items-start gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-brand" /> <span>Kuota haji khusus 2025: <b className="tabular">{stats.context.kuotaHajiKhusus2025.toLocaleString("id-ID")}</b> jamaah</span></li>
             <li className="flex items-start gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-brand" /> <span>PIHK wajib <b>{stats.context.petugasPer45Jamaah}</b> petugas per 45 jamaah</span></li>
           </ul>
@@ -340,6 +344,12 @@ export default function NationalDataPage() {
                 {ORG_LABEL[t]} ({typeCount(t)})
               </button>
             ))}
+            <button
+              onClick={() => { setStatus(status === "DIBLOKIR" ? "" : "DIBLOKIR"); loadCompanies({ q, type, status: status === "DIBLOKIR" ? "" : "DIBLOKIR", province }); }}
+              className={cn("min-h-10 rounded-full border px-3.5 text-sm font-semibold transition-colors", status === "DIBLOKIR" ? "border-[#B3372B] bg-[#B3372B] text-white" : "border-line-warm bg-ivory text-ink hover:border-brand/50")}
+            >
+              Diblokir ({statusCount("DIBLOKIR")})
+            </button>
             <button
               onClick={() => { setStatus(status === "SANKSI" ? "" : "SANKSI"); loadCompanies({ q, type, status: status === "SANKSI" ? "" : "SANKSI", province }); }}
               className={cn("min-h-10 rounded-full border px-3.5 text-sm font-semibold transition-colors", status === "SANKSI" ? "border-[#B3372B] bg-[#B3372B] text-white" : "border-line-warm bg-ivory text-ink hover:border-brand/50")}

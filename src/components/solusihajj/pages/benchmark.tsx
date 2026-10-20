@@ -388,7 +388,7 @@ export default function BenchmarkPage() {
               to="/pusat-data"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-brand/40 px-6 font-bold text-brand transition-colors hover:bg-brand-soft dark:text-gold"
             >
-              <Search size={16} /> Lihat Data 796 Penyelenggara
+              <Search size={16} /> Lihat Data 3.966 Penyelenggara
             </Link>
           </div>
         </div>

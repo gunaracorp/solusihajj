@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         kind: "paket",
         refId: p.slug,
         title: p.title,
-        meta: `${p.durationDays} hari • Rp ${p.basePrice.toLocaleString("id-ID")} • berangkat ${p.departCity} • ${p.departWindow} • hotel Makkah ${p.hotelMakkah.name} (${p.hotelMakkah.distanceToHaramMeters} m) • rating ${p.rating} (${p.reviewCount} review Saksi Jamaah)`,
+        meta: `${p.durationDays} hari • Rp ${p.basePrice.toLocaleString("id-ID")} • berangkat ${p.departCity} • ${p.departWindow} • hotel Makkah ${p.hotelMakkah.name} (${p.hotelMakkah.distanceToHaram} m) • rating ${p.rating} (${p.reviewCount} review Saksi Jamaah)`,
       }));
 
     // ---------- kandidat penyelenggara (database nasional) ----------

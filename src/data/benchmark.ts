@@ -175,7 +175,7 @@ export const benchmarkList: BenchmarkSite[] = [
       "Itinerary dua kota suci dengan transport darat terjadwal",
     ],
     exclusive:
-      "Katalog lintas negara Asia (ID, MY, SG, BN, TH, PK, SA) dalam satu database 796 organisasi.",
+      "Katalog lintas negara Asia (ID, MY, SG, BN, TH, PK, SA) dalam satu database 3.966 organisasi.",
   },
   {
     rank: 8,
@@ -484,7 +484,7 @@ export const fusionFeatures: {
   {
     icon: "Database",
     title: "Pusat Data Nasional Ter-audit",
-    desc: "796 organisasi dari 9 sumber resmi (Kemenag, SISKOPATUH, HIMPUH 474 anggota, Nusuk SA, MORA PK) dengan provenance yang bisa diaudit publik.",
+    desc: "3.966 organisasi dari 9 sumber resmi — registri nasional SISKOPATUH penuh (3.634 PPIU + 967 PIHK, 34 provinsi), HIMPUH 474 anggota, Nusuk SA, MORA PK — dengan provenance yang bisa diaudit publik.",
     from: ["Nusuk Umrah", "Direct Umrah", "Tripfez"],
     status: "LIVE (R2)",
   },
@@ -571,7 +571,7 @@ export const fusionStats = {
 export const capabilityMatrix: { capability: string; benchmark: string; solusihajj: string }[] = [
   { capability: "Perlindungan dana escrow syariah", benchmark: "0/20 — bayar langsung ke travel/mitra", solusihajj: "AmanahEscrow 40/40/20 + dual-control + audit trail" },
   { capability: "Review dari jamaah nyata", benchmark: "6/20 (sebagian testimoni kurasi)", solusihajj: "Saksi Jamaah — hanya pembayar escrow bisa review" },
-  { capability: "Database penyelenggara ter-audit", benchmark: "3/20 (kanal resmi satu negara)", solusihajj: "796 organisasi, 9 sumber resmi, provenance publik" },
+  { capability: "Database penyelenggara ter-audit", benchmark: "3/20 (kanal resmi satu negara)", solusihajj: "3.966 organisasi — registri nasional penuh 34 provinsi + Asia, provenance publik" },
   { capability: "Catatan sanksi penyelenggara", benchmark: "0/20 — tidak ada yang menampilkan", solusihajj: "Sanksi Kemenag tampil merah di direktori & Cek Izin" },
   { capability: "AI rekomendasi transparan", benchmark: "1/20 (kotak hitam tanpa alasan)", solusihajj: "NurMatch AI: verdict + alasan + follow-up" },
   { capability: "Cakupan lintas negara", benchmark: "5/20 global (satu kanal per negara)", solusihajj: "ID, MY, SG, BN, TH, SA, PK dalam satu katalog" },
