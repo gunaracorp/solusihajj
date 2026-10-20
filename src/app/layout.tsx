@@ -40,11 +40,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
-      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.ico?v=8", sizes: "48x48", type: "image/x-icon" },
+      { url: "/favicon-32.png?v=8", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png?v=8", sizes: "192x192", type: "image/png" },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: "/apple-touch-icon.png?v=8",
   },
   openGraph: {
     title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
@@ -54,12 +54,21 @@ export const metadata: Metadata = {
     siteName: "SolusiHajj",
     locale: "id_ID",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png?v=8",
+        width: 1200,
+        height: 630,
+        alt: "SolusiHajj — Gerbang Nur: Marketplace Umrah & Haji Terbesar di Asia",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:
       "PPIU, PIHK, BPW & KBIHU terverifikasi 5 lapis dalam satu gerbang. Escrow syariah 40/40/20, review Saksi Jamaah, tool Cek Izin publik.",
+    images: ["/og-image.png?v=8"],
   },
   robots: {
     index: true,

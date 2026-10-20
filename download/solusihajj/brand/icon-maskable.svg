@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- SolusiHajj — maskable icon "Gerbang Nur" (full-bleed, safe-zone 80%) -->
+  <defs>
+    <linearGradient id="tileM" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#138362"/>
+      <stop offset="0.55" stop-color="#0E6B4E"/>
+      <stop offset="1" stop-color="#09412F"/>
+    </linearGradient>
+    <linearGradient id="goldM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDD690"/>
+      <stop offset="0.5" stop-color="#C9A227"/>
+      <stop offset="1" stop-color="#A9841B"/>
+    </linearGradient>
+    <linearGradient id="goldVM" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E3C766"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+    <linearGradient id="cubeM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF6"/>
+      <stop offset="1" stop-color="#EFE7D4"/>
+    </linearGradient>
+    <mask id="cresM">
+      <circle cx="256" cy="102" r="26" fill="#ffffff"/>
+      <circle cx="256" cy="86" r="22" fill="#000000"/>
+    </mask>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#tileM)"/>
+
+  <g transform="translate(56.32 56.32) scale(0.78)">
+    <path d="M 156 466 L 156 320 A 200 200 0 0 1 256 146.8 A 200 200 0 0 1 356 320 L 356 466"
+          fill="none" stroke="url(#goldVM)" stroke-width="30" stroke-linejoin="round"/>
+    <rect x="182" y="398" width="148" height="14" rx="7" fill="url(#goldVM)" opacity="0.92"/>
+    <g>
+      <rect x="200" y="270" width="112" height="128" rx="7" fill="url(#cubeM)"/>
+      <rect x="200" y="316" width="112" height="24" fill="url(#goldM)"/>
+      <rect x="200" y="340" width="112" height="2.5" fill="#8A6D14" opacity="0.45"/>
+      <path d="M 290 270 h 15 a 7 7 0 0 1 7 7 v 114 a 7 7 0 0 1 -7 7 h -15 Z" fill="#0E6B4E" opacity="0.10"/>
+      <rect x="200" y="270" width="112" height="9" rx="4.5" fill="#FFFFFF" opacity="0.85"/>
+    </g>
+    <circle cx="256" cy="102" r="26" fill="url(#goldM)" mask="url(#cresM)"/>
+    <g transform="translate(256 96)" fill="url(#goldM)">
+      <path d="M0 -9 Q1.8 -1.8 9 0 Q1.8 1.8 0 9 Q-1.8 1.8 -9 0 Q-1.8 -1.8 0 -9 Z"/>
+      <path d="M0 -5 Q1 -1 5 0 Q1 1 0 5 Q-1 1 -5 0 Q-1 -1 0 -5 Z" transform="rotate(45)" fill="#FFF7DC"/>
+    </g>
+  </g>
+</svg>

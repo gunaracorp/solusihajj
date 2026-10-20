@@ -24,7 +24,7 @@ const orgJsonLd = {
   name: "SolusiHajj",
   alternateName: "SolusiHajj.com",
   url: BASE,
-  logo: `${BASE}/logo.svg`,
+  logo: `${BASE}/logo.svg?v=8`,
   slogan: "Amanah Anda, Aman.",
   description:
     "Marketplace umrah & haji terbesar di Asia yang menampung PPIU, PIHK, BPW, dan KBIHU lintas negara — dengan perlindungan dana escrow syariah dan review dari jamaah nyata.",

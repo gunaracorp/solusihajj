@@ -1,39 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 256" width="1080" height="256" role="img" aria-label="SolusiHajj — Marketplace Umrah dan Haji Terbesar di Asia">
   <!-- ============================================================
-       SolusiHajj — Lockup horizontal "Gerbang Amanah" (v7 Final)
+       SolusiHajj — Lockup horizontal "Gerbang Nur" (v8 Master)
        Untuk README, Open Graph, dan materi brand. Latar transparan.
        ============================================================ -->
   <defs>
     <linearGradient id="shTileF" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#118060"/>
+      <stop offset="0" stop-color="#138362"/>
       <stop offset="0.55" stop-color="#0E6B4E"/>
-      <stop offset="1" stop-color="#0A4A36"/>
+      <stop offset="1" stop-color="#09412F"/>
     </linearGradient>
-    <linearGradient id="shHizamF" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#EBD083"/>
+    <linearGradient id="shGoldF" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDD690"/>
+      <stop offset="0.5" stop-color="#C9A227"/>
+      <stop offset="1" stop-color="#A9841B"/>
+    </linearGradient>
+    <linearGradient id="shGoldVF" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E3C766"/>
       <stop offset="1" stop-color="#C9A227"/>
     </linearGradient>
-    <linearGradient id="shStarF" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#F3E1A0"/>
-      <stop offset="1" stop-color="#C9A227"/>
+    <linearGradient id="shCubeF" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF6"/>
+      <stop offset="1" stop-color="#EFE7D4"/>
     </linearGradient>
+    <mask id="shCresF">
+      <circle cx="256" cy="102" r="26" fill="#ffffff"/>
+      <circle cx="256" cy="86" r="22" fill="#000000"/>
+    </mask>
   </defs>
 
   <!-- Mark (224px) -->
   <g transform="translate(16 16) scale(0.4375)">
-    <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#shTileF)"/>
-    <circle cx="256" cy="256" r="170" fill="none" stroke="#F5F1E6" stroke-width="30"
-            stroke-linecap="round" stroke-dasharray="845.6 210"/>
+    <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#shTileF)"/>
+    <path d="M 156 466 L 156 320 A 200 200 0 0 1 256 146.8 A 200 200 0 0 1 356 320 L 356 466"
+          fill="none" stroke="url(#shGoldVF)" stroke-width="30" stroke-linejoin="round"/>
+    <rect x="182" y="398" width="148" height="14" rx="7" fill="url(#shGoldVF)" opacity="0.92"/>
     <g>
-      <rect x="172" y="184" width="168" height="168" rx="12" fill="#17181D"/>
-      <rect x="172" y="246" width="168" height="32" fill="url(#shHizamF)"/>
-      <rect x="172" y="280" width="168" height="3" fill="#8A6D14" opacity="0.5"/>
-      <rect x="172" y="184" width="168" height="12" rx="6" fill="#FFFFFF" opacity="0.08"/>
-      <rect x="172" y="184" width="30" height="168" rx="12" fill="#000000" opacity="0.14"/>
+      <rect x="200" y="270" width="112" height="128" rx="7" fill="url(#shCubeF)"/>
+      <rect x="200" y="316" width="112" height="24" fill="url(#shGoldF)"/>
+      <rect x="200" y="340" width="112" height="2.5" fill="#8A6D14" opacity="0.45"/>
+      <path d="M 290 270 h 15 a 7 7 0 0 1 7 7 v 114 a 7 7 0 0 1 -7 7 h -15 Z" fill="#0E6B4E" opacity="0.10"/>
+      <rect x="200" y="270" width="112" height="9" rx="4.5" fill="#FFFFFF" opacity="0.85"/>
     </g>
-    <g transform="translate(392 154)" fill="url(#shStarF)">
-      <path d="M0 -30 Q6 -6 30 0 Q6 6 0 30 Q-6 6 -30 0 Q-6 -6 0 -30 Z"/>
-      <path d="M0 -16.5 Q3.3 -3.3 16.5 0 Q3.3 3.3 0 16.5 Q-3.3 3.3 -16.5 0 Q-3.3 -3.3 0 -16.5 Z" transform="rotate(45)"/>
+    <circle cx="256" cy="102" r="26" fill="url(#shGoldF)" mask="url(#shCresF)"/>
+    <g transform="translate(256 96)" fill="url(#shGoldF)">
+      <path d="M0 -9 Q1.8 -1.8 9 0 Q1.8 1.8 0 9 Q-1.8 1.8 -9 0 Q-1.8 -1.8 0 -9 Z"/>
+      <path d="M0 -5 Q1 -1 5 0 Q1 1 0 5 Q-1 1 -5 0 Q-1 -1 0 -5 Z" transform="rotate(45)" fill="#FFF7DC"/>
     </g>
   </g>
 

@@ -178,3 +178,23 @@ Stage Summary:
 - JAWABAN PERTANYAAN USER: SEKARANG YA — registri nasional SISKOPATUH penuh (3.634 PPIU + 967 PIHK, 34 provinsi) sudah masuk database, MELEBIHI target 3.500; total katalog Asia 3.966 organisasi
 - Pipeline resumable baru: fetch-siskopatuh-registry.ts + seed-r5.ts + seed-r5-postpass.ts — sinkronisasi ulang kapan saja
 - Cek Izin kini alat perlindungan konsumen sejati: memblokir peringatan merah sebelum jamaah transfer
+
+---
+Task ID: 9
+Agent: Z.ai Main Agent (SolusiHajj Brand Master)
+Task: "tolong ganti logo Z dan buatkan aku logo terbaik dunia" — logo baru "Gerbang Nur" + pemberantasan total jejak logo Z (cache-busting) + OG image.
+
+Work Log:
+- Diagnosis akar masalah: screenshot user masih menampilkan Z karena cache browser — header sebenarnya sudah memuat /logo.svg desain Task 6, tetapi tanpa cache-busting sehingga browser terus menyajikan Z lama
+- Desain ulang total logo "GERBANG NUR" (v8 Master, satu ide tunggal pengganti 4 elemen lama): gerbang emas runcing equilateral pointed arch (dua busur R200, pusat silang di springing) memayungi Ka'bah gading ber-hizam emas yang duduk presisi di ambang gerbang; bulan sabit Nur dibangun dengan teknik mask (dua lingkaran — bentuk sempurna tanpa matematisasi arc manual) mengangkat bintang segi delapan di puncak; iterasi visual 2 putaran via render sharp + inspeksi PNG 512/48/32
+- File brand diganti: public/logo.svg (mark), public/logo-full.svg (lockup + wordmark + tagline + strip kredensial), public/icon-maskable.svg (full-bleed safe-zone 80%)
+- gen-icons.mjs diperiksa (laporan bug Buffer.concat ternyata artefak terminal — file utuh) → regenerasi penuh: favicon.ico 16/32/48 + favicon-16/32/48.png + icon-192/512.png + apple-touch-icon 180
+- CACHE-BUSTING v=8 di SEMUA referensi: chrome.tsx header img, layout.tsx icons (favicon.ico/favicon-32/icon-192/apple-touch), page.tsx JSON-LD Organization.logo — Z tidak akan pernah muncul lagi dari cache
+- OG image PERTAMA platform: scripts/gen-og.mjs (Playwright chromium, font Plus Jakarta Sans asli, @1x 1200x630) — layout khatam + rail emas + mark 380px + headline dua warna + 3 chip trust + domain; dipasang di metadata openGraph.images + twitter.images (sebelumnya metadata OG tidak punya gambar sama sekali)
+- Verifikasi Playwright: 4 favicon link DOM ?v=8 ✓, header img src=/logo.svg?v=8 natural 512 rendered 36px complete ✓, screenshot light/dark/mobile 390px ✓, lint 0 error ✓, dev server 200 + logo.svg 3428 byte baru ✓
+- Arsip brand kit: download/solusihajj/brand/ (logo.svg, logo-full.svg, icon-maskable.svg, og-image.png, favicon.ico, icon-512.png)
+
+Stage Summary:
+- Brand identity final v8 "Gerbang Nur": gerbang emas + Ka'bah gading + sabit Nur — cerita brand tunggal yang memantulkan copy hero "Satu Gerbang untuk Ibadah Anda" dan konsep platform "wadah"
+- Jejak logo Z punah total: file diganti + query param v=8 memaksa refresh cache semua browser
+- OG image (1200x630) kini hidup di WhatsApp/X/FB share — sebelumnya tidak ada
