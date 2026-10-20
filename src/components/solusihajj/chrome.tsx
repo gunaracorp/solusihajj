@@ -461,24 +461,28 @@ export function Footer() {
           <div className="mt-10 rounded-2xl bg-white/5 p-5">
             <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-gold">Kontak & Legal</h3>
             <address className="space-y-1.5 text-[15px] not-italic text-ivory/75">
-              <p>PT SolusiHajj Digital Amanah — Jl. Bumi Raya No. 8, Pasar Minggu, Jakarta Selatan 12520</p>
+              <p>PT Syarikat Solution Haji Indonesia — Infiniti Office, Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih, Menteng, Jakarta Pusat 10340</p>
+              <p>Kantor operasional: Solusi Tour Lt. 1, Jl. Cinere Raya No. 32, Cinere, Depok, Jawa Barat</p>
               <p>
                 WA:{" "}
                 <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold hover:underline">
-                  +62 812-0000-0000
+                  +62 813-1651-6524
                 </a>{" "}
                 • Email:{" "}
-                <a href="mailto:salam@solusihajj.com" className="font-semibold text-gold hover:underline">
-                  salam@solusihajj.com
+                <a href="mailto:syarikat.haji@gmail.com" className="font-semibold text-gold hover:underline">
+                  syarikat.haji@gmail.com
                 </a>
               </p>
               <p>Jam operasional: Senin–Sabtu, 08.00–17.00 WIB (respons WhatsApp &lt; 15 menit jam kerja)</p>
             </address>
+            <p className="mt-3 text-[12px] leading-relaxed text-ivory/50">
+              Legalitas: NIB 1102230000845 (Sertifikat Standar OSS 11022300008450001) • KBLI 79121 &amp; 79122 • NPWP 0627305550021000 • Akta Kemenkumham AHU-011258.AH.01.30 Tahun 2023
+            </p>
           </div>
 
           <div className="mt-8 border-t border-white/10 pt-6">
             <p className="text-[13px] leading-relaxed text-ivory/60">
-              © 2026 PT SolusiHajj Digital Amanah — Platform teknologi perlindungan jamaah. SolusiHajj bukan penyelenggara
+              © 2026 PT Syarikat Solution Haji Indonesia — Platform teknologi perlindungan jamaah. SolusiHajj bukan penyelenggara
               perjalanan ibadah; kontrak perjalanan dibuat langsung antara jamaah dan penyelenggara (PPIU/PIHK/BPW).
             </p>
             <p className="mt-2 text-[12px] text-ivory/40">

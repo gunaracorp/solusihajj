@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Muhammad Lutfi Azmi — Gugun Gunara", url: "https://topkonsultan.web.id" }],
   creator: "Muhammad Lutfi Azmi (Gugun Gunara) — PT Top Konsultan Internasional · digiman.id",
-  publisher: "PT SolusiHajj Digital Amanah",
+  publisher: "PT Syarikat Solution Haji Indonesia",
   other: {
     "system-architect": "Gugun Gunara (Muhammad Lutfi Azmi) — topkonsultan.web.id · digiman.id",
   },

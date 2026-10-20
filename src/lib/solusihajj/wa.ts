@@ -1,6 +1,6 @@
 /** Helper konversi funnel WA (dok 05 P0 #7: WA pre-filled) + format Indonesia */
 
-export const WA_NUMBER = "6281200000000"; // nomor demo R1 — ganti dengan nomor asli saat go-live
+export const WA_NUMBER = "6281316516524"; // WA resmi PT Syarikat Solution Haji Indonesia (go-live)
 
 export function waLink(message: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;

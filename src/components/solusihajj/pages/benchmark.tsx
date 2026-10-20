@@ -101,7 +101,7 @@ function JsonLd() {
     datePublished: "2026-10-20",
     author: { "@type": "Organization", name: "SolusiHajj", url: BASE },
     about: ["Umrah", "Hajj", "Travel Marketplace", "Benchmark"],
-    publisher: { "@type": "Organization", name: "PT SolusiHajj Digital Amanah" },
+    publisher: { "@type": "Organization", name: "PT Syarikat Solution Haji Indonesia" },
   };
   return (
     <>

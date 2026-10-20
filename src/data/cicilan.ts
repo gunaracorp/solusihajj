@@ -186,7 +186,7 @@ export const CICILAN_FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Data pribadi saya diamanahkan?",
-    a: "Ya. Pengajuan hanya diteruskan ke SATU mitra yang Anda pilih — bukan disebar ke banyak institusi. Data disimpan terenkripsi (AES) sesuai UU PDP 27/2022, dipakai hanya untuk proses pembiayaan ini, dan bisa diminta dihapus kapan pun melalui salam@solusihajj.com.",
+    a: "Ya. Pengajuan hanya diteruskan ke SATU mitra yang Anda pilih — bukan disebar ke banyak institusi. Data disimpan terenkripsi (AES) sesuai UU PDP 27/2022, dipakai hanya untuk proses pembiayaan ini, dan bisa diminta dihapus kapan pun melalui syarikat.haji@gmail.com.",
   },
 ];
 
