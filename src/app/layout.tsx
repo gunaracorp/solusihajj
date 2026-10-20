@@ -38,7 +38,14 @@ export const metadata: Metadata = {
   publisher: "PT SolusiHajj Digital Amanah",
   metadataBase: new URL("https://solusihajj.com"),
   alternates: { canonical: "/" },
-  icons: { icon: "/logo.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:

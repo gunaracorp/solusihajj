@@ -67,6 +67,11 @@ export const SEO_MAP: Record<string, SeoEntry> = {
     description:
       "Maskapai penerbangan jamaah 2025 sesuai keputusan Kemenag: Garuda Indonesia, Lion Group, dan Saudia — plus charter umrah Citilink dari 9 kota, Super Air Jet, EgyptAir, dan Turkish Airlines. Frekuensi, tipe pesawat, dan tanggal mulai operasi dari rilis resmi.",
   },
+  "/benchmark": {
+    title: "20 Marketplace Haji & Umrah Teratas Dunia — Studi Gabungan Benchmark | SolusiHajj",
+    description:
+      "Riset lengkap 20 platform haji & umrah terbaik dunia (umroh.com, Nusuk Hajj, Nusuk Umrah, Direct Umrah, Wego, Almatar, Musafir, HalalBooking, Tripfez, HalalTrip, Traveloka, pengenumroh, Dream Tours, Rabbani, Jejak Imani, DawnTravels, International Hajj, ShareTrip, Wakanow, BookMyUmrahTrip): fitur terbaik tiap platform digabungkan ke SolusiHajj, plus 4 kemampuan eksklusif yang tidak ada di satu pun dari mereka.",
+  },
   "/escrow-aktif": {
     title: "Pusat AmanahEscrow Aktif — Kontrak & Rilis Dana 40/40/20 Real-time | SolusiHajj R3",
     description:

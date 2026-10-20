@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database } from "lucide-react";
+import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database, Lightbulb } from "lucide-react";
 import { Link, useHashRoute, scrollToId } from "@/lib/solusihajj/router";
 import { waLink, waMessages } from "@/lib/solusihajj/wa";
 import { I18nProvider, useI18n, type Lang } from "@/lib/solusihajj/i18n";
@@ -105,6 +105,7 @@ function useNavData() {
       { to: "/escrow-aktif", label: t("nav.escrowAktif"), icon: Database, highlight: true },
     ],
     panduanItems: [
+      { to: "/benchmark", label: t("nav.benchmark"), icon: Lightbulb, highlight: true },
       { to: "/edukasi", label: t("nav.education") },
       { to: "/glosarium", label: t("nav.glossary") },
       { to: "/travel-kit", label: t("nav.kit") },
@@ -293,8 +294,8 @@ export function Header() {
               onClick={() => setOpen(false)}
               className="flex min-h-12 items-center rounded-xl px-3 py-2 text-[16px] text-ink hover:bg-brand-soft dark:text-ivory"
             >
-              {item.icon && <item.icon size={16} className="mr-2 text-gold-deep" />}
-              {item.label}
+              {item.icon && <item.icon size={16} className={cn("mr-2", item.highlight ? "text-gold" : "text-gold-deep")} />}
+              <span className={cn(item.highlight && "font-bold text-brand dark:text-gold")}>{item.label}</span>
             </Link>
           ))}
           <p className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-ink-muted">{t("nav.directory")}</p>
@@ -410,6 +411,7 @@ export function Footer() {
               <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-gold">Kepercayaan & Panduan</h3>
               <ul className="space-y-2.5 text-[15px]">
                 {[
+                  { to: "/benchmark", label: "Benchmark 20 Teratas Dunia" },
                   { to: "/verifikasi", label: "Verifikasi 5 Lapis" },
                   { to: "/escrow", label: "AmanahEscrow" },
                   { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU" },

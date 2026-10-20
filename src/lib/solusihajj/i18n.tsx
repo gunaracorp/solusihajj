@@ -30,6 +30,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   "nav.about": { id: "Tentang", en: "About", ar: "حول" },
   "nav.airlines": { id: "Maskapai Ibadah", en: "Hajj Airlines", ar: "شركات الطيران" },
   "nav.data": { id: "Pusat Data Nasional", en: "National Data Hub", ar: "مركز البيانات" },
+  "nav.benchmark": { id: "Benchmark 20 Teratas Dunia", en: "Top-20 Global Benchmark", ar: "أفضل ٢٠ منصة عالمياً" },
   "cta.search": { id: "Cari Sekarang →", en: "Search Now →", ar: "ابحث الآن →" },
 };
 

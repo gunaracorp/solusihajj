@@ -562,6 +562,7 @@ export function SitemapPage() {
     {
       title: "Panduan & Tools",
       links: [
+        { to: "/benchmark", label: "Benchmark 20 Marketplace Teratas Dunia (riset gabungan)" },
         { to: "/travel-kit", label: "Travel Kit (sholat, kiblat, konverter)" },
         { to: "/kalkulator-haji", label: "Kalkulator Simpanan Haji" },
         { to: "/glosarium", label: "Glosarium Istilah" },

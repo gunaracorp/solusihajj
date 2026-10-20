@@ -112,3 +112,21 @@ Stage Summary:
 - Scraper persisten: scripts/fetch-himpuh-full.ts (resumable), scripts/fetch-asia.ts, seed-r3.ts — pipeline dapat diulang kapan saja
 - README dwibahasa kelas dunia: README.md + README_ID.md (badges, mermaid, tabel, arsitektur)
 - Screenshot baru: screenshot-r3-escrow.png, screenshot-r3-nurmatch.png, screenshot-r3-nurmatch-result.png, screenshot-r3-desktop.png (download/solusihajj/)
+
+---
+Task ID: 6
+Agent: Z.ai Main Agent (SolusiHajj v7 Builder)
+Task: "carikan 20 website marketplace haji umroh teratas dan terbaik lalu gabungkan semuanya ada disini dan buatkan logo solusiHajj lalu ganti logo Z nya"
+
+Work Log:
+- Riset web (WebSearch multi-putaran, 20 Okt 2026): memetakan 20+ platform haji/umrah teratas lintas 9+ negara — Indonesia (umroh.com, pengenumroh, Dream Tours, Rabbani, Jejak Imani, Traveloka), Saudi resmi (Nusuk Hajj, Nusuk Umrah, Direct Umrah MOHU Sep 2026), OTA global/Muslim (Wego, Almatar, Musafir UAE, HalalBooking UK, Tripfez MY, HalalTrip SG, DawnTravels US, International Hajj US, ShareTrip BD, Wakanow NG, BookMyUmrahTrip); detail fitur killer tiap platform diekstraksi dari situs resmi + rilis MOHU (Direct Umrah: mitra ShareTrip/Wakanow/Bookme/Wego/Almatar)
+- LOGO BARU "Gerbang Amanah": public/logo.svg didesain ulang dari nol — ubin zamrud gradien (#118060→#0E6B4E→#0A4A36, rx 116), orbit gading (dasharray 845.6/210, celah kanan-atas), Ka'bah #17181D 168px dengan hizam emas gradien + stitch + highlight, bintang Nur 8 titik di celah orbit; + public/logo-full.svg (lockup wordmark: Solusi #0B2E24 / Hajj #0E6B4E / titik emas + tagline + strip kredensial escrow/verifikasi/796 penyelenggara); + public/icon-maskable.svg full-bleed
+- GANTI LOGO Z: scripts/gen-icons.mjs (sharp + ICO writer manual tanpa dependensi) → favicon.ico (16/32/48, PNG payload), favicon-16/32/48.png, icon-192/512.png, apple-touch-icon.png 180; layout.tsx metadata.icons diganti ke set lengkap (favicon.ico + 32 + 192 + apple); favicon tab browser kini SolusiHajj, bukan Z lama; verifikasi semua asset 200 + content-type benar
+- Data benchmark: src/data/benchmark.ts — 20 entri terstruktur (rank, flag, kategori, skala, 3 fitur killer, fitur diadopsi ke SolusiHajj, pembeda eksklusif "Lebih dari X") + fusionFeatures 12 fitur gabungan dengan status LIVE/LIVE R2/LIVE R3/ROADMAP + capabilityMatrix 10 baris "x/20 benchmark vs SolusiHajj" + fusionStats
+- Halaman /benchmark: hero + 4 stat, rumus gabungan 4 langkah (Marketplace+Kepatuhan+OTA+Amanah), grid 20 kartu (badge peringkat emas top-3, chip kategori/negara, daftar fitur, panel adopsi, callout eksklusif), grid 12 fitur gabungan + status badge, tabel matriks kemampuan di section gelap + metodologi, CTA ganda; JSON-LD ItemList (20 WebSite) + ScholarlyArticle; teks hero 12 negara & kawasan (konsisten stat)
+- Wiring: app.tsx (route /benchmark), chrome.tsx (nav Panduan item highlight icon Lightbulb + mobile drawer highlight styling + footer link "Benchmark 20 Teratas Dunia"), site-seo.ts (SEO_MAP /benchmark), resources.tsx (peta situs), i18n nav.benchmark (ID/EN/AR)
+- Verifikasi: lint 0 error; browser 1440px & 390px — hero, 20 kartu, matriks, CTA render sempurna; document.title dinamis "/benchmark" ✓; favicon.ico ter-serve ✓; homepage utuh dengan logo baru ✓; screenshot 5 buah di download/solusihajj/
+Stage Summary:
+- "Gabungkan semuanya ada disini" terwujud sebagai halaman /benchmark: audit transparan 20 platform dunia + matriks fitur yang benar-benar digabungkan (12 fitur, mayoritas sudah live) + 4 kemampuan eksklusif (escrow 40/40/20, sanksi publik, review Saksi Jamaah, Cek Izin publik) yang 0/20 benchmark miliki
+- Brand identity final: logo "Gerbang Amanah" menggantikan logo Z di favicon/OG/header + set ikon lengkap (ICO/PNG/apple) — siap PWA
+- SEO: +1 halaman riset dengan JSON-LD ItemList 20 situs (peluang rich result & backlink tabel benchmark), masuk nav/footer/peta-situs/SEO_MAP/i18n 3 bahasa

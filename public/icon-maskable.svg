@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- SolusiHajj — maskable icon (full-bleed, aman untuk mask iOS/Android) -->
+  <defs>
+    <linearGradient id="shTileM" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#118060"/>
+      <stop offset="0.55" stop-color="#0E6B4E"/>
+      <stop offset="1" stop-color="#0A4A36"/>
+    </linearGradient>
+    <linearGradient id="shHizamM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EBD083"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+    <linearGradient id="shStarM" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3E1A0"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#shTileM)"/>
+  <g transform="translate(46.1 46.1) scale(0.82)">
+    <circle cx="256" cy="256" r="170" fill="none" stroke="#F5F1E6" stroke-width="32"
+            stroke-linecap="round" stroke-dasharray="845.6 210"/>
+    <g>
+      <rect x="172" y="184" width="168" height="168" rx="12" fill="#17181D"/>
+      <rect x="172" y="246" width="168" height="32" fill="url(#shHizamM)"/>
+      <rect x="172" y="280" width="168" height="3" fill="#8A6D14" opacity="0.5"/>
+      <rect x="172" y="184" width="168" height="12" rx="6" fill="#FFFFFF" opacity="0.08"/>
+      <rect x="172" y="184" width="30" height="168" rx="12" fill="#000000" opacity="0.14"/>
+    </g>
+    <g transform="translate(392 154)" fill="url(#shStarM)">
+      <path d="M0 -30 Q6 -6 30 0 Q6 6 0 30 Q-6 6 -30 0 Q-6 -6 0 -30 Z"/>
+      <path d="M0 -16.5 Q3.3 -3.3 16.5 0 Q3.3 3.3 0 16.5 Q-3.3 3.3 -16.5 0 Q-3.3 -3.3 0 -16.5 Z" transform="rotate(45)"/>
+    </g>
+  </g>
+</svg>

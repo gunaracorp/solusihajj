@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 256" width="1080" height="256" role="img" aria-label="SolusiHajj — Marketplace Umrah dan Haji Terbesar di Asia">
+  <!-- ============================================================
+       SolusiHajj — Lockup horizontal "Gerbang Amanah" (v7 Final)
+       Untuk README, Open Graph, dan materi brand. Latar transparan.
+       ============================================================ -->
+  <defs>
+    <linearGradient id="shTileF" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#118060"/>
+      <stop offset="0.55" stop-color="#0E6B4E"/>
+      <stop offset="1" stop-color="#0A4A36"/>
+    </linearGradient>
+    <linearGradient id="shHizamF" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EBD083"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+    <linearGradient id="shStarF" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3E1A0"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mark (224px) -->
+  <g transform="translate(16 16) scale(0.4375)">
+    <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#shTileF)"/>
+    <circle cx="256" cy="256" r="170" fill="none" stroke="#F5F1E6" stroke-width="30"
+            stroke-linecap="round" stroke-dasharray="845.6 210"/>
+    <g>
+      <rect x="172" y="184" width="168" height="168" rx="12" fill="#17181D"/>
+      <rect x="172" y="246" width="168" height="32" fill="url(#shHizamF)"/>
+      <rect x="172" y="280" width="168" height="3" fill="#8A6D14" opacity="0.5"/>
+      <rect x="172" y="184" width="168" height="12" rx="6" fill="#FFFFFF" opacity="0.08"/>
+      <rect x="172" y="184" width="30" height="168" rx="12" fill="#000000" opacity="0.14"/>
+    </g>
+    <g transform="translate(392 154)" fill="url(#shStarF)">
+      <path d="M0 -30 Q6 -6 30 0 Q6 6 0 30 Q-6 6 -30 0 Q-6 -6 0 -30 Z"/>
+      <path d="M0 -16.5 Q3.3 -3.3 16.5 0 Q3.3 3.3 0 16.5 Q-3.3 3.3 -16.5 0 Q-3.3 -3.3 0 -16.5 Z" transform="rotate(45)"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="272" y="128" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="88" font-weight="800" letter-spacing="-2">
+    <tspan fill="#0B2E24">Solusi</tspan><tspan fill="#0E6B4E">Hajj</tspan><tspan fill="#C9A227">.</tspan>
+  </text>
+  <!-- Tagline -->
+  <text x="276" y="182" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="30" font-weight="500" fill="#56695F" letter-spacing="0.4">
+    Marketplace Umrah &amp; Haji Terbesar di Asia — Amanah Anda, Aman.
+  </text>
+  <!-- Bintang pemisah dekoratif -->
+  <g transform="translate(276 218) scale(0.5)" fill="#C9A227">
+    <path d="M0 -14 Q2.8 -2.8 14 0 Q2.8 2.8 0 14 Q-2.8 2.8 -14 0 Q-2.8 -2.8 0 -14 Z"/>
+  </g>
+  <text x="310" y="228" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="24" font-weight="700" fill="#0E6B4E" letter-spacing="2.5">
+    ESCROW SYARIAH 40/40/20 • VERIFIKASI 5 LAPIS • 796 PENYELENGGARA ASIA
+  </text>
+</svg>
