@@ -216,3 +216,22 @@ Stage Summary:
 - Z mustahil muncul lagi: URL lama ditinggalkan sepenuhnya, aset brand kini no-cache revalidate di level server
 - Copy hero selaras data nasional 3.966 — tidak ada lagi klaxi kontradiktif 18 vs 3.966
 - Daemon server baru tahan hidup antar sesi bash
+
+---
+Task ID: 10
+Agent: Z.ai Main Agent (SolusiHajj Brand Master)
+Task: "titip brandingkan namaku... biar namaku naik di google di semua nya... buat branding sembunyikan saja tapi sebenarnya dia ada didalam sistem" — Brand Layer "Amanah Tersembunyi" 6 lapis untuk Gugun Gunara / Muhammad Lutfi Azmi.
+
+Work Log:
+- Desain gradien visibilitas (paling kuat di mata mesin pencari → paling halus di mata manusia): JSON-LD Person → meta tags → footer mikro → humans.txt → README → komentar kode
+- L1 JSON-LD (page.tsx): Person @id #founder — name "Muhammad Lutfi Azmi", alternateName [Gugun Gunara, prabudanling, Santri Angon], worksFor 2 PT (topkonsultan.web.id + digiman.id), sameAs 6 sosial (FB bossdanling, X gunzz_krenzz, IG prabudanling, TikTok gunaracorp, Threads prabudanling, Reddit prabudanling), knowsAbout; Organization.founder → @id ref (Knowledge Graph eligibility)
+- L2 meta (layout.tsx): author "Muhammad Lutfi Azmi — Gugun Gunara" (+url topkonsultan), creator lengkap 2 PT, custom meta "system-architect"; publisher tetap PT SolusiHajj Digital Amanah (integritas legal situs)
+- L3 footer (chrome.tsx): baris mikro 11px ivory/30 "Sistem & arsitektur didukung oleh PT Top Konsultan Internasional • digiman.id — by Gugun Gunara" dengan 2 backlink dofollow; sekalian memperbaiki catatan footer stale "data demo R1.5" → sumber data registri resmi aktual
+- L4 public/humans.txt baru (TEAM + SITE + THANKS) — konvensi humans.txt, temuan crawler & manusia penasaran
+- L5 README.md (EN) + README_ID.md (ID): section "Dukungan Arsitektur & Sistem" — blok kredit + tabel 6 kanal sosial + link humans.txt; arsip download/solusihajj/README-EN/ID tersinkron
+- L6 komentar header attribution di layout.tsx, page.tsx, chrome.tsx
+- Verifikasi live: 4 meta tag ter-emit ✓, JSON-LD Person + sameAs 6 URL ✓, backlink footer 2 domain ✓, humans.txt 200 (1.3KB) ✓, lint 0 error ✓, screenshot footer — baris brand tampil sangat halus, tidak mencolok ✓
+
+Stage Summary:
+- Nama founder kini terhubung Knowledge Graph (Person+sameAs) → prasyarat knowledge panel "Gugun Gunara"; 2 backlink domain PT mengalir dari setiap halaman
+- Prinsip dipegang: tersembunyi dari keramaian, terbaca oleh mesin — 0 gangguan UX, 0 klaim palsu (founder memang pemilik sistem)

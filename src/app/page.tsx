@@ -6,6 +6,10 @@ import { ppiuList, orgOf, countryOf } from "@/data/ppiu";
 import { glossaryList } from "@/data/glossary";
 import { articleList } from "@/data/articles";
 
+/* Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
+   (prabudanling · Santri Angon) · PT Top Konsultan Internasional
+   (topkonsultan.web.id) · PT Digital Bisnis Manajemen (digiman.id) */
+
 const BASE = "https://solusihajj.com";
 
 /* ============================================================
@@ -17,6 +21,31 @@ const BASE = "https://solusihajj.com";
    DefinedTermSet (glosarium), ItemList (artikel & jadwal charter).
    ============================================================ */
 
+const founderPersonJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${BASE}/#founder`,
+  name: "Muhammad Lutfi Azmi",
+  alternateName: ["Gugun Gunara", "prabudanling", "Santri Angon"],
+  jobTitle: "Founder & System Architect",
+  description:
+    "Master polymath dan arsitek sistem SolusiHajj — memimpin PT Top Konsultan Internasional (perizinan & sertifikasi) dan PT Digital Bisnis Manajemen (digiman.id — digitalisasi bisnis).",
+  url: "https://topkonsultan.web.id",
+  worksFor: [
+    { "@type": "Organization", name: "PT Top Konsultan Internasional", url: "https://topkonsultan.web.id" },
+    { "@type": "Organization", name: "PT Digital Bisnis Manajemen", url: "https://digiman.id" },
+  ],
+  sameAs: [
+    "https://www.facebook.com/bossdanling",
+    "https://x.com/gunzz_krenzz",
+    "https://www.instagram.com/prabudanling",
+    "https://www.tiktok.com/@gunaracorp",
+    "https://www.threads.com/@prabudanling",
+    "https://www.reddit.com/user/prabudanling/",
+  ],
+  knowsAbout: ["Umrah", "Haji", "Marketplace Syariah", "Arsitektur Sistem", "Perizinan Usaha", "Digitalisasi Bisnis", "Escrow Syariah"],
+};
+
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -26,6 +55,7 @@ const orgJsonLd = {
   url: BASE,
   logo: `${BASE}/logo-gerbang-nur.svg`,
   slogan: "Amanah Anda, Aman.",
+  founder: { "@id": `${BASE}/#founder` },
   description:
     "Marketplace umrah & haji terbesar di Asia yang menampung PPIU, PIHK, BPW, dan KBIHU lintas negara — dengan perlindungan dana escrow syariah dan review dari jamaah nyata.",
   foundingDate: "2025",
@@ -281,6 +311,7 @@ const reviewAggJsonLd = {
 
 const allSchemas = [
   orgJsonLd,
+  founderPersonJsonLd,
   websiteJsonLd,
   ...productJsonLd,
   itemListJsonLd,

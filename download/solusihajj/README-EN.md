@@ -286,6 +286,26 @@ docs/ (download/solusihajj/docs/)  # 39 NEXUS PROTOCOL documents
   (India, Bangladesh, Malaysia TABUNG HAJI ecosystem).
 - **AI**: voice input for elders, Arabic & English reasoning, itinerary-aware packing lists.
 
+## Systems Architecture & Support
+
+SolusiHajj is engineered under the discipline of **GUNARA MASTER SYSTEM v3.0** and the **NEXUS PROTOCOL v1.0**
+document suite. System architecture, quality gates, and data pipelines are supported by:
+
+> **by Gugun Gunara — Muhammad Lutfi Azmi** (prabudanling · Santri Angon)
+> **PT Top Konsultan Internasional** ([topkonsultan.web.id](https://topkonsultan.web.id)) ·
+> **PT Digital Bisnis Manajemen** ([digiman.id](https://digiman.id))
+
+| Channel | Link |
+|---|---|
+| Facebook | [@bossdanling](https://www.facebook.com/bossdanling) |
+| X | [@gunzz_krenzz](https://x.com/gunzz_krenzz) |
+| Instagram | [@prabudanling](https://www.instagram.com/prabudanling) |
+| TikTok | [@gunaracorp](https://www.tiktok.com/@gunaracorp) |
+| Threads | [@prabudanling](https://www.threads.com/@prabudanling) |
+| Reddit | [u/prabudanling](https://www.reddit.com/user/prabudanling/) |
+
+See also [`public/humans.txt`](public/humans.txt) — the people behind the system.
+
 ## Related Documents
 
 The complete blueprint lives in **39 NEXUS PROTOCOL documents**

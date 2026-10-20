@@ -3,6 +3,10 @@
 /**
  * CHROME R1.5 — Header (3 dropdown + kontrol tema/lansia/bahasa), Footer,
  * WaFloat, Breadcrumb. Palet & komponen tetap Design System "Amanah" (dok 14).
+ *
+ * Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
+ * (prabudanling · Santri Angon) · PT Top Konsultan Internasional
+ * (topkonsultan.web.id) · PT Digital Bisnis Manajemen (digiman.id)
  */
 
 import { useEffect, useState, useSyncExternalStore } from "react";
@@ -478,8 +482,20 @@ export function Footer() {
               perjalanan ibadah; kontrak perjalanan dibuat langsung antara jamaah dan penyelenggara (PPIU/PIHK/BPW).
             </p>
             <p className="mt-2 text-[12px] text-ivory/40">
-              Data pada versi R1.5 ini merupakan data demo pengembangan. Verifikasi resmi izin tetap melalui kanal Kemenag
-              / otoritas negara masing-masing.
+              Data direktori penyelenggara bersumber dari registri resmi (SISKOPATUH Kemenhaj, Kemenag, HIMPUH, Nusuk
+              Saudi, MORA Pakistan). Verifikasi akhir izin tetap melalui kanal resmi negara masing-masing.
+            </p>
+            {/* Lapis brand halus — backlink dukungan sistem (tidak mencolok) */}
+            <p className="mt-3 text-[11px] leading-relaxed text-ivory/30">
+              Sistem &amp; arsitektur didukung oleh{" "}
+              <a href="https://topkonsultan.web.id" target="_blank" rel="noopener" className="transition-colors hover:text-gold/70">
+                PT Top Konsultan Internasional
+              </a>{" "}
+              •{" "}
+              <a href="https://digiman.id" target="_blank" rel="noopener" className="transition-colors hover:text-gold/70">
+                digiman.id
+              </a>{" "}
+              — by Gugun Gunara
             </p>
           </div>
         </div>

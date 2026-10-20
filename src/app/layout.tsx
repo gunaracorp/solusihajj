@@ -4,6 +4,10 @@ import "./theme-extra.css";
 import { Toaster } from "@/components/ui/toaster";
 import SolusiHajjApp from "@/components/solusihajj/app";
 
+/* Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
+   (prabudanling · Santri Angon) · PT Top Konsultan Internasional
+   (topkonsultan.web.id) · PT Digital Bisnis Manajemen (digiman.id) */
+
 export const metadata: Metadata = {
   title: {
     default: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia | Amanah Anda, Aman.",
@@ -33,9 +37,12 @@ export const metadata: Metadata = {
     "umrah ramadhan",
     "kalkulator simpanan haji",
   ],
-  authors: [{ name: "SolusiHajj" }],
-  creator: "PT SolusiHajj Digital Amanah",
+  authors: [{ name: "Muhammad Lutfi Azmi — Gugun Gunara", url: "https://topkonsultan.web.id" }],
+  creator: "Muhammad Lutfi Azmi (Gugun Gunara) — PT Top Konsultan Internasional · digiman.id",
   publisher: "PT SolusiHajj Digital Amanah",
+  other: {
+    "system-architect": "Gugun Gunara (Muhammad Lutfi Azmi) — topkonsultan.web.id · digiman.id",
+  },
   metadataBase: new URL("https://solusihajj.com"),
   alternates: { canonical: "/" },
   icons: {
