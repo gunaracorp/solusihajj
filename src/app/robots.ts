@@ -1,0 +1,22 @@
+/**
+ * robots.txt — semua halaman publik terbuka untuk mesin pencari,
+ * area API ditutup, sitemap mega (±4.400 URL) didaftarkan.
+ */
+import type { MetadataRoute } from "next";
+
+export const dynamic = "force-static";
+
+export default function robots(): MetadataRoute.Robots {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://solusihajj.com").replace(/\/+$/, "");
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/_next/"],
+      },
+    ],
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
+  };
+}

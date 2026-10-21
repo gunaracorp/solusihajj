@@ -1,0 +1,478 @@
+   400→
+   401→      {/* ================= S5B JADWAL PENERBANGAN GRUP ================= */}
+   402→      <section className="mt-20 bg-white py-16 md:py-20" aria-label="Jadwal penerbangan grup">
+   403→        <div className="mx-auto max-w-7xl px-4 md:px-8">
+   404→          <div className="flex flex-wrap items-end justify-between gap-4">
+   405→            <SectionHeading
+   406→              kicker="Vertikal tiket grup"
+   407→              title="Jadwal Penerbangan Charter Grup — Harga Grosir"
+   408→              sub="Untuk rombongan masjid, komunitas, dan komunitas: kursi pesawat dengan harga kursi grup, minimal 10 kursi. Seluruh jadwal ditangani penyelenggara terverifikasi."
+   409→            />
+   410→            <Link to="/tiket-grup" className="inline-flex h-12 items-center rounded-xl border border-brand px-5 font-bold text-brand transition-colors hover:bg-brand-soft">
+   411→              Semua {flightList.length} jadwal <ChevronRight size={16} className="ml-1" />
+   412→            </Link>
+   413→          </div>
+   414→          <div className="mt-8 overflow-x-auto rounded-2xl border border-line-warm shadow-card">
+   415→            <table className="w-full min-w-[820px] text-left text-[15px]">
+   416→              <thead>
+   417→                <tr className="border-b border-line-warm bg-muted/50">
+   418→                  <th className="px-5 py-3.5 font-bold text-ink">Rute</th>
+   419→                  <th className="px-5 py-3.5 font-bold text-ink">Maskapai</th>
+   420→                  <th className="px-5 py-3.5 font-bold text-ink">Berangkat</th>
+   421→                  <th className="px-5 py-3.5 font-bold text-ink">Kursi</th>
+   422→                  <th className="px-5 py-3.5 text-right font-bold text-ink">Harga / Kursi</th>
+   423→                </tr>
+   424→              </thead>
+   425→              <tbody>
+   426→                {flightList.slice(0, 5).map((f) => {
+   427→                  const organizer = ppiuList.find((p) => p.slug === f.ppiuSlug);
+   428→                  return (
+   429→                    <tr key={f.id} className="border-b border-line-warm last:border-0">
+   430→                      <td className="px-5 py-4">
+   431→                        <p className="font-bold text-ink">{f.route}</p>
+   432→                        <p className="text-xs text-ink-muted">{f.transit} • oleh {organizer?.shortName ?? "—"}</p>
+   433→                      </td>
+   434→                      <td className="px-5 py-4 text-ink-muted">{f.airline}</td>
+   435→                      <td className="tabular px-5 py-4 text-ink-muted">{formatDate(f.depart, "short")}</td>
+   436→                      <td className="px-5 py-4">
+   437→                        <div className="w-32">
+   438→                          <SeatBar left={f.seatsLeft} total={f.seatsTotal} />
+   439→                        </div>
+   440→                      </td>
+   441→                      <td className="tabular px-5 py-4 text-right font-extrabold text-brand">{formatRupiah(f.pricePerPax)}</td>
+   442→                    </tr>
+   443→                  );
+   444→                })}
+   445→              </tbody>
+   446→            </table>
+   447→          </div>
+   448→        </div>
+   449→      </section>
+   450→
+   451→      {/* ================= S5C NURMATCH TEASER ================= */}
+   452→      <section className="mx-auto mt-20 max-w-7xl px-4 md:px-8" aria-label="NurMatch AI">
+   453→        <div className="relative overflow-hidden rounded-3xl bg-brand-deep p-8 shadow-green md:p-12">
+   454→          <div className="pattern-light absolute inset-0" />
+   455→          <div className="relative grid items-center gap-8 lg:grid-cols-[1.3fr_1fr]">
+   456→            <div>
+   457→              <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-gold/15 px-4 py-1.5 text-sm font-bold text-gold">
+   458→                <Sparkles size={16} /> Fitur NurMatch AI
+   459→              </p>
+   460→              <h2 className="text-[26px] font-extrabold leading-tight text-ivory md:text-[34px]">
+   461→                Bingung Pilih Paket? Biarkan NurMatch Mencocokkan untuk Anda.
+   462→              </h2>
+   463→              <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-ivory/75">
+   464→                Jawab 5 pertanyaan tentang budget, durasi, dan prioritas ibadah Anda. NurMatch menimbang seluruh katalog
+   465→                lalu mengusulkan 3 paket paling cocok — lengkap dengan alasan dan persentase kecocokan. Transparan,
+   466→                tanpa kotak hitam, tanpa sponsor terselubung.
+   467→              </p>
+   468→              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+   469→                <Link
+   470→                  to="/nurmatch"
+   471→                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-gold px-7 font-extrabold text-brand-deep transition-colors hover:bg-[#D9B544]"
+   472→                >
+   473→                  Mulai Quiz 1 Menit <ArrowRight size={18} className="ml-2" />
+   474→                </Link>
+   475→                <Link
+   476→                  to="/bandingkan"
+   477→                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-ivory/40 px-6 font-bold text-ivory transition-colors hover:bg-white/10"
+   478→                >
+   479→                  <GitCompareArrows size={17} className="mr-2" /> Atau bandingkan manual
+   480→                </Link>
+   481→              </div>
+   482→            </div>
+   483→            <div className="space-y-3" aria-hidden="true">
+   484→              {[
+   485→                ["94%", "Umrah 9 Hari — Hotel 300 m", "cocok: budget mid, prioritas dekat Haram"],
+   486→                ["88%", "LA 8 Hari — Join Jeddah", "cocok: sudah punya tiket sendiri"],
+   487→                ["81%", "Umrah Plus Turki 13 Hari", "cocok: suka perjalanan panjang"],
+   488→              ].map((row, i) => (
+   489→                <div key={i} className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
+   490→                  <div className="flex items-center justify-between">
+   491→                    <p className="text-[15px] font-bold text-ivory">{row[1]}</p>
+   492→                    <span className="tabular rounded-lg bg-gold/25 px-2.5 py-1 text-sm font-extrabold text-gold">{row[0]}</span>
+   493→                  </div>
+   494→                  <p className="mt-1 text-xs text-ivory/60">{row[2]}</p>
+   495→                </div>
+   496→              ))}
+   497→            </div>
+   498→          </div>
+   499→        </div>
+   500→      </section>
+   501→
+   502→      {/* ================= S6 VERIFIKASI 5 LAPIS ================= */}
+   503→      <section className="mt-20 bg-white py-16 md:mt-28 md:py-24" aria-label="Verifikasi 5 lapis">
+   504→        <div className="mx-auto max-w-7xl px-4 md:px-8">
+   505→          <SectionHeading
+   506→            center
+   507→            kicker="Kepercayaan kami"
+   508→            title="Setiap PPIU Melewati Verifikasi 5 Lapis"
+   509→            sub="Bukan sekadar 'sudah dicek'. Lima lapis pemeriksaan yang bisa Anda baca, dan izinnya bisa Anda cek sendiri kapan pun."
+   510→          />
+   511→          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+   512→            {[
+   513→              { icon: FileSearch, n: "1", t: "Cek Izin Resmi Kemenag", d: "Legalitas PPIU dicek ke basis data Kemenag; nomor izin dipublikasikan di setiap toko." },
+   514→              { icon: Building2, n: "2", t: "Audit Kantor Fisik", d: "Tim kami mengunjungi kantor: operasional nyata, staf tetap, bukan kios kosong." },
+   515→              { icon: Banknote, n: "3", t: "Legalitas & Rekening", d: "Badan hukum terdaftar, rekening perusahaan (bukan pribadi), tanpa catatan penipuan." },
+   516→              { icon: UserRoundCheck, n: "4", t: "Track Record Jamaah", d: "Minimal 3 angkatan beroperasi; jamaah sebelumnya kami hubungi sebagai referensi." },
+   517→              { icon: Eye, n: "5", t: "Pemantauan Berkelanjutan", d: "Badge dievaluasi tiap kuartal; keluhan serius memicu review ulang — pelanggaran = turun tier." },
+   518→            ].map((s, i) => (
+   519→              <div key={i} className="relative rounded-2xl border border-line-warm bg-ivory p-5">
+   520→                <span className="tabular absolute right-4 top-3 text-4xl font-extrabold text-brand/10">{s.n}</span>
+   521→                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand text-ivory">
+   522→                  <s.icon size={22} />
+   523→                </span>
+   524→                <h3 className="mt-3 text-[16px] font-bold leading-snug text-ink">{s.t}</h3>
+   525→                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{s.d}</p>
+   526→              </div>
+   527→            ))}
+   528→          </div>
+   529→          <div className="mt-10 text-center">
+   530→            <Link
+   531→              to="/verifikasi/cek-izin-ppiu"
+   532→              className="inline-flex min-h-12 items-center rounded-xl bg-brand px-7 font-bold text-ivory transition-colors hover:bg-brand-deep"
+   533→            >
+   534→              <ShieldCheck size={18} className="mr-2" /> Cek Izin PPIU Anda sendiri →
+   535→            </Link>
+   536→            <p className="mt-3 text-sm text-ink-muted">Gratis, tanpa daftar akun — hanya butuh nama travel.</p>
+   537→          </div>
+   538→        </div>
+   539→      </section>
+   540→
+   541→      {/* ================= S7 AMANAHESCROW ================= */}
+   542→      <section className="relative bg-brand-deep py-16 md:py-24" aria-label="AmanahEscrow">
+   543→        <div className="pattern-light absolute inset-0" />
+   544→        <div className="relative mx-auto max-w-7xl px-4 md:px-8">
+   545→          <SectionHeading
+   546→            dark
+   547→            kicker="Perlindungan dana"
+   548→            title="AmanahEscrow: Dana Anda Tidak Menyentuh Rekening Siapa Pun"
+   549→            sub="Prinsipnya sederhana: PPIU baru menerima pembayaran setelah Anda benar-benar berangkat dan terlayani. Sebelum itu, dana Anda diamankan di rekening escrow bank syariah mitra."
+   550→          />
+   551→          <div className="mt-12 grid gap-10 lg:grid-cols-2">
+   552→            <div className="rounded-2xl bg-white/5 p-6 md:p-8">
+   553→              <EscrowTimeline />
+   554→            </div>
+   555→            <div className="overflow-hidden rounded-2xl bg-white/5">
+   556→              <table className="w-full text-left text-[15px]">
+   557→                <thead>
+   558→                  <tr className="border-b border-white/10">
+   559→                    <th className="px-5 py-4 font-bold text-gold">Tahap</th>
+   560→                    <th className="px-5 py-4 font-bold text-gold">Momen Rilis</th>
+   561→                    <th className="px-5 py-4 text-right font-bold text-gold">Rilis ke PPIU</th>
+   562→                  </tr>
+   563→                </thead>
+   564→                <tbody className="text-ivory/85">
+   565→                  {[
+   566→                    ["1", "Jamaah tiba & check-in hotel Makkah (terkonfirmasi)", "40%"],
+   567→                    ["2", "Ibadah Makkah–Madinah berjalan sesuai itinerary", "40%"],
+   568→                    ["3", "Jamaah tiba kembali di tanah air + review terbit", "20%"],
+   569→                  ].map((row) => (
+   570→                    <tr key={row[0]} className="border-b border-white/5 last:border-0">
+   571→                      <td className="tabular px-5 py-4 font-bold">{row[0]}</td>
+   572→                      <td className="px-5 py-4 leading-snug">{row[1]}</td>
+   573→                      <td className="tabular px-5 py-4 text-right text-lg font-extrabold text-gold">{row[2]}</td>
+   574→                    </tr>
+   575→                  ))}
+   576→                </tbody>
+   577→              </table>
+   578→              <div className="border-t border-white/10 p-5">
+   579→                <p className="text-sm leading-relaxed text-ivory/70">
+   580→                  Jika perjalanan bermasalah sebelum keberangkatan, dana kembali <strong className="text-gold">100%</strong> sesuai
+   581→                  skema refund kontrak. Dikelola bersama bank syariah mitra — bukan rekening pribadi siapa pun.
+   582→                </p>
+   583→                <Link
+   584→                  to="/escrow"
+   585→                  className="mt-4 inline-flex min-h-12 items-center rounded-xl bg-gold px-6 font-extrabold text-brand-deep transition-colors hover:bg-[#D9B544]"
+   586→                >
+   587→                  Lihat Cara Kerja Escrow <ChevronRight size={16} className="ml-1" />
+   588→                </Link>
+   589→              </div>
+   590→            </div>
+   591→          </div>
+   592→        </div>
+   593→      </section>
+   594→
+   595→      {/* ================= S8 SAKSI JAMAAH ================= */}
+   596→      <section className="mx-auto mt-20 max-w-7xl px-4 md:mt-28 md:px-8" aria-label="Review jamaah">
+   597→        <SectionHeading
+   598→          center
+   599→          kicker="Saksi Jamaah"
+   600→          title="Ulasan yang Tidak Bisa Dibeli"
+   601→          sub="Review hanya bisa ditulis oleh jamaah dengan booking berstatus selesai. Setiap ulasan mencantumkan nama, paket, dan tanggal pulang."
+   602→        />
+   603→        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+   604→          {heroReviews.map((r) => {
+   605→            const pkg = featuredPackages.find((p) => p.slug === r.packageSlug);
+   606→            return (
+   607→              <figure key={r.id} className="flex flex-col rounded-2xl border border-line-warm bg-card p-6 shadow-card">
+   608→                <div className="mb-3 flex items-center justify-between">
+   609→                  <StarRating value={r.rating} size={16} />
+   610→                  <span className="text-xs text-ink-muted">Pulang {formatDate(r.returnedAt, "short")}</span>
+   611→                </div>
+   612→                <blockquote className="flex-1 text-[15px] leading-relaxed text-ink">
+   613→                  &ldquo;{r.text.length > 220 ? r.text.slice(0, 220) + "…" : r.text}&rdquo;
+   614→                </blockquote>
+   615→                <figcaption className="mt-4 border-t border-line-warm pt-4">
+   616→                  <p className="font-bold text-ink">{r.name}</p>
+   617→                  <p className="text-sm text-ink-muted">
+   618→                    {r.city} • {pkg ? pkg.title.slice(0, 38) + "…" : "Paket umrah"}
+   619→                  </p>
+   620→                </figcaption>
+   621→              </figure>
+   622→            );
+   623→          })}
+   624→        </div>
+   625→        <div className="mt-10 rounded-2xl border border-line-warm bg-card p-6 shadow-card md:p-8">
+   626→          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+   627→            <h3 className="text-[19px] font-bold text-ink">Agregat rating 6 dimensi (seluruh review Saksi Jamaah)</h3>
+   628→            <span className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1.5 text-sm font-bold text-brand">
+   629→              <ShieldCheck size={15} /> Review-gated: hanya booking selesai
+   630→            </span>
+   631→          </div>
+   632→          <div className="grid gap-x-10 gap-y-3 sm:grid-cols-2">
+   633→            {(Object.keys(DIMENSION_LABELS) as DimensionKey[]).map((key) => {
+   634→              const val = agg(key);
+   635→              return (
+   636→                <div key={key} className="flex items-center gap-3">
+   637→                  <span className="w-44 shrink-0 text-sm text-ink-muted">{DIMENSION_LABELS[key]}</span>
+   638→                  <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-muted">
+   639→                    <div className="h-full rounded-full bg-brand" style={{ width: `${(val / 5) * 100}%` }} />
+   640→                  </div>
+   641→                  <span className="tabular w-8 text-right text-sm font-bold">{val.toFixed(1)}</span>
+   642→                </div>
+   643→              );
+   644→            })}
+   645→          </div>
+   646→        </div>
+   647→      </section>
+   648→
+   649→      {/* ================= S9 HAFIZH TRACK TEASER ================= */}
+   650→      <section className="mt-20 bg-white py-16 md:mt-28 md:py-24" aria-label="Hafizh Track">
+   651→        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 md:px-8 lg:grid-cols-2">
+   652→          <div>
+   653→            <SectionHeading
+   654→              kicker="Segera hadir"
+   655→              title="Hafizh Track: Keluarga Ikat Kaki, Hati Ikat Lepas"
+   656→              sub="Bagi jamaah, perjalanan itu ibadah. Bagi keluarga di rumah, 10 hari tanpa kabar adalah 10 hari khawatir. Hafizh Track menjembatani keduanya — dengan izin jamaah, tanpa melanggar privasi."
+   657→            />
+   658→            <ul className="mt-6 space-y-3.5">
+   659→              {[
+   660→                { icon: BookOpen, t: "E-itinerary offline", d: "Jadwal, hotel, dan kontak koordinator — tersedia tanpa internet." },
+   661→                { icon: UserRoundCheck, t: "Check-in aman otomatis", d: "Notifikasi 'Aman tiba' terkirim di titik penting perjalanan." },
+   662→                { icon: Siren, t: "Tombol SOS 24 jam", d: "Terhubung ke koordinator PPIU & tim darurat SolusiHajj." },
+   663→                { icon: HeartHandshake, t: "Undangan keluarga", d: "Cukup link undangan — keluarga tidak perlu install aplikasi." },
+   664→              ].map((f, i) => (
+   665→                <li key={i} className="flex gap-3.5">
+   666→                  <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft">
+   667→                    <f.icon size={20} className="text-brand" />
+   668→                  </span>
+   669→                  <div>
+   670→                    <p className="font-bold text-ink">{f.t}</p>
+   671→                    <p className="text-[15px] text-ink-muted">{f.d}</p>
+   672→                  </div>
+   673→                </li>
+   674→              ))}
+   675→            </ul>
+   676→            <div className="mt-6 flex flex-wrap items-center gap-3">
+   677→              <WaButton href={waLink(waMessages.waitlist)} label="Gabung Waitlist" />
+   678→              <span className="text-sm text-ink-muted">Rilis penuh di fase R3 2026 • versi R1: waitlist</span>
+   679→            </div>
+   680→          </div>
+   681→          <div className="relative overflow-hidden rounded-3xl bg-brand-deep p-8 md:p-10" aria-hidden="true">
+   682→            <div className="pattern-light absolute inset-0" />
+   683→            <div className="relative">
+   684→              <p className="font-amiri text-2xl text-gold">لِلْحَافِظِينَ</p>
+   685→              <h3 className="mt-3 text-2xl font-extrabold text-ivory">"Kepada para penjaga"</h3>
+   686→              <div className="mt-8 space-y-4">
+   687→                {[
+   688→                  ["06:12", "Bapak Anton tiba di hotel Makkah — Aman ✓"],
+   689→                  ["11:40", "Umrah pertama selesai bersama mutawif"],
+   690→                  ["19:05", "Foto grup di depan Masjidil Haram"],
+   691→                  ["21:30", "Update posisi: masih di area Haram (opt-in)"],
+   692→                ].map((row, i) => (
+   693→                  <div key={i} className="flex items-center gap-4 rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
+   694→                    <span className="tabular rounded-lg bg-gold/20 px-2.5 py-1 text-sm font-bold text-gold">{row[0]}</span>
+   695→                    <span className="text-[15px] text-ivory/90">{row[1]}</span>
+   696→                  </div>
+   697→                ))}
+   698→              </div>
+   699→              <p className="mt-6 text-xs leading-relaxed text-ivory/50">
+   700→                Simulasi tampilan notifikasi keluarga. Tracking bersifat opt-in, data lokasi disimpan maksimal 30 hari
+   701→                sesuai UU PDP No. 27/2022.
+   702→              </p>
+   703→            </div>
+   704→          </div>
+   705→        </div>
+   706→      </section>
+   707→
+   708→      {/* ================= S10 EDUKASI TERBARU ================= */}
+   709→      <section className="mx-auto mt-20 max-w-7xl px-4 md:mt-28 md:px-8" aria-label="Artikel edukasi">
+   710→        <div className="flex flex-wrap items-end justify-between gap-4">
+   711→          <SectionHeading
+   712→            kicker="Edukasi"
+   713→            title="Paham Sebelum Berangkat"
+   714→            sub="Kami menulis panduan yang jujur dan praktis — termasuk yang jarang ditulis travel: cara cek izin, biaya wajar, dan persiapan 30 hari."
+   715→          />
+   716→          <Link to="/edukasi" className="inline-flex h-12 items-center rounded-xl border border-brand px-5 font-bold text-brand transition-colors hover:bg-brand-soft">
+   717→            Semua artikel <ChevronRight size={16} className="ml-1" />
+   718→          </Link>
+   719→        </div>
+   720→        <div className="mt-8 grid gap-5 md:grid-cols-3">
+   721→          {articleList.slice(0, 3).map((a) => (
+   722→            <Link
+   723→              key={a.slug}
+   724→              to={`/edukasi/${a.slug}`}
+   725→              className="group flex flex-col rounded-2xl border border-line-warm bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-warm"
+   726→            >
+   727→              <span className="mb-3 w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">{a.category}</span>
+   728→              <h3 className="text-[17px] font-bold leading-snug text-ink group-hover:text-brand">{a.title}</h3>
+   729→              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-muted">{a.excerpt}</p>
+   730→              <p className="mt-4 text-xs text-ink-muted">{a.readMinutes} menit baca • Direview {formatDate(a.lastReviewed, "short")}</p>
+   731→            </Link>
+   732→          ))}
+   733→        </div>
+   734→        <Link
+   735→          to="/kalkulator-haji"
+   736→          className="group mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl bg-brand-deep p-6 shadow-green transition-all hover:-translate-y-0.5 md:flex-row md:p-8"
+   737→        >
+   738→          <div className="flex items-center gap-4">
+   739→            <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/20">
+   740→              <Calculator size={28} className="text-gold" />
+   741→            </span>
+   742→            <div>
+   743→              <h3 className="text-[19px] font-bold text-ivory">Kalkulator Simpanan Haji</h3>
+   744→              <p className="text-[15px] text-ivory/70">
+   745→                Hitung sendiri: kapan dana Anda cukup untuk berangkat? Gratis, tanpa daftar akun.
+   746→              </p>
+   747→            </div>
+   748→          </div>
+   749→          <span className="inline-flex min-h-12 items-center rounded-xl bg-gold px-6 font-extrabold text-brand-deep transition-colors group-hover:bg-[#D9B544]">
+   750→            Hitung Sekarang <ChevronRight size={16} className="ml-1" />
+   751→          </span>
+   752→        </Link>
+   753→      </section>
+   754→
+   755→      {/* ================= S11 FAQ TEASER ================= */}
+   756→      <section className="mx-auto mt-20 max-w-4xl px-4 md:mt-28 md:px-8" aria-label="Pertanyaan umum">
+   757→        <SectionHeading
+   758→          center
+   759→          kicker="FAQ"
+   760→          title="Pertanyaan yang Paling Sering Ditanyakan"
+   761→        />
+   762→        <Accordion type="single" collapsible className="mt-8">
+   763→          {homepageFaq.map((f, i) => (
+   764→            <AccordionItem key={i} value={`f-${i}`} className="border-line-warm">
+   765→              <AccordionTrigger className="text-left text-[16px] font-bold text-ink hover:text-brand hover:no-underline">
+   766→                {f.q}
+   767→              </AccordionTrigger>
+   768→              <AccordionContent className="text-[15px] leading-relaxed text-ink-muted">
+   769→                {f.a}
+   770→              </AccordionContent>
+   771→            </AccordionItem>
+   772→          ))}
+   773→        </Accordion>
+   774→        <div className="mt-6 text-center">
+   775→          <Link to="/faq" className="font-bold text-brand hover:underline">
+   776→            Lihat semua 10 pertanyaan →
+   777→          </Link>
+   778→        </div>
+   779→      </section>
+   780→
+   781→      {/* ================= S11B PERBANDINGAN PLATFORM ================= */}
+   782→      <section className="mt-20 bg-white py-16 md:py-20" aria-label="Perbandingan dengan cara lain">
+   783→        <div className="mx-auto max-w-6xl px-4 md:px-8">
+   784→          <SectionHeading
+   785→            center
+   786→            kicker="Posisi kami"
+   787→            title="Kenapa Berbeda dari OTA Umum dan Booking Langsung?"
+   788→            sub="Kami bukan travel, bukan OTA yang sekadar menampilkan iklan. Kami lapisan perlindungan di atas marketplace — dan kami buka bedanya secara jujur."
+   789→          />
+   790→          <div className="mt-10 overflow-x-auto rounded-2xl border border-line-warm shadow-card">
+   791→            <table className="w-full min-w-[720px] text-left text-[15px]">
+   792→              <thead>
+   793→                <tr className="border-b border-line-warm bg-brand-deep text-ivory">
+   794→                  <th className="px-5 py-4 font-bold">Aspek</th>
+   795→                  <th className="px-5 py-4 font-bold text-gold">SolusiHajj</th>
+   796→                  <th className="px-5 py-4 font-bold text-ivory/80">OTA umum</th>
+   797→                  <th className="px-5 py-4 font-bold text-ivory/80">Booking langsung ke travel</th>
+   798→                </tr>
+   799→              </thead>
+   800→              <tbody>
+   801→                {[
+   802→                  ["Perlindungan dana", "Escrow syariah 40/40/20 — rilis setelah Anda terlayani", "Terutang ke travel; OTA hanya perantara", "Langsung ke rekening travel — risiko penuh di Anda"],
+   803→                  ["Kualitas penyelenggara", "Verifikasi 5 lapis + audit kantor fisik + tier berkala", "Registrasi dokumen saja", "Tergantung kejujuran pihak travel"],
+   804→                  ["Review", "Hanya dari booking selesai (Saksi Jamaah), 6 dimensi", "Bisa ditulis siapa pun / sulit diverifikasi", "Testimoni kurasi sendiri"],
+   805→                  ["Ketika ada masalah", "Mediasi + dana masih di escrow", "Anda berurusan sendiri dengan travel", "Tidak ada pihak ketiga"],
+   806→                  ["Jangkauan", "PPIU, PIHK, BPW & KBIHU dari 5 negara Asia", "Sebagian besar satu negara", "Satu travel, satu katalog"],
+   807→                  ["Model bisnis", "Komisi 4-6% saat transaksi sukses — selaras kepentingan", "Iklan & ranking berbayar", "Marjin travel sendiri"],
+   808→                ].map((row, i) => (
+   809→                  <tr key={i} className="border-b border-line-warm last:border-0">
+   810→                    <td className="px-5 py-4 font-bold text-ink">{row[0]}</td>
+   811→                    <td className="bg-brand-soft/60 px-5 py-4 font-semibold text-brand-deep">{row[1]}</td>
+   812→                    <td className="px-5 py-4 text-ink-muted">{row[2]}</td>
+   813→                    <td className="px-5 py-4 text-ink-muted">{row[3]}</td>
+   814→                  </tr>
+   815→                ))}
+   816→              </tbody>
+   817→            </table>
+   818→          </div>
+   819→        </div>
+   820→      </section>
+   821→
+   822→      {/* ================= S11C PARTNER STRIP ================= */}
+   823→      <section className="mx-auto mt-20 max-w-7xl px-4 md:px-8" aria-label="Ajakan untuk penyelenggara">
+   824→        <div className="grid items-center gap-8 rounded-3xl border-2 border-gold/40 bg-gold-soft/50 p-8 md:grid-cols-[1.4fr_1fr] md:p-10">
+   825→          <div>
+   826→            <p className="mb-2 inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-gold-deep">
+   827→              <Building2 size={15} /> Untuk PPIU · PIHK · BPW · KBIHU
+   828→            </p>
+   829→            <h2 className="text-[24px] font-extrabold leading-tight text-ink md:text-[30px]">
+   830→              Anda Menyelenggarakan Ibadah? Tayangkan Paket Anda di Marketplace Terbesar Asia.
+   831→            </h2>
+   832→            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+   833→              Gratis tayang, bayar hanya saat transaksi berhasil (komisi 4–6%). Kami yang berikan: jamaah, escrow
+   834→              yang membuat Anda dipercaya, review terkunci, dashboard toko, dan akses pasar lintas negara.
+   835→            </p>
+   836→          </div>
+   837→          <div className="flex flex-col gap-3">
+   838→            <Link
+   839→              to="/partner"
+   840→              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand px-6 font-bold text-ivory transition-colors hover:bg-brand-deep"
+   841→            >
+   842→              Pelajari Kemitraan <ChevronRight size={16} className="ml-1" />
+   843→            </Link>
+   844→            <WaButton href={waLink(waMessages.ppiuPartner)} variant="ghost" label="Hubungi Tim Partner" />
+   845→          </div>
+   846→        </div>
+   847→      </section>
+   848→
+   849→      {/* ================= S12 FINAL CTA ================= */}
+   850→      <section className="mx-auto mt-20 max-w-7xl px-4 pb-20 md:mt-28 md:px-8 md:pb-24" aria-label="Ajakan akhir">
+   851→        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-deep via-brand to-brand-deep p-8 text-center shadow-green md:p-14">
+   852→          <div className="pattern-light absolute inset-0" />
+   853→          <div className="relative">
+   854→            <h2 className="mx-auto max-w-2xl text-[30px] font-extrabold leading-tight text-ivory md:text-[40px]">
+   855→              Mulai Perjalanan yang Aman Hari Ini.
+   856→            </h2>
+   857→            <p className="mx-auto mt-4 max-w-xl text-[16px] text-ivory/80">
+   858→              Bandingkan paket, cek izin travel-nya sendiri, dan biarkan dana Anda ditungangi escrow sampai Anda
+   859→              berangkat. Konsultasi tidak dipungut biaya.
+   860→            </p>
+   861→            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+   862→              <Link
+   863→                to="/paket"
+   864→                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-gold px-7 font-extrabold text-brand-deep transition-colors hover:bg-[#D9B544]"
+   865→              >
+   866→                Cari Paket Umrah
+   867→              </Link>
+   868→              <WaButton href={waLink(waMessages.general)} variant="ghost" label="Tanya WhatsApp" className="border-ivory/40 bg-transparent text-ivory hover:bg-white/10" />
+   869→            </div>
+   870→            <p className="mt-5 text-sm text-ivory/60">Respons &lt; 15 menit jam kerja • Konsultasi gratis</p>
+   871→          </div>
+   872→        </div>
+   873→      </section>
+   874→    </div>
+   875→  );
+   876→}
+   877→

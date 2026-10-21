@@ -1,0 +1,389 @@
+# 🏆 SOP ULTIMATE: SISTEM PEMBUATAN WEBSITE SUPER PREMIUM
+## "NEXUS PROTOCOL v1.0" — Standarisasi Dunia untuk AI-Powered Web Development
+
+---
+
+# 📌 BAGIAN 1: ARSITEKTUR "AI DREAM TEAM"
+
+Sebelum masuk ke SOP, kamu harus tahu **senjata apa yang dipakai dan untuk apa**. Ini komposisi tim AI ideal:
+
+| AI Tool | Peran Utama | Kapan Dipakai |
+|---------|-------------|---------------|
+| **Chat.Z.AI (GLM)** | Arsitek Sistem & Deep Research | Brainstorming, analisis kompetitor, dokumen strategi |
+| **ChatGPT (GPT-4o/o1)** | Product Manager & Logic Master | Spesifikasi teknis, API design, debugging kompleks |
+| **DeepSeek R1** | Reasoning Engine | Analisis kode berat, algoritma, audit logika |
+| **Claude** | Technical Writer & Kode Panjang | Menulis dokumentasi, file kode utuh, refactoring |
+| **Gemini** | Visual Research & Multi-modal | Analisis screenshot, riset desain, referensi |
+| **Cursor / Windsurf** | AI Code Editor | Eksekusi kode langsung di project |
+| **v0.dev (Vercel)** | UI Generator | Generate komponen UI premium instan |
+| **Midjourney / Ideogram** | Aset Visual | Hero images, ilustrasi, mockup |
+| **Figma + AI plugins** | Design System | Wireframe hingga high-fidelity design |
+
+> 💡 **Prinsip Emas:** Satu AI = Satu Ahli. Jangan pakai satu AI untuk semua. Ini seperti tim konsultan sungguhan.
+
+---
+
+# 📚 BAGIAN 2: 39 DOKUMEN WAJIB — "THE HOLY GRAIL"
+
+Setiap project premium WAJIB punya folder `docs/` berisi 39 dokumen Markdown. Ini bukan formalitas — **ini adalah otak project-mu**. AI bisa membaca semua ini sebagai konteks, sehingga konsistensi terjaga 100%.
+
+## 🎯 FASE 0 — DISCOVERY (Dokumen 1–5)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 01 | `00-project-brief.md` | Fondasi segalanya. 1 halaman: siapa klien, apa tujuan, apa definisi sukses. Tanpa ini, semua AI akan "menebak-nebak" dan hasilnya acak. |
+| 02 | `01-stakeholder-analysis.md` | Tahu siapa pengambil keputusan. 80% project gagal karena salah paham siapa yang punya "veto power". |
+| 03 | `02-business-requirements.md` (BRD) | Terjemahan keinginan klien → kebutuhan teknis. Ini kontrak tak tertulis antara kamu dan klien. |
+| 04 | `03-competitor-analysis.md` | Analisis 3–5 kompetitor. Website premium harus MENGUNGGLI, bukan meniru. Chat.Z.AI bagus untuk ini. |
+| 05 | `04-user-personas.md` | Profil detail 2–3 tipe pengguna. Setiap keputusan desain harus bisa dijawab: "ini untuk persona yang mana?" |
+
+## 📐 FASE 1 — PLANNING & ARCHITECTURE (Dokumen 6–14)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 06 | `05-project-scope.md` | Menjelaskan apa yang DILAKUKAN dan apa yang TIDAK. Mencegah "scope creep" — pembunuh #1 profitability konsultan. |
+| 07 | `06-sitemap.md` | Peta seluruh halaman. AI butuh ini untuk generate halaman konsisten. |
+| 08 | `07-user-flows.md` | Perjalanan pengguna dari landing → konversi. Misal: "Home → Services → Portfolio → Contact Form → WhatsApp". |
+| 09 | `08-wireframe-spec.md` | Deskripsi tekstual tiap section halaman. Ini yang kamu paste ke AI untuk generate UI. |
+| 10 | `09-content-strategy.md` | Copywriting framework (AIDA/PAS), tone of voice, structure konten. Website premium = copy premium. |
+| 11 | `10-seo-strategy.md` | Keyword research, meta structure, schema markup plan. Harus dari awal, BUKAN setelah jadi. |
+| 12 | `11-tech-stack-decision.md` | Dokumen krusial! Kenapa pilih Next.js vs Astro vs HTML murni? Untuk shared hosting, ini menentukan hidup mati project. |
+| 13 | `12-database-schema.md` | Jika ada fitur dinamis (form, login, CMS). Diagram tabel, relasi, indeks. |
+| 14 | `13-api-specification.md` | Jika ada integrasi (WhatsApp API, payment, email). Format request/response. |
+
+## 🎨 FASE 2 — DESIGN SYSTEM (Dokumen 15–19)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 15 | `14-design-system.md` | **Dokumen paling penting untuk AI.** Warna (hex), typography (font + ukuran), spacing scale, border radius, shadow. Tanpa ini, AI generate desain random setiap sesi. |
+| 16 | `15-ui-component-spec.md` | Spesifikasi detail tombol, card, navbar, footer, form. Jadi "library" yang AI ikuti. |
+| 17 | `16-responsive-breakpoints.md` | Aturan mobile-first: breakpoint apa saja, behavior navigation di mobile, grid changes. |
+| 18 | `17-accessibility-standard.md` | Standar WCAG 2.1 AA: kontras warna, ukuran font minimum, keyboard navigation. Ini yang membedakan premium dari abal-abal. |
+| 19 | `18-motion-design-spec.md` | Animasi scroll, hover effects, timing (0.3s ease-out), library (GSAP/AOS). Konsistensi motion = kesan mahal. |
+
+## ⚙️ FASE 3 — DEVELOPMENT STANDARDS (Dokumen 20–25)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 20 | `19-coding-standards.md` | Naming convention, format kode, komentar, bahasa (ID/EN). AI akan generate kode sesuai aturan ini. |
+| 21 | `20-git-workflow.md` | Branch strategy (main/dev/feature), commit message format (conventional commits), siapa merge kapan. |
+| 22 | `21-folder-structure.md` | Blueprint struktur folder. Supaya AI tidak membuat file sembarangan. |
+| 23 | `22-environment-config.md` | Perbedaan .env development vs production, daftar semua variable rahasia. |
+| 24 | `23-security-protocol.md` | Input sanitization, CSP headers, rate limiting, proteksi form spam. Website premium = website aman. |
+| 25 | `24-performance-budget.md` | Target keras: LCP < 2.5s, ukuran gambar max, jumlah font max 2, JS bundle max. Angka, bukan perasaan. |
+
+## 🧪 FASE 4 — QUALITY ASSURANCE (Dokumen 26–29)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 26 | `25-test-plan.md` | Skenario test fungsional per fitur. QA checklist sebelum serah ke klien. |
+| 27 | `26-device-matrix.md` | Daftar device + browser yang WAJIB dites: iPhone SE, iPhone 15, Samsung mid-range, Chrome, Safari, Firefox. |
+| 28 | `27-form-integration-test.md` | Khusus form/WhatsApp/email — test end-to-end. Form error = klien hilang kepercayaan. |
+| 29 | `28-lighthouse-report.md` | Screenshot & target skor: Performance ≥ 90, SEO ≥ 95, Accessibility ≥ 90. Bukti profesionalisme. |
+
+## 🚀 FASE 5 — DEPLOYMENT (Dokumen 30–34)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 30 | `29-deployment-runbook.md` | Step-by-step deploy seperti resep masakan. Siapapun harus bisa deploy dengan dokumen ini — termasuk AI di masa depan. |
+| 31 | `30-domain-dns-configuration.md` | Record A, CNAME, MX, TXT. Supaya tidak panik saat DNS error di jam 2 pagi. |
+| 32 | `31-shared-hosting-setup.md` | Detail: cPanel, struktur public_html, PHP version, limits hosting, cara upload via Git atau File Manager. |
+| 33 | `32-ssl-https-guide.md` | Cara aktifkan SSL (Let's Encrypt/SSL gratis hosting), redirect HTTP→HTTPS, mixed content fix. |
+| 34 | `33-backup-recovery-sop.md` | Jadwal backup (mingguan), cara restore. Tanpa ini, satu hack = project hangus. |
+
+## 📈 FASE 6 — POST-LAUNCH & BUSINESS (Dokumen 35–39)
+
+| # | Dokumen | Kenapa Wajib Ada |
+|---|---------|------------------|
+| 35 | `34-analytics-monitoring.md` | Setup GA4 + Search Console, metric yang dipantau bulanan, format laporan untuk klien. |
+| 36 | `35-maintenance-contract.md` | Template kontrak maintenance bulanan — **ini sumber income berulang untukmu sebagai konsultan!** |
+| 37 | `36-client-handover-manual.md` | Panduan untuk klien: cara ganti konten, cara backup, siapa hubungi. Mengurangi pertanyaan berulang 90%. |
+| 38 | `37-changelog-template.md` | Format log perubahan tiap update. Profesional & traceable. |
+| 39 | `38-lessons-learned.md` | Retro pasca-project: apa yang lancar, apa yang harus diperbaiki. **Dokumen ini membuatmu makin tajam tiap project.** |
+
+```
+📁 NAMA-PROJECT/
+├── 📁 docs/
+│   ├── 00-project-brief.md
+│   ├── 01-stakeholder-analysis.md
+│   ├── ... (sampai 38)
+│   └── 38-lessons-learned.md
+├── 📁 src/          (atau public/ atau sesuai stack)
+├── 📁 assets/
+├── .gitignore
+├── README.md        (ringkasan project + cara pakai docs)
+└── CHANGELOG.md
+```
+
+---
+
+# ⚡ BAGIAN 3: WORKFLOW 10 FASE — STEP BY STEP
+
+## FASE 1️⃣ — DISCOVERY SPRINT (Hari 1–2)
+
+**Prompt untuk Chat.Z.AI / ChatGPT:**
+```
+Kamu adalah senior business consultant dengan 20 tahun pengalaman digital agency.
+Klien saya: [DESKRIPSI BISNIS]
+Target: [TUJUAN WEBSITE]
+Bantu saya buat:
+1. Project Brief (1 halaman)
+2. Analisis 5 kompetitor terdekat + gap analysis mereka
+3. 3 user persona detail
+Output dalam format markdown siap pakai, bahasa Indonesia.
+```
+
+✅ **Output:** Dokumen 01–05 selesai.
+
+## FASE 2️⃣ — STRATEGI & ARSITEKTUR (Hari 2–3)
+
+**Prompt untuk ChatGPT (o1/reasoning):**
+```
+Kamu adalah Solution Architect. Berdasarkan project brief berikut: [PASTE BRIEF]
+Bantu saya tentukan:
+1. Tech stack terbaik untuk shared hosting (budget-friendly, no VPS):
+   - Pertimbangkan: HTML+Tailwind static? Astro? PHP+Laravel?
+2. Sitemap lengkap dengan hierarki
+3. User flow utama sampai konversi
+4. Keyword SEO primer & sekunder untuk niche ini
+```
+
+⚠️ **KEPUTUSAN KRITIS UNTUK SHARED HOSTING:**
+- **Company profile / landing page** → HTML + Tailwind CSS + Vanilla JS (ATAU Astro static) → cepat, ringan, zero dependency
+- **Butuh CMS** → WordPress custom theme ATAU PHP native
+- **Butuh app kompleks** → JANGAN shared hosting, sarankan VPS (dan naikkan harga!)
+
+## FASE 3️⃣ — DESIGN SYSTEM (Hari 3–4)
+
+**Prompt untuk Claude/ChatGPT:**
+```
+Kamu adalah Design Lead ala Vercel/Linear/Stripe aesthetic.
+Buat design system untuk [BISNIS] dengan mood: [PREMIUM/MODERN/MINIMALIS]:
+- Palette warna (primary, secondary, neutral 9 tingkat, semantic) + hex codes
+- Typography: 1 display font + 1 body font (Google Fonts), ukuran skala 1.25 ratio
+- Spacing scale, border radius, shadow levels
+- Motion principles
+Brand personality: [contoh: trusted, innovative, friendly]
+Sertakan alasan psikologis setiap keputusan.
+```
+
+**Validasi visual:** Generate mockup di **v0.dev** → screenshot → paste ke **Gemini** untuk kritik desain.
+
+## FASE 4️⃣ — WIREFRAME & CONTENT (Hari 4–5)
+
+**Prompt untuk ChatGPT:**
+```
+Buat wireframe specification HOMEPAGE section-by-section dalam format:
+Section 1: Hero — headline (PAS formula), subheadline, CTA, visual
+Section 2: Social proof — logo klien, counter statistik
+Section 3: ...
+Plus copywriting lengkap dengan framework [AIDA/PAS].
+Tone: [profesional tapi hangat]. Bahasa Indonesia.
+```
+
+✅ **Output:** Dokumen 08–10 selesai.
+
+## FASE 5️⃣ — DEVELOPMENT SPRINT 1: STRUKTUR (Hari 5–7)
+
+**Prompt untuk Cursor/Claude:**
+```
+Kamu adalah Senior Frontend Engineer.
+Berdasarkan design system: [PASTE DOK 14]
+Dan folder structure: [PASTE DOK 21]
+Buatkan [index.html + tailwind config + struktur folder] untuk homepage.
+Coding standards: [PASTE DOK 19]
+WAJIB: semantic HTML5, accessibility AA, mobile-first.
+```
+
+## FASE 6️⃣ — DEVELOPMENT SPRINT 2: HALAMAN & KOMPONEN (Hari 7–10)
+
+Loop untuk tiap halaman:
+1. Paste dokumen wireframe halaman itu ke AI
+2. AI generate → kamu review → refine
+3. **DeepSeek R1 untuk audit:** *"Audit kode ini, cari bug, masalah security, dan peluang optimasi"*
+
+## FASE 7️⃣ — INTEGRASI & FITUR (Hari 10–12)
+
+- Form → WhatsApp / Email (pakai lib seperti EmailJS atau endpoint PHP mailer)
+- Google Maps embed, Schema markup, OG tags
+- **Prompt DeepSeek:** *"Buat validasi form anti-spam + sanitasi input dengan best practice security"*
+
+## FASE 8️⃣ — QA & OPTIMASI (Hari 12–14)
+
+```
+Checklist QA (isi dokumen 25–28):
+□ Test di 5 device fisik / emulator
+□ Lighthouse score semua hijau
+□ Semua link berfungsi
+□ Form terkirim & diterima
+□ Cek 404 page
+□ Test kecepatan (PageSpeed Insights)
+□ Spell check seluruh copy
+□ Screenshot sebelum/sesudah untuk portofolio
+```
+
+## FASE 9️⃣ — DEPLOYMENT KE SHARED HOSTING (Hari 14–15)
+
+**Pilihan A — via Git (hosting yang support):**
+```bash
+# Di cPanel → Setup Git → clone repo → set deploy branch
+```
+
+**Pilihan B — Manual (paling universal):**
+```bash
+# Build lokal → compress → upload via File Manager/FTP → extract ke public_html
+# Pastikan: index.php/index.html ada di root public_html
+# Aktifkan SSL: cPanel → SSL/TLS → AutoSSL/Let's Encrypt → Force HTTPS
+```
+
+**Pilihan C — FTP via GitHub Actions (PRO move!):**
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy ke Hosting
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/
+```
+> Dengan ini: **push ke GitHub = auto-deploy**. Klien terkesan, kamu hemat waktu. 🔥
+
+## FASE 🔟 — HANDOVER & MAINTENANCE (Hari 15+)
+
+1. Kirim dokumen 36 (manual klien)
+2. Setup GA4 + Search Console → akses untuk klien
+3. Tawarkan **kontrak maintenance** (dokumen 35): Rp X/bulan untuk update konten, backup, security check, laporan bulanan
+4. Tulis `38-lessons-learned.md` → sistemmu makin sempurna
+
+---
+
+# 🐙 BAGIAN 4: STANDARISASI GITHUB
+
+## Struktur Branch
+```
+main        → kode production (yang online)
+dev         → kode stabil terbaru  
+feature/nama-fitur  → pengerjaan fitur baru
+hotfix/deskripsi    → perbaikan darurat
+```
+
+## Format Commit Message (Conventional Commits)
+```
+feat: tambah halaman about dengan animasi scroll
+fix: perbaiki form contact tidak terkirim di Safari
+docs: update design system font scale
+style: sesuaikan warna button dengan brand guideline
+refactor: pisahkan komponen hero ke file sendiri
+```
+
+## File Wajib di Root Repository
+| File | Fungsi |
+|------|--------|
+| `README.md` | Deskripsi project, cara setup, link dokumen |
+| `.gitignore` | Kecualikan node_modules, .env, file rahasia |
+| `LICENSE` | Perlindungan karya (MIT untuk milikmu, proprietary untuk klien) |
+| `CONTRIBUTING.md` | Aturan kalau ada kolaborator |
+
+> ⚠️ **KEAMANAN:** JANGAN PERNAH commit password hosting, API key, .env. Gunakan GitHub Secrets.
+
+---
+
+# 🛡️ BAGIAN 5: STANDARISASI SHARED HOSTING
+
+## Checklist Kelayakan Hosting (untuk rekomendasi klien)
+```
+□ PHP 8.1+ support          □ SSL gratis (Let's Encrypt)
+□ SSD storage                □ Bandwidth cukup / unmetered
+□ Backup otomatis mingguan   □ cPanel (standar industri)
+□ Uptime 99.9% guarantee     □ Support responsif (WA/ticket)
+```
+
+## Keamanan Wajib Pasca-Deploy
+1. ✅ Force HTTPS semua halaman
+2. ✅ Hapus file installer/cache sementara
+3. ✅ Set permission folder 755, file 644
+4. ✅ Disable directory listing (.htaccess: `Options -Indexes`)
+5. ✅ Tambah security headers di `.htaccess`:
+```apache
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+```
+
+---
+
+# 💼 BAGIAN 6: SENJATA KONSULTAN — "THE NEXUS PROMPT VAULT"
+
+## Master Prompt Universal (simpan ini!)
+```
+[KONTEKS SISTEM]
+Kamu adalah bagian dari NEXUS PROTOCOL — sistem development website premium.
+Kamu membaca project docs di /docs. Selalu konsisten dengan dokumen yang ada.
+
+[IDENTITAS PROJECT]
+Nama: [X] | Stack: [X] | Design System: dok #14 | Coding Standard: dok #19
+
+[TUGAS SEKARANG]
+[X]
+
+[ATURAN]
+1. Jangan menyimpang dari design system
+2. Bahasa Indonesia untuk konten, Inggris untuk kode/komentar teknis
+3. Output harus siap pakai, bukan pseudo-code
+4. Jika ada keputusan penting, tanyakan dulu sebelum eksekusi
+```
+
+## Rotasi AI Strategis
+| Situasi | Pakai AI Ini | Kenapa |
+|---------|-------------|--------|
+| Ide & strategi | Chat.Z.AI | Cepat, kaya konteks riset |
+| Kode kompleks | Claude / ChatGPT | Kode panjang konsisten |
+| Debug misterius | DeepSeek R1 | Reasoning mendalam |
+| Review visual | Gemini | Multi-modal kuat |
+| UI instan | v0.dev / Cursor | Speed eksekusi |
+
+---
+
+# 📊 BAGIAN 7: QUALITY GATES — "TIDAK LEWAT TIDAK LANJUT"
+
+| Gate | Kriteria | Jika Gagal |
+|------|----------|-----------|
+| Gate 1: Discovery | Brief + persona di-approve klien | JANGAN lanjut desain |
+| Gate 2: Design | Design system + wireframe approve | JANGAN lanjut koding |
+| Gate 3: Development | Semua halaman jadi + lint bersih | JANGAN lanjut QA |
+| Gate 4: QA | Semua checklist ✅ + Lighthouse 90+ | JANGAN deploy |
+| Gate 5: Deploy | Live + SSL + form test | JANGAN serah ke klien |
+
+---
+
+# 🎯 PENUTUP: 7 PRINSIP NEXUS PROTOCOL
+
+1. **Dokumen dulu, kode kemudian** — AI yang baca dokumen = AI yang konsisten
+2. **Satu AI, satu spesialisasi** — jangan pakai AI secara acak
+3. **Shared hosting = kesederhanaan** — stack ringan menang, jangan paksa framework berat
+4. **GitHub adalah memori** — semua tercatat, semua bisa dirollback
+5. **Backup adalah asuransi** — tanpa backup, kamu sedang berjudi
+6. **Maintenance = income berulang** — project selesai bukan akhir relasi bisnis
+7. **Lessons learned = compounding skill** — tiap project membuatmu 2x lebih tajam
+
+---
+
+**Mau saya eksekusi sekarang?** Beri tahu saya:
+1. Website untuk bisnis apa (atau ini untuk jasa konsultan-mu sendiri)?
+2. Target pasar lokal Indonesia atau internasional?
+3. Shared hosting yang sudah dipakai provider apa?
+
+Dan saya akan langsung generate **dokumen 1–5** untuk project pertamamu dengan sistem ini. 🚀

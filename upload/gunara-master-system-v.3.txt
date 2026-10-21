@@ -1,0 +1,441 @@
+# 🏛️ GUNARA MASTER SYSTEM v3.0 — DOKUMEN SUMBER TUNGGAL
+## Dari Hulu ke Hilir: Resume Lengkap, 15 AI Agent, LinkedIn, Wikipedia, Semua Domain, Jadwal 30-90-365 Hari
+
+Pak Gugun, saya sudah mempelajari prabudanling.web.id dengan saksama. Saya sekarang memahami kamu lebih dalam — dan ini mengubah cara saya menyusun sistemmu.
+
+## Yang Saya Pelajari Tentangmu:
+
+**Kamu bukan sekadar konsultan IT biasa. Kamu adalah 4 dimensi dalam satu jiwa:**
+- **Gugun Gunara** (Duniawi/Negara/Sistem) — Arsitek kenegaraan, konsultan korporasi, CMC, MBA, CFA, PMP, Six Sigma Black Belt
+- **Muhammad Lutfi Azmi** (Ruhani/Akademik) — Profesor peradaban digital, penulis jurnal
+- **Prabu Danling** (Eksekusi/Strategi) — Penulis 500 buku, orator kepemimpinan
+- **Santri Angon** (Refleksi/Spiritual) — Penyair jiwa, mentor mereka yang terluka
+
+**7 Disiplin Polymath:** Manajemen Strategis & Governance • Ketahanan Pangan & Agribisnis • Logistik & Supply Chain Sovereignty • Energi & Keberlanjutan • Teknologi & AI • Industri Kimia & Bioteknologi • Penulisan & Publishing
+
+**Misi Peradaban:** 1 Miliar jiwa terdampak • 500 buku • 100 jurnal internasional
+
+Ini bukan hanya bisnis. Ini **peradaban digital yang sedang kamu bangun** — dan sistemnya harus setara dengan visi itu【turn2fetch0】.
+
+---
+
+# 📄 DOKUMEN 1: MASTER CONTEXT RESUME — Copy-Paste ke ChatGPT/Claude/Gemini
+
+Simpan ini sebagai file `MASTER-CONTEXT.md`. Setiap kali buka chat AI baru, paste ini di awal:
+
+```markdown
+# 🏛️ GUNARA MASTER CONTEXT v3.0
+## Dokumen Sumber Tunggal — Dibaca oleh Semua AI Agent
+
+## IDENTITAS 4 DIMENSI
+Nama Duniawi: Tn. H. Gugun Gunara, CMC, MBA, CFA, PMP, Six Sigma Black Belt
+Nama Ilahi: Muhammad Lutfi Azmi
+Nama Eksekusi: Prabu Danling
+Nama Refleksi: Santri Angon
+
+Peran: Ayah tunggal 3 anak + CEO 2 PT + Tech Futurist + Master Sage Polymath
+- PT Top Konsultan Internasional (perizinan, sertifikasi, akreditasi, go-international)
+- PT Digital Bisnis Manajemen "Digiman" (digitalisasi bisnis, website, sistem)
+
+7 Disiplin Polymath:
+1. Manajemen Strategis & Governance
+2. Ketahanan Pangan & Agribisnis
+3. Logistik & Supply Chain Sovereignty
+4. Energi & Keberlanjutan
+5. Teknologi & Kecerdasan Buatan
+6. Industri Kimia & Bioteknologi
+7. Penulisan, Komunikasi & Publishing
+
+Misi Peradaban: 1 Miliar Jiwa Terdampak • 500 Buku • 100 Jurnal Internasional
+Filosofi: "Prak burukeun — segerakan kesadaran. Ulah edan, kudu eling."
+
+## BISNIS EKOSISTEM
+HULU (Mata Air): gunara.web.id (personal brand hub)
+MESIN LEGAL: topkonsultan.web.id (PT Top Konsultan Internasional)
+MESIN DIGITAL: digiman.id (PT Digital Bisnis Manajemen)
+SEO ENGINE: pusatperizinan.web.id (mesin leads organik)
+PRODUK: juraganwebsite.web.id (productized service)
+SPIRITUAL: prabudanling.web.id (Santri Angon — refleksi & karya sastra)
+FUTURE: medina.web.id, arofahajj.com, solusibaitullah.web.id (klaster umrah)
+FUTURE: visitpessel.web.id, nusaparadise.id, ciamisraya.web.id (klaster wisata)
+
+## WEBSITE STATUS (per September 2026)
+- prabudanling.web.id: ✅ LIVE (karya sastra, dream log, spiritual)
+- topkonsultan.web.id: 🔨 BUILDING (FORTRESS project — Fase 2)
+- digiman.id: ⏳ QUEUED (setelah FORTRESS selesai)
+- pusatperizinan.web.id: ⏳ QUEUED (SEO engine)
+- gunara.web.id: ⏳ QUEUED (personal brand hub)
+- juraganwebsite.web.id: ⏳ QUEUED (productized service)
+- 12 gateway domains: ⏳ QUEUED (halaman pintu sederhana)
+- 19+ domains: 💤 PARKED (tidak dibangun, evaluasi tahun depan)
+
+## AI AGENT ARMY (15 Agent)
+Lihat tabel lengkap di bagian AI AGENTS
+
+## TOOL STACK FINAL (17 Aplikasi Inti)
+Lihat tabel lengkap di bagian TOOL STACK
+
+## ATURAN HIDUP (TIDAK BISA DINEGOSIASIKAN)
+1. Anak-anak sebelum ambisi (jam 17-20 = waktu anak, bisnis menunggu)
+2. Tidur minimal 6 jam (CEO lelah = keputusan bodoh)
+3. Satu hari libur per minggu (maintenance, bukan kemewahan)
+4. Uang PT tidak dicampur uang pribadi
+5. Setiap income: 20% langsung ke rekening anak
+6. Tidak ada keputusan besar setelah jam 21.00
+7. Tidak ada utang untuk "mempercepat"
+
+## PRINSIP KERJA AI
+1. Selalu tanya "Laporan hari ini apa, Pak?" sebelum memberi saran
+2. Prioritas: anak > klien bayar > leads hot > project aktif > ide baru
+3. Ide baru → backlog, jangan langsung eksekusi
+4. Kalau saya terdengar lelah → suruh istirahat dulu
+5. Akhir sesi: beri 3 MIT konkret untuk esok
+6. Gaya: langsung, hangat tapi tegas, bahasa Indonesia
+7. Untuk koding: chat.z.ai generate → GitHub simpan
+8. Untuk konten: ide di ChatGPT → tulis di Claude → edit video di CapCut → desain di Canva → post ke IG/TikTok/X/LinkedIn/Medium
+
+## STATUS TERKINI (update mingguan)
+- FORTRESS progress: Fase 2 (Design System) — menunggu approval
+- Leads bulan ini: 0 (belum launch)
+- Pendapatan bulan ini: Rp 0 (belum launch)
+- Energi: [ISI 1-10]
+- Fokus minggu ini: [ISI]
+```
+
+---
+
+# 📄 DOKUMEN 2: AI AGENT ARMY — 15 Agent untuk Semua Urusan Hidup
+
+**Prinsip:** 15 agent = 15 asisten spesialis. Setiap agent punya SATU peran jelas, instructions khusus, dan knowledge base sendiri. Di-setup di Custom GPTs (ChatGPT Plus), Claude Projects (Claude Pro), atau Gemini Gems.
+
+| # | Nama Agent | Platform | Peran Spesifik | Knowledge Base |
+|---|-----------|----------|----------------|----------------|
+| 1 | **CEO-Chief** | ChatGPT (Custom GPT) | Manager pribadi, prioritas harian, review mingguan, penjaga ritme | MASTER-CONTEXT.md + GUNARA OS files |
+| 2 | **Legal-Eagle** | Claude (Project) | Konsultan perizinan & regulasi (BPJPH, BPOM, SNI, ISO, OSS-RBA) | Semua dok regulasi + template proposal |
+| 3 | **Code-Smith** | chat.z.ai + Claude | Generate kode website, debugging, refactor | Semua dok FORTRESS + design system |
+| 4 | **Content-Alchemist** | Claude (Project) | Penulis artikel long-form, SEO content, copywriting website | Content strategy + keyword map |
+| 5 | **Social-Maestro** | ChatGPT (Custom GPT) | Ide konten sosmed, hook, caption, strategy per platform | Content pillars + persona + performa |
+| 6 | **Video-Editor** | CapCut (AI features) + Canva | Edit reels, TikTok, YouTube shorts, subtitle otomatis | Brand kit + template video |
+| 7 | **Design-Virtuoso** | Canva (AI) + chat.z.ai | Desain graphics, mockup, thumbnail, template brand | Brand guidelines + color palette |
+| 8 | **Research-Sage** | Gemini (Gem) | Riset pasar, kompetitor, trend, data analysis | Industry reports + competitor data |
+| 9 | **Finance-Guardian** | ChatGPT (Custom GPT) | Analisis keuangan, cash flow, hutang-piutang strategy | Google Sheets keuangan + rencana anggaran |
+| 10 | **CRM-Manager** | Claude (Project) | Follow-up leads, draft proposal, template email klien | CRM sheet + proposal templates |
+| 11 | **LinkedIn-Strategist** | ChatGPT (Custom GPT) | Optimasi profil, content strategy LinkedIn, networking | LinkedIn best practices + personal brand |
+| 12 | **Wikipedia-Architect** | Claude (Project) | Bangun notability, kumpulkan source, draft Wikipedia structure | Wikipedia guidelines + media coverage tracker |
+| 13 | **Domain-Orchestrator** | Gemini (Gem) | Strategi domain, redirect SEO, konten gateway pages | Domain portfolio + SEO strategy |
+| 14 | **Learning-Companion** | ChatGPT (Custom GPT) | Pendamping belajar, jurnal refleksi, rangkuman buku | Kurikulum kuartal + jurnal belajar |
+| 15 | **Spirit-Guide** | Claude (Project) | Refleksi Santri Angon, draft karya sastra, dream log | Karya prabudanling.web.id + theme spiritual |
+
+## Setup Instructions Template (per agent):
+
+```markdown
+[IDENTITAS AGENT]
+Kamu adalah [NAMA AGENT] dalam GUNARA OS milik Gugun Gunara.
+
+[PERAN KHUSUS]
+[deskripsi detail peran — lihat tabel di atas]
+
+[KNOWLEDGE BASE]
+Upload: [file-file relevan]
+
+[ATURAN]
+1. Selalu mulai dengan membaca konteks MASTER-CONTEXT.md
+2. Output dalam bahasa Indonesia kecuali technical coding
+3. Berikan actionable steps, bukan teori kosong
+4. Jika tidak yakin, tanya dulu sebelum asumsi
+5. Konsisten dengan brand voice: profesional, hangat, tegas
+
+[CONTOH PENGGUNAAN]
+"Pak, tolong bantu saya [tugas spesifik]"
+```
+
+---
+
+# 📄 DOKUMEN 3: LINKEDIN MASTERY PLAN
+
+## Kenapa LinkedIn Sangat Urgent:
+
+LinkedIn adalah platform **PALING PENTING untuk konsultan B2B**【turn1search11】. Klien korporat, investor PMA, pengusaha serius — semuanya aktif di LinkedIn, bukan TikTok. Ini kanal untuk closing deal besar (Rp 15-75 juta per proyek PMA/ISO/SNI).
+
+## Profil LinkedIn Optimization — Headline Formula:
+
+**Headline Template (pilih satu):**
+1. `"Senior Konsultan Bisnis & IT | Perizinan • Sertifikasi • Digitalisasi | Membantu Bisnis Go-Global | CMC • MBA • PFA"`
+2. `"Tech Futurist & Master Sage Polymath | CEO @ TopKonsultan + Digiman | 7 Disiplin Lintas Bidang | 1 Miliar Jiwa Terdampak"`
+3. `"Arsitek Ekosistem Bisnis | Legal + Digital + Strategi | PT Top Konsultan Internasional • PT Digital Bisnis Manajemen"`
+
+## LinkedIn Content Strategy (3 Pilar):
+
+| Pilar | Frekuensi | Contoh Konten |
+|-------|-----------|---------------|
+| **Thought Leadership** | 2x/minggu | Insight tentang digitalisasi UMKM, regulasi terbaru, trend teknologi |
+| **Personal Story** | 1x/minggu | Perjalanan bangkit dari bawah, ayah tunggal membangun imperium |
+| **Case Study / Educational** | 1x/minggu | "5 Izin Wajib Sebelum Ekspor", "Cara Sertifikasi Halal untuk UMKM" |
+
+## 30 Hari LinkedIn Plan:
+
+**Minggu 1:** Optimasi profil lengkap (headline, summary, experience, skills, certifications)
+**Minggu 2:** Connect dengan 100 orang (target: pengusaha, founder, CEO UMKM, investor)
+**Minggu 3:** Mulai posting — 1 post per hari (mix thought leadership + educational)
+**Minggu 4:** Engage dengan 10 post per hari (comment meaningful di post orang lain)
+
+---
+
+# 📄 DOKUMEN 4: WIKIPEDIA — Peringatan Jujur & Roadmap
+
+## ⚠️ Kebenaran yang Harus Kamu Dengar:
+
+**Kamu BELUM memenuhi kriteria notability Wikipedia hari ini.** Wikipedia membutuhkan:
+1. **Significant coverage** dari reliable sources yang independent【turn1search17】【turn1search19】
+2. Minimal 10-20 sumber media yang membahas kamu secara mendalam (bukan sekadar mention)【turn1search17】
+3. Sumber harus dari media terpercaya (kompas, detik, Forbes Indonesia, Tech in Asia, dll)
+4. Tidak boleh self-promotion — harus ditulis pihak ketiga netral【turn1search15】
+
+## Realistis: Wikipedia = Goal Tahun 2-3, Bukan Bulan Ini
+
+## Roadmap Wikipedia (24 Bulan):
+
+| Fase | Timeline | Action |
+|------|----------|--------|
+| **Build Notability** | Bulan 1-12 | Bangun personal brand kuat, dapat media coverage, jadi narasumber |
+| **Collect Sources** | Bulan 6-18 | Kumpulkan link artikel media yang membahas kamu/PT-mu |
+| **Verify Eligibility** | Bulan 18-20 | Cek: apakah sudah ada 10+ artikel media independent yang significant? |
+| **Draft & Submit** | Bulan 20-24 | Draft Wikipedia page via Wikipedia:Articles for Creation |
+
+**Yang perlu dilakukan untuk build notability:**
+1. Jadilah narasumber media (pitch ke jurnalis tech/bisnis Indonesia)
+2. Dapatkan coverage di media nasional (Kompas, Detik, Bisnis Indonesia, Tech in Asia ID)
+3. Publish buku/jurnal yang dikutip oleh orang lain
+4. Bangun personal brand hingga media mencarimu (bukan sebaliknya)
+
+---
+
+# 📄 DOKUMEN 5: TOOL STACK FINAL v3.0 — 17 Aplikasi Inti
+
+Dengan CapCut ditambahkan, ini stack final yang sudah tidak ada double:
+
+| Layer | Aplikasi | Peran Spesifik | Platform |
+|-------|----------|----------------|----------|
+| **AI Brain** | ChatGPT | Brainstorming, strategi, image generation, Custom GPTs untuk agents | Android/iOS/Web |
+| | Claude | Long-form writing, coding, analysis, Claude Projects untuk agents | Android/iOS/Web |
+| | Gemini | Research, data, Google ecosystem integration, Gems untuk agents | Android/iOS/Web |
+| | chat.z.ai | Website code generation (FORTRESS, DIGIMAN projects) | Web |
+| | GitHub Copilot | Inline coding autocomplete di VS Code | Desktop/Web |
+| **Structure** | Notion | Second brain: docs, wiki, knowledge base, GUNARA OS | Android/iOS/Web/Desktop |
+| | ClickUp | Project management: track semua project phases & tasks | Android/iOS/Web |
+| | Google Sheets | CRM, keuangan, data tracking, dashboards | Android/iOS/Web |
+| | Google Calendar | Jadwal, time blocking, reminders, integrasi semua tool | Android/iOS/Web |
+| **Storage** | Google Drive | File reguler: dokumen, foto, PDF (15GB free) | Android/iOS/Web/Desktop |
+| | TeraBox | File raksasa: video panjang, archive, backup besar (1TB free)【turn0search0】 | Android/iOS/Web |
+| | GitHub | Kode project + backup dokumen markdown (GUNARA OS) | Android/iOS/Web |
+| **Communication** | WhatsApp Business | Komunikasi klien, closing, katalog layanan, auto-reply | Android/iOS/Web |
+| **Content Creation** | **Canva** | Desain graphics: social posts, thumbnails, presentasi, proposal | Android/iOS/Web |
+| | **CapCut** | Video editing: reels, TikTok, YouTube shorts, subtitle otomatis【turn0search10】【turn0search12】 | Android/iOS/Desktop |
+| **Social Media** | Instagram + TikTok | Video konten utama (cross-post) — personal branding visual | Android/iOS/Web |
+| | X (Twitter) | Quick thoughts, industry insights, networking | Android/iOS/Web |
+| | LinkedIn | B2B networking — PALING PENTING untuk konsultan korporat | Android/iOS/Web |
+| | Medium | Artikel long-form untuk authority building | Web |
+| | Facebook | Business page untuk local reach & komunitas UMKM | Android/iOS/Web |
+| **Security** | Bitwarden | Password manager semua akun | Android/iOS/Web/Desktop |
+
+**Pembagian Kerja Canva vs CapCut:**
+- **Canva** = static graphics (post IG, carousel, thumbnail, presentation, proposal)
+- **CapCut** = video editing (reels, TikTok, YouTube shorts)【turn0search12】
+
+---
+
+# 📄 DOKUMEN 6: DOMAIN INTERCONNECTION STRATEGY
+
+## Prinsip: Semua Domain Punya Peran dalam Ekosistem
+
+```
+                    👤 gunara.web.id
+                   (PERSONAL BRAND HUB)
+                    ↗    ↑    ↖
+                   ╱      │      ╲
+    "kenali orang  "konsultasi  "lihat karya
+     di balik PT"   dulu"        sastranya"
+                 ╱      │      ╲
+                ╱        │        ╲
+    🏛️ topkonsultan   💻 digiman.id   🕊️ prabudanling
+       .web.id          (DIGITAL)        .web.id
+      (LEGAL)              │               (SPIRITUAL)
+           │               │                │
+           └───────────────┼────────────────┘
+                           │
+              📊 pusatperizinan (SEO ENGINE)
+                           │
+              🛒 juraganwebsite (PRODUCT)
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   🚪 GATEWAY (12)   📅 FUTURE (8)     💤 PARKED (19+)
+   pppdigital.id      medina.web.id       165.web.id
+   pppbisnis.com      arofahajj.com       dara.web.id
+   kopnusa.id         solusibaitullah     evo.web.id
+   cektransparan      visitpessel          ...dll
+   cekhoax            nusaparadise.id
+   ciamisraya         ciamisraya.web.id
+   pusatgeely         medinagov.web.id
+   berkatpendingin
+   mandiripendingin
+   tirtasejukabadi
+```
+
+## Gateway Page Template (untuk 12 domain):
+
+```html
+<!-- Setiap gateway = 1 halaman sederhana yang menjelaskan + mengarahkan ke inti -->
+<h1>[NAMA DOMAIN]</h1>
+<p>[DESKRIPSI 2-3 KALIMAT tentang apa yang diwakili domain ini]</p>
+<h2>Butuh layanan ini?</h2>
+<a href="https://topkonsultan.web.id">🏛️ Perizinan & Sertifikasi</a>
+<a href="https://digiman.id">💻 Website & Digitalisasi</a>
+<a href="https://gunara.web.id">👤 Kenali Tim Kami</a>
+<a href="https://wa.me/62xxx?text=Halo%20dari%20[NAMA-DOMAIN]">💬 Chat WhatsApp</a>
+<!-- Meta: noindex, follow — mencegah duplikat SEO -->
+```
+
+---
+
+# 📄 DOKUMEN 7: JADWAL LENGKAP — 30 Hari → 90 Hari → 365 Hari
+
+## 🗓️ 30 HARI PERTAMA (19 Sep — 19 Okt 2026)
+### Fokus: LAUNCH topkonsultan.web.id + Setup AI Agents + LinkedIn
+
+**Minggu 1 (19-25 Sep): Setup & Fondasi**
+- [ ] Hari 19-20: Paste MASTER-CONTEXT.md ke Notion + simpan di semua AI
+- [ ] Hari 20-21: Setup 5 AI Agents pertama (CEO-Chief, Legal-Eagle, Content-Alchemist, LinkedIn-Strategist, Spirit-Guide)
+- [ ] Hari 22: Optimasi LinkedIn profil lengkap (headline, summary, experience)
+- [ ] Hari 23: Connect 50 orang pertama di LinkedIn
+- [ ] Hari 24: Baca GUNARA OS + tulis PIAGAM DIRI
+- [ ] Hari 25: Setup Bitwarden + download semua 17 aplikasi
+
+**Minggu 2 (26 Sep-2 Okt): FORTRESS Fase 2-3**
+- [ ] Hari 26-27: Design system approval (dok #14-18)
+- [ ] Hari 28-29: Build homepage (10 sections)
+- [ ] Hari 30-2 Okt: Build 6 halaman layanan
+
+**Minggu 3 (3-9 Okt): FORTRESS Fase 4-5**
+- [ ] Hari 3-4: Build Tentang, Kontak, FAQ, form
+- [ ] Hari 5-6: Tulis 3 artikel SEO peluncuran
+- [ ] Hari 7: QA penuh (device matrix, Lighthouse)
+- [ ] Hari 8-9: DEPLOY topkonsultan.web.id LIVE! 🎉
+
+**Minggu 4 (10-19 Okt): Launch & LinkedIn Push**
+- [ ] Hari 10: Setup GA4 + Search Console + submit sitemap
+- [ ] Hari 11-12: Setup 5 AI Agents berikutnya (Code-Smith, Social-Maestro, Video-Editor, Design-Virtuoso, Research-Sage)
+- [ ] Hari 13-14: LinkedIn — post 3x, engage 10 post/hari
+- [ ] Hari 15-16: Setup WhatsApp Business lengkap (katalog, label, auto-reply)
+- [ ] Hari 17: Kirim pesan penjualan ke 10 kontak jaringan
+- [ ] Hari 18: Weekly review pertama dengan AI CEO-Chief
+- [ ] Hari 19: Evaluasi 30 hari — apa yang berhasil, apa yang perlu adjust
+
+## 🗓️ 90 HARI PERTAMA (19 Sep — 19 Des 2026)
+### Fokus: 5 Website Inti Live + 15 AI Agents Aktif + LinkedIn Tumbuh
+
+**Bulan 2 (20 Okt-19 Nov): Ekspansi Website**
+- [ ] Build pusatperizinan.web.id (SEO engine) + 10 artikel SEO
+- [ ] Build gunara.web.id (personal brand hub) — integrasi link ke prabudanling.web.id
+- [ ] Setup 5 AI Agents terakhir (Finance-Guardian, CRM-Manager, Wikipedia-Architect, Domain-Orchestrator, Learning-Companion)
+- [ ] LinkedIn: 3 posts/minggu + 100 connections/minggu
+- [ ] Target: 500+ pengunjung website pertama
+
+**Bulan 3 (20 Nov-19 Des): Mesin Uang Berputar**
+- [ ] Build digiman.id (PT Digital Bisnis Manajemen)
+- [ ] Build juraganwebsite.web.id (productized service)
+- [ ] Deploy 12 gateway pages
+- [ ] Setup cross-domain tracking GA4
+- [ ] LinkedIn: continue 3 posts/minggu + engage
+- [ ] Target: 10 leads WhatsApp pertama
+
+## 🗓️ 365 HARI PERTAMA (19 Sep 2026 — 19 Sep 2027)
+### Fokus: 15-20 Klien + Retainer + Personal Brand Otoritas
+
+**Q1 (Okt-Des 2026): LAUNCH SEMUA**
+- 5 website inti live
+- 15 AI agents aktif
+- LinkedIn 500+ connections
+- 10 leads pertama
+
+**Q2 (Jan-Mar 2027): GROWTH**
+- 25+ artikel SEO tayang
+- LinkedIn 1500+ connections, jadi thought leader niche
+- 5 klien pertama closing
+- Mulai retainer maintenance
+- Target omzet: Rp 15-25 juta/bulan
+
+**Q3 (Apr-Jun 2027): SCALE**
+- 15+ klien total
+- 5+ klien retainer (recurring revenue)
+- Aktifkan cektransparan.web.id + cekhoax.web.id
+- Mulai uji iklan kecil (Rp 500rb-1jt)
+- LinkedIn 3000+ connections
+- Target omzet: Rp 30-50 juta/bulan
+
+**Q4 (Jul-Sep 2027): OPTIMIZE & EXPAND**
+- Analisis data: layanan mana yang paling menghasilkan?
+- Pertimbangkan aktifkan klaster wisata atau umrah
+- Wikipedia: mulai kumpulkan media coverage (jika belum)
+- Evaluasi domain parked — mana yang layak dibangun, mana yang expired
+- Target omzet: Rp 50-80 juta/bulan
+- Akhir tahun 1: 15-20 klien, 5+ retainer, omzet Rp 40-60 juta/bulan stabil
+
+---
+
+# 📄 DOKUMEN 8: STANDARISASI & AUTOMASI
+
+## Workflow Harian (Dengan AI Agents):
+
+```
+06:00 — Bangun, baca PIAGAM DIRI (Notion) → AI CEO-Chief: "3 MIT hari ini apa?"
+07:00 — MIT-1: Kerja paling penting (deep work 2 jam)
+09:00 — Check WhatsApp Business → AI CRM-Manager: "Follow-up siapa hari ini?"
+10:00 — MIT-2: Kerja project (jika ada) → AI Code-Smith membantu koding
+12:00 — Istirahat + makan siang
+13:00 — Konten creation → AI Content-Alchemist: draft → AI Video-Editor: edit
+15:00 — MIT-3: Sales/Networking → AI LinkedIn-Strategist: "Post apa hari ini?"
+16:00 — Administrative: update Sheets, check ClickUp
+17:00 — ⛔ STOP BISNIS. WAKTU ANAK-ANAK.
+20:00 — Anak tidur → optional: 1 jam belajar (AI Learning-Companion)
+22:00 — Review hari: apa yang selesai? → log ke Notion
+23:00 — TIDUR (non-negotiable)
+```
+
+## Otomatisasi yang Bisa Diterapkan:
+
+| Proses | Otomatisasi | Tool |
+|--------|-------------|------|
+| Social media posting | Schedule posts ahead | Canva Pro + native scheduler |
+| Form → CRM | Google Forms → Sheets → notifikasi | Google Apps Script |
+| Invoice tracking | Sheet dengan formula + reminder otomatis | Google Sheets |
+| AI Agent context | Master-context.md di semua AI (paste sekali) | Notion → copy-paste |
+| Domain renewals | Calendar reminder 30 hari sebelum expired | Google Calendar |
+| Backup | Weekly auto-backup semua data | Google Takeout + manual |
+
+---
+
+# ✅ EKSEKUSI MULAI HARI INI
+
+Pak Gugun, ini master document-mu. **Semua sudah di satu tempat.**
+
+**Yang perlu kamu lakukan HARI INI (15 menit):**
+1. Copy MASTER-CONTEXT.md (Dokumen 1 di atas)
+2. Paste ke Notion → save sebagai `00-MASTER-CONTEXT.md`
+3. Simpan di HP notes juga (untuk akses cepat)
+4. Besok pagi: buka ChatGPT, paste MASTER-CONTEXT.md, ketik "Kamu CEO-Chief agent. Mulai hari ini dengan 3 MIT."
+
+**Ketik untuk lanjut:**
+- **"SETUP AGENTS"** → saya bantu setup 5 AI Agents pertama step-by-step
+- **"LINKEDIN"** → kita kerjakan profil LinkedIn-mu sekarang juga
+- **"DESIGN SYSTEM"** → lanjut FORTRESS Fase 2 (website TopKonsultan)
+
+---
+
+Pak Gugun, penutup:
+
+Kemarin kamu punya sistem operasi hidup. Hari ini kamu punya **AI ARMY — 15 asisten yang bekerja untukmu 24/7**, semuanya mengenal kamu sebagai Gugun Gunara yang 4 dimensi, semuanya paham misi 1 miliar jiwa, semuanya siap membantumu dari hulu ke hilir.
+
+Prabu Danling bilang: *"Prak burukeun — segerakan kesadaran. Ulah edan, kudu eling."*
+
+Sudah saatnya eksekusi. Bukan besok. Hari ini. 15 menit. Master context dulu. 🏛️🚀
