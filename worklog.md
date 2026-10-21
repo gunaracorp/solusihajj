@@ -302,3 +302,27 @@ Stage Summary:
 - PORTAL KINI 13.984 URL DI SITEMAP; pusat konten 112 artikel E-E-A-T (byline + terbit + review terakhir + kategori) dalam 8 kategori dengan silo 3 lapis: indeks → kategori → detail → (related se-kategori + callout CTA ke /paket & tool SPA)
 - Hydration mismatch kelas radix-useId di beranda dihapus permanen (native details)
 - Mesin konten siap dikembangkan: tambah artikel = tambah entry batch file; sitemap/JSON-LD/indeks/kategori otomatis
+
+---
+Task ID: 8
+Agent: main (Z.ai Code)
+Task: Redesign header & menu ke standar kelas konsultan internasional (McKinsey/BCG-tier)
+
+Work Log:
+- Redesign penuh Header di src/components/solusihajj/chrome.tsx (CHROME R2), palet Design System "Amanah" dipertahankan
+- Utility bar baru (desktop, scroll-away): 3 sinyal kepercayaan (escrow syariah, verifikasi 5 lapis, 3.966 organisasi) + telepon WA + switcher bahasa ID/EN/ع
+- Nav desktop diganti dari dropdown rounded-xlhover-list polos menjadi mega menu 3 grup terpusat (Cari Paket/Direktori/Panduan): panel 880px dengan garis aksen emas, grid item 2 kolom (icon tile + label + deskripsi 1 baris + dot emas untuk unggulan), kolom featured hijau-tua per grup (NurMatch AI / Cek Izin PPIU / 112 Artikel) dengan CTA emas
+- Trigger nav jadi Link uppercase 12.5px letter-spaced (klik = menuju halaman hub; hover = panel dengan intent-delay 140ms via timer ref, cancel saat re-enter)
+- Micro-interaction kelas premium: underline emas 2px origin-left scale-x animasi pada hover/active, chevron rotate, CTA "Cari Paket" solid dengan ArrowRight shift
+- Logo diperhalus: wordmark brand-deep + sub-label uppercase "UMRAH · HAJI · AMANAH" (tracking 0.24em)
+- Kontrol kanan dirapikan: hairline divider + toggle lansia/gelap rounded-md + SATU CTA (sebelumnya 5 tombol berebut perhatian); WA icon hanya mobile/tablet (desktop sudah ada di utility bar)
+- Drawer mobile total baru: panel slide-in fixed 400px + backdrop blur, accordion 3 grup (grid-rows animasi, tanpa Radix = 0 risiko hydration), item ber-icon+deskripsi, bottom bar CTA + WA + bahasa + toggle, ESC close + body scroll-lock + auto-close saat navigasi
+- Aksesibilitas: skip link "Langsung ke konten utama" (scrollToId, aman hash-router), aria-expanded/haspopup/pressed lengkap, fokus visible
+- app.tsx: <main> diberi id="konten-utama" untuk skip link
+- Lint fix: hapus setState langsung dalam effect body (react-hooks/set-state-in-error) — sync bayangan header kini murni via scroll listener (scroll programatik router tetap tertangkap)
+- Verifikasi browser E2E (agent-browser, desktop 1440 + mobile 390): utility bar + mega panel 3 grup render sempurna, klik item panel → navigasi + panel tertutup + active underline emas benar, drawer: accordion toggle, navigasi auto-close, dark mode "Malam Madinah" + switch EN berfungsi di header & drawer, footer terdorong alami (footerBottom 2600 > viewport 900), bodyScrollWidth = innerWidth (0 overflow-x), console 0 error & 0 hydration warning, dev.log 0 ⨯, lint 0 error
+
+Stage Summary:
+- Header kini setara situs konsultan global: hierarki 2 lapis (utility bar kepercayaan + header utama sticky), tipografi uppercase letter-spaced, mega menu terpusat dengan featured panel, satu CTA dominan, drawer mobile app-grade
+- Semua fungsi lama terjaga: i18n 3 bahasa, mode lansia, dark mode, WA float, hash-route SPA, hydration-safe (tanpa useId/Radix di chrome)
+- File berubah: src/components/solusihajj/chrome.tsx (Header + Logo), src/components/solusihajj/app.tsx (id main)

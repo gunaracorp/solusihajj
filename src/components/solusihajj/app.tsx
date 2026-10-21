@@ -130,7 +130,7 @@ export default function SolusiHajjApp() {
     <I18nProvider>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1">{view}</main>
+        <main className="flex-1" id="konten-utama">{view}</main>
         <Footer />
         <WaFloat />
       </div>
