@@ -3,6 +3,7 @@ import { packageList, featuredPackages } from "@/data/packages";
 import { getPpiu } from "@/data/ppiu";
 import { faqList } from "@/data/faq";
 import { JsonLd, SITE, breadcrumbJsonLd, faqJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, MetaChip, SectionHeading, formatRupiah } from "@/components/seo/pkg-ui";
 import { Users, Plane, Building2, Wallet, ShieldCheck } from "lucide-react";
 import {
@@ -26,6 +27,15 @@ export const metadata: Metadata = {
       "Bandingkan 27 paket umrah dari 10 penyelenggara terverifikasi: harga transparan, jarak hotel nyata ke Haram, itinerary harian, dan review Saksi Jamaah.",
     url: `${SITE}/paket`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Katalog Paket Umrah 2026",
+        kicker: "27 Paket & Land Arrangement",
+        badge: "Terverifikasi 5 Lapis",
+        sub: "Harga transparan · jarak hotel nyata ke Haram · review Saksi Jamaah",
+        foot: "Bandingkan sebelum memutuskan",
+      }),
+    ],
   },
 };
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { articleList } from "@/data/articles";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, SectionHeading, MetaChip, formatTanggal } from "@/components/seo/pkg-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,14 @@ export const metadata: Metadata = {
       "Panduan umrah terkurasi: cek izin PPIU, rincian biaya 2026, persiapan 30 hari, dan kumpulan doa & ziarah — direview berkala oleh tim edukasi SolusiHajj.",
     url: `${SITE}/artikel`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Artikel & Panduan Umrah Haji",
+        kicker: "Edukasi Bebas Penipuan",
+        sub: "Cek izin PPIU, biaya 2026, persiapan 30 hari, doa & ziarah",
+        foot: "Direview berkala tim edukasi",
+      }),
+    ],
   },
 };
 

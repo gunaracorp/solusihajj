@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { BreadcrumbTrail, CityCard } from "@/components/seo/silo-bits";
 import { citiesByIsland, cityList, type CityPage } from "@/data/cities";
 
@@ -19,6 +20,14 @@ export function generateMetadata(): Metadata {
       url: `${SITE}/kota`,
       type: "website",
       siteName: "SolusiHajj",
+      images: [
+        ogImage({
+          title: `Umrah dari ${cityList.length} Kota Indonesia`,
+          kicker: "Paket & Jadwal per Kota",
+          sub: "Bandara keberangkatan, waktu terbang, charter langsung — dari kota Anda",
+          foot: "45 kota · Seluruh pulau Indonesia",
+        }),
+      ],
     },
   };
 }

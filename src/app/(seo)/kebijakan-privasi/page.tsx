@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE, JsonLd, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero } from "@/components/seo/pkg-ui";
 
 export const metadata: Metadata = {
@@ -7,6 +8,21 @@ export const metadata: Metadata = {
   description:
     "Bagaimana SolusiHajj mengumpulkan, memakai, dan melindungi data pribadi Anda sesuai UU Perlindungan Data Pribadi No. 27 Tahun 2022 — bahasa yang bisa dipahami jamaah.",
   alternates: { canonical: `${SITE}/kebijakan-privasi` },
+  openGraph: {
+    title: "Kebijakan Privasi SolusiHajj",
+    description:
+      "Perlindungan data pribadi jamaah sesuai UU PDP No. 27/2022 — bahasa yang bisa dipahami.",
+    url: `${SITE}/kebijakan-privasi`,
+    type: "website",
+    images: [
+      ogImage({
+        title: "Kebijakan Privasi",
+        kicker: "UU PDP No. 27/2022",
+        sub: "Data Anda hanya dipakai untuk perjalanan ibadah Anda — tidak dijual, tidak dibagikan.",
+        foot: "Akses lihat · perbaiki · hapus data Anda",
+      }),
+    ],
+  },
 };
 
 const SECTIONS = [

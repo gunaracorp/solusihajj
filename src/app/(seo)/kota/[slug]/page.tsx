@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JsonLd, SITE, breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   BreadcrumbTrail,
   CheckList,
@@ -39,6 +40,14 @@ export async function generateMetadata({
   const description =
     city.intro.length > 158 ? `${city.intro.slice(0, 155).trim()}…` : city.intro;
   const url = `/kota/${city.slug}`;
+  const ogCard = ogImage({
+    title: `Umrah dari ${city.name}`,
+    kicker: "Kota Keberangkatan",
+    chip: city.airportCode,
+    badge: city.directCharter ? "Charter Langsung Tersedia" : undefined,
+    sub: `Bandara ${city.airport} · ± ${city.flightTimeHours} jam ke Tanah Suci`,
+    foot: `${city.province} · Indonesia`,
+  });
   return {
     title,
     description,
@@ -49,7 +58,9 @@ export async function generateMetadata({
       url: `${SITE}${url}`,
       type: "website",
       siteName: "SolusiHajj",
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

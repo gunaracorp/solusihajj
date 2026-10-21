@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { glossaryList, GLOSSARY_CATEGORIES } from "@/data/glossary";
 import { slugify } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, BackLink } from "@/components/seo/pkg-ui";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
@@ -27,16 +28,26 @@ export async function generateMetadata({
   const term = getTermBySlug(slug);
   if (!term) return { title: "Istilah tidak ditemukan" };
   const description = `${term.short} ${term.detail}`.slice(0, 157) + "…";
+  const ogTitle = `Apa Itu ${term.term}? Arti & Penjelasan Lengkap`;
+  const ogCard = ogImage({
+    title: ogTitle,
+    kicker: "Glosarium Haji & Umrah",
+    sub: term.short,
+    foot: "Kamus istilah ibadah A–Z",
+  });
   return {
-    title: `Apa Itu ${term.term}? Arti & Penjelasan Lengkap`,
+    title: ogTitle,
     description,
     alternates: { canonical: `${SITE}/glosarium/${slugify(term.term)}` },
     openGraph: {
-      title: `Apa Itu ${term.term}? Arti & Penjelasan Lengkap`,
+      title: ogTitle,
       description,
       url: `${SITE}/glosarium/${slugify(term.term)}`,
       type: "website",
+      siteName: "SolusiHajj",
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

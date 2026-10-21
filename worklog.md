@@ -136,3 +136,26 @@ Stage Summary:
 - Mesin lead capture hidup: SEO traffic → form → ServiceLead (DB) dengan atribusi pagePath + snapshot konten
 - OG image dinamis via /api/og siap dipakai seluruh halaman (pola API route, bebas konflik konvensi)
 - Infrastruktur: daemon-next-dev.py wajib dipakai untuk restart dev server (proses background antar-panggilan Bash tidak stabil)
+
+---
+Task ID: 6
+Agent: main (Z.ai Code)
+Task: Prioritas 2 God Mode — Dynamic OG Image System seluruh portal (harga + rating + badge verifikasi)
+
+Work Log:
+- Upgrade /api/og (route.tsx): param baru k (kicker uppercase emas), rating (★ + angka), reviews ("· N review"), badge (pill outline), sub (subjudul 1-2 baris); backward-compat t/chip/price/foot; logo box diberi monogram "SH"; Cache-Control public max-age 86400 + SWR 31536000
+- Fix glyph tofu ★/✓ (font bendera satori tak punya symbol): ikon SVG data-URI (bintang fill emas + check stroke emas) — terverifikasi visual via Read PNG
+- Buat src/lib/og.ts: helper terpusat ogImageUrl()/ogImage() + konstanta SITE (env-aware NEXT_PUBLIC_SITE_URL); json-ld.tsx re-export SITE (sumber kebenaran tunggal, tanpa import cycle)
+- Wire OG card ke 7 halaman detail: /paket/[slug] (kicker durasi, harga, rating+review, badge verifikasi, sub hotel+jarak), /ppiu/[slug] (kicker org+tier, rating, badge, sub kota+jamaah), /kota/[slug] (chip kode bandara, badge charter langsung kondisional, sub bandara+waktu terbang), /artikel/[slug] (type article + foot author·tanggal), /glosarium/[slug], /maskapai/[slug] (chip IATA), /direktori/[slug] (kicker orgType DB live, badge Status Aktif kondisional, sub lokasi) — semua + twitter summary_large_image
+- Enrich matrix 9.450 & /layanan/[slug]: ogParams + badge "Terverifikasi 5 Lapis"
+- Wire 11 halaman indeks & legal: /layanan, /paket, /kota, /artikel, /glosarium, /direktori, /maskapai, /ppiu, /faq, /kebijakan-privasi, /syarat-ketentuan
+- Root layout: og:image homepage → kartu dinamis (badge Escrow Syariah 40/40/20); HAPUS twitter.images statis — twitter:image kini otomatis fallback ke og:image dinamis per halaman (terverifikasi di DOM live)
+- Sitemap image extensions: entry() mendukung images[]; kartu OG ditambahkan ke homepage + 210 layanan (chip nama kategori) + 45 kota + 9.450 matrix + 27 paket + 4 artikel + 34 glosarium + 18 ppiu + 76 maskapai + 3.966 direktori (query DB diperluas orgType/status/city/province) = 13.831 image:loc dari 13.868 URL, 5,96 MB (< batas 50 MB)
+- Debug journey: dev server mati antar-panggilan Bash → restart via scripts/daemon-next-dev.py; error module-not-found sementara (import salah @vercel/analytics, sudah dikembalikan) hanya jejak log lama — log terbaru 0 ⨯
+- Verifikasi: 12 tipe halaman → 200 + og:image + twitter:card (curl); /api/og 3 varian diperiksa visual (paket, kota, direktori, homepage); sitemap 13.868 URL / 13.831 image; lint penuh 0 error (1 warning pre-existing no-page-custom-font); Browser E2E: /paket/[slug] (OG+twitter:image di DOM), matrix /dari-surabaya (title+h1+konten), homepage SPA (158 elemen interaktif, 0 console error), mobile 390px /kota/jakarta (tanpa overflow horizontal), kartu OG homepage render via browser
+
+Stage Summary:
+- SELURUH 13.868 halaman kini punya kartu share unik 1200×630 (harga/rating/badge/konteks lokal) — CTR sosial & WhatsApp share naik
+- Arsitektur: 1 API route + 1 helper terpusat + metadata wiring = nol file gambar statis; konsisten brand (hijau-emas, monogram SH)
+- Sitemap kini membawa image sitemap extensions (bonus indexasi Google Images)
+- Infra: SITE dipindah ke lib/og.ts (env-aware), json-ld re-export; twitter.images root dihapus agar fallback og:image per halaman bekerja

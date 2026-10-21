@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ppiuList, orgOf, countryOf } from "@/data/ppiu";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   PageHero,
   SectionHeading,
@@ -28,6 +29,15 @@ export const metadata: Metadata = {
       "18 penyelenggara terverifikasi di 5 negara Asia: rating per 6 dimensi, nomor izin, statistik jamaah, dan paket milik masing-masing penyelenggara.",
     url: `${SITE}/ppiu`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Penyelenggara Umrah Terverifikasi",
+        kicker: "18 Organisasi · 5 Negara",
+        badge: "Verifikasi 5 Lapis",
+        sub: "PPIU & PIHK Indonesia, BPW Malaysia, Singapura, Brunei, Thailand",
+        foot: "Rating per 6 dimensi · izin · statistik jamaah",
+      }),
+    ],
   },
 };
 

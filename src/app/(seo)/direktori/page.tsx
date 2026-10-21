@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   PageHero,
   SectionHeading,
@@ -32,6 +33,15 @@ export const metadata: Metadata = {
       "3.966 organisasi penyelenggara ibadah dari data resmi Kemenag, Kemenhaj & SISKOPATUH — lengkap dengan nomor izin, alamat, dan sumber datanya.",
     url: `${SITE}/direktori`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Direktori Penyelenggara Nasional",
+        kicker: "3.966+ Organisasi Terdata",
+        badge: "Data Resmi Pemerintah",
+        sub: "PPIU, PIHK, BPW & UTO — izin, alamat, dan sumber data tiap penyelenggara",
+        foot: "Kemenag · Kemenhaj · SISKOPATUH",
+      }),
+    ],
   },
 };
 

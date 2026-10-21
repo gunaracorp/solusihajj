@@ -10,7 +10,9 @@ export function JsonLd({ data }: { data: Record<string, unknown> | Record<string
   );
 }
 
-export const SITE = "https://solusihajj.com";
+import { SITE } from "@/lib/og";
+
+export { SITE };
 
 export function breadcrumbJsonLd(items: Array<{ name: string; url: string }>) {
   return {

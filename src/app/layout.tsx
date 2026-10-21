@@ -4,6 +4,7 @@ import "./theme-extra.css";
 import { Toaster } from "@/components/ui/toaster";
 import SolusiHajjApp from "@/components/solusihajj/app";
 import { Analytics } from "@vercel/analytics/next";
+import { ogImage } from "@/lib/og";
 
 /* Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
    (prabudanling · Santri Angon) · PT Top Konsultan Internasional
@@ -63,12 +64,13 @@ export const metadata: Metadata = {
     locale: "id_ID",
     type: "website",
     images: [
-      {
-        url: "/og-image.png?v=8",
-        width: 1200,
-        height: 630,
-        alt: "SolusiHajj — Gerbang Nur: Marketplace Umrah & Haji Terbesar di Asia",
-      },
+      ogImage({
+        title: "Marketplace Umrah & Haji Terbesar Asia",
+        kicker: "SolusiHajj · Amanah Anda, Aman",
+        badge: "Escrow Syariah 40/40/20",
+        sub: "27+ paket · 200+ layanan · 3.966 organisasi terdata — review dari jamaah nyata",
+        foot: "PPIU · PIHK · BPW · KBIHU di 5 negara",
+      }),
     ],
   },
   twitter: {
@@ -76,7 +78,6 @@ export const metadata: Metadata = {
     title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:
       "PPIU, PIHK, BPW & KBIHU terverifikasi 5 lapis dalam satu gerbang. Escrow syariah 40/40/20, review Saksi Jamaah, tool Cek Izin publik.",
-    images: ["/og-image.png?v=8"],
   },
   robots: {
     index: true,

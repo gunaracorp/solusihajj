@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE, JsonLd, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero } from "@/components/seo/pkg-ui";
 
 export const metadata: Metadata = {
@@ -7,6 +8,21 @@ export const metadata: Metadata = {
   description:
     "Ketentuan penggunaan SolusiHajj: peran platform sebagai marketplace, kewajiban jamaah dan penyelenggara, mekanisme escrow, pembatalan, sengketa, dan batasan tanggung jawab.",
   alternates: { canonical: `${SITE}/syarat-ketentuan` },
+  openGraph: {
+    title: "Syarat & Ketentuan Layanan SolusiHajj",
+    description:
+      "Peran marketplace, mekanisme escrow 40/40/20, pembatalan, dan penyelesaian sengketa.",
+    url: `${SITE}/syarat-ketentuan`,
+    type: "website",
+    images: [
+      ogImage({
+        title: "Syarat & Ketentuan Layanan",
+        kicker: "Marketplace · Escrow Syariah",
+        sub: "Escrow 40/40/20 · pembatalan transparan · penyelesaian sengketa",
+        foot: "Kontrak langsung dengan penyelenggara pilihan Anda",
+      }),
+    ],
+  },
 };
 
 const SECTIONS = [

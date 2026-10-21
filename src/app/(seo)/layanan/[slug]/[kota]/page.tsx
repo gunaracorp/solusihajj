@@ -114,6 +114,7 @@ export async function generateMetadata({
   if (typeof service.priceFrom === "number" && service.priceFrom > 0) {
     ogParams.set("price", `Mulai ${formatRupiah(service.priceFrom)}`);
   }
+  ogParams.set("badge", "Terverifikasi 5 Lapis");
   return {
     title,
     description,

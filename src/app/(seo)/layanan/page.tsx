@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BadgeCheck, Layers, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { BreadcrumbTrail, CategoryIcon, FaqAccordion, ServiceCard } from "@/components/seo/silo-bits";
 import { serviceCategoryList, serviceList, servicesByCategory } from "@/data/services";
 
@@ -21,6 +22,15 @@ export function generateMetadata(): Metadata {
       url: `${SITE}/layanan`,
       type: "website",
       siteName: "SolusiHajj",
+      images: [
+        ogImage({
+          title: `${serviceList.length}+ Layanan Umrah & Haji`,
+          kicker: "Katalog Layanan A–Z",
+          badge: "Terverifikasi 5 Lapis",
+          sub: "Visa, tiket, hotel, manasik, handling, hingga asuransi — harga transparan",
+          foot: `${serviceCategoryList.length} kategori · Penyelenggara terverifikasi`,
+        }),
+      ],
     },
   };
 }

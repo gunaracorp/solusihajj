@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { faqList } from "@/data/faq";
 import { JsonLd, SITE, breadcrumbJsonLd, faqJsonLd, organizationJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero } from "@/components/seo/pkg-ui";
 import {
   Accordion,
@@ -32,6 +33,15 @@ export const metadata: Metadata = {
       "Semua yang perlu Anda tahu sebelum bertransaksi: peran SolusiHajj, perlindungan dana escrow, verifikasi penyelenggara, dan jalur pembatalan.",
     url: `${SITE}/faq`,
     type: "website",
+    images: [
+      ogImage({
+        title: "FAQ — Pertanyaan yang Sering Diajukan Jamaah",
+        kicker: "Pusat Bantuan",
+        badge: "Jawaban Resmi",
+        sub: "Peran platform, escrow 40/40/20, verifikasi 5 lapis, pembatalan & refund",
+        foot: "Transparan sejak sebelum transaksi",
+      }),
+    ],
   },
 };
 

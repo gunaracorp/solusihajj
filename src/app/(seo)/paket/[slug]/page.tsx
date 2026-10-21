@@ -6,6 +6,7 @@ import { getPpiu, orgOf } from "@/data/ppiu";
 import { reviewsOfPackage } from "@/data/reviews";
 import { DIMENSION_LABELS, ORG_META, PRODUCT_META, type DimensionKey } from "@/data/types";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   PageHero,
   MetaChip,
@@ -69,7 +70,21 @@ export async function generateMetadata({
       description: description.slice(0, 160),
       url: `${SITE}/paket/${pkg.slug}`,
       type: "website",
+      siteName: "SolusiHajj",
+      images: [
+        ogImage({
+          title: pkg.title,
+          kicker: `Paket Umrah · ${pkg.durationDays} Hari`,
+          price: `Mulai ${harga}`,
+          rating: pkg.rating,
+          reviews: pkg.reviewCount,
+          badge: "Terverifikasi 5 Lapis",
+          sub: `Hotel ${pkg.hotelMakkah.name} · ${pkg.hotelMakkah.distanceToHaram} m ke Haram · dari ${pkg.departCity}`,
+          foot: "Review Saksi Jamaah terverifikasi",
+        }),
+      ],
     },
+    twitter: { card: "summary_large_image", images: [ogImage({ title: pkg.title }).url] },
   };
 }
 

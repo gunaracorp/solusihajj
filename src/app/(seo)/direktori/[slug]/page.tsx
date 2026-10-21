@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   PageHero,
   OrgBadge,
@@ -70,6 +71,12 @@ export async function generateMetadata({
     `Profil ${c.name}${c.brandName ? ` (${c.brandName})` : ""} — ${c.orgType} di ${lokasi}. ` +
     `${c.licenseNo ? `Izin ${c.licenseNo}. ` : ""}Status ${c.status}, sumber data resmi ${c.source?.institution ?? "pemerintah"}.`
       .slice(0, 157) + "…";
+  const ogCard = ogImage({
+    title: c.name,
+    kicker: `Profil ${c.orgType}`,
+    badge: c.status === "AKTIF" ? "Status Aktif" : undefined,
+    sub: lokasi ? `Lokasi: ${lokasi}` : undefined,
+  });
   return {
     title: `${c.name} — Profil ${c.orgType}${c.city ? ` ${c.city}` : ""}`,
     description,
@@ -79,7 +86,10 @@ export async function generateMetadata({
       description,
       url: `${SITE}/direktori/${slugify(c.name)}--${c.id}`,
       type: "website",
+      siteName: "SolusiHajj",
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

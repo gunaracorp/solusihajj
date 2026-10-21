@@ -3,6 +3,7 @@ import Link from "next/link";
 import { glossaryList, GLOSSARY_CATEGORIES } from "@/data/glossary";
 import { slugify } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, MetaChip } from "@/components/seo/pkg-ui";
 import { BookMarked, Languages } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +21,14 @@ export const metadata: Metadata = {
       "Arti istilah haji & umrah: ihram, tawaf, miqat, muthawif, PIHK, Nusuk, dan puluhan lainnya — ringkas, jujur, mudah dipahami jamaah awam.",
     url: `${SITE}/glosarium`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Glosarium Istilah Haji & Umrah A–Z",
+        kicker: "Kamus Jamaah",
+        sub: "Ihram, tawaf, miqat, muthawif, PIHK, Nusuk — arti & penjelasan ringkas",
+        foot: "Jawaban untuk pencarian “apa itu X”",
+      }),
+    ],
   },
 };
 

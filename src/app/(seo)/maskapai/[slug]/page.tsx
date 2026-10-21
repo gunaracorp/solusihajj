@@ -13,6 +13,7 @@ import { flightList } from "@/data/flights";
 import { getPpiu } from "@/data/ppiu";
 import { slugify, formatTanggal, formatRupiah } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, SectionHeading, MetaChip, BackLink } from "@/components/seo/pkg-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -57,16 +58,27 @@ export async function generateMetadata({
     `Profil ${airline.name} (kode IATA ${airline.code}) untuk penerbangan haji & umrah: rute riil ke Jeddah/Madinah dari database nasional, ` +
     `tipe pesawat, frekuensi, dan jadwal charter grup yang tersedia.`
       .slice(0, 157) + "…";
+  const ogTitle = `${airline.name} — Rute & Jadwal Penerbangan Umrah Haji`;
+  const ogCard = ogImage({
+    title: airline.name,
+    kicker: "Maskapai Penerbangan Jamaah",
+    chip: airline.code,
+    sub: "Rute riil ke Jeddah & Madinah · jadwal charter grup",
+    foot: "Database nasional rute penerbangan",
+  });
   return {
-    title: `${airline.name} — Rute & Jadwal Penerbangan Umrah Haji`,
+    title: ogTitle,
     description,
     alternates: { canonical: `${SITE}/maskapai/${slugify(airline.name)}` },
     openGraph: {
-      title: `${airline.name} — Rute & Jadwal Penerbangan Umrah Haji`,
+      title: ogTitle,
       description,
       url: `${SITE}/maskapai/${slugify(airline.name)}`,
       type: "website",
+      siteName: "SolusiHajj",
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

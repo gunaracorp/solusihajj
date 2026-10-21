@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { articleList, getArticle } from "@/data/articles";
 import type { ArticleBlock } from "@/data/types";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, SectionHeading, formatTanggal, CtaKontak } from "@/components/seo/pkg-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,12 @@ export async function generateMetadata({
   const art = getArticle(slug);
   if (!art) return { title: "Artikel tidak ditemukan" };
   const description = art.excerpt.length > 157 ? art.excerpt.slice(0, 157) + "…" : art.excerpt;
+  const ogCard = ogImage({
+    title: art.title,
+    kicker: "Artikel & Panduan Umrah",
+    sub: art.excerpt,
+    foot: `${art.author} · ${art.publishedAt}`,
+  });
   return {
     title: art.title,
     description,
@@ -37,7 +44,9 @@ export async function generateMetadata({
       publishedTime: art.publishedAt,
       modifiedTime: art.lastReviewed,
       authors: [art.author],
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

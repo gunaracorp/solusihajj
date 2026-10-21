@@ -8,6 +8,7 @@ import { flightsOfPpiu } from "@/data/flights";
 import { DIMENSION_LABELS, ORG_META, TIER_META, type DimensionKey } from "@/data/types";
 import { formatRupiah, formatTanggal } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import {
   PageHero,
   SectionHeading,
@@ -56,9 +57,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const ppiu = getPpiu(slug);
   if (!ppiu) return { title: "Penyelenggara tidak ditemukan" };
+  const orgMeta = ORG_META[orgOf(ppiu)];
   const description =
-    `Profil ${ppiu.name} (${ppiu.shortName}) — ${ORG_META[orgOf(ppiu)].label} ${ppiu.tier} di ${ppiu.city}. ` +
+    `Profil ${ppiu.name} (${ppiu.shortName}) — ${orgMeta.label} ${ppiu.tier} di ${ppiu.city}. ` +
     `Rating ${ppiu.rating.toLocaleString("id-ID")}/5 dari ${ppiu.reviewCount} review Saksi Jamaah, ${ppiu.jamaahSent.toLocaleString("id-ID")} jamaah terlayani.`;
+  const ogCard = ogImage({
+    title: ppiu.name,
+    kicker: `${orgMeta.label} · Tier ${ppiu.tier}`,
+    rating: ppiu.rating,
+    reviews: ppiu.reviewCount,
+    badge: "Terverifikasi 5 Lapis",
+    sub: `${ppiu.city} · ${ppiu.jamaahSent.toLocaleString("id-ID")} jamaah terlayani`,
+    foot: "Verifikasi 5 Lapis · Izin resmi terdata",
+  });
   return {
     title: `${ppiu.name} — Profil, Izin & Review Saksi Jamaah`,
     description: description.slice(0, 160),
@@ -68,7 +79,10 @@ export async function generateMetadata({
       description: description.slice(0, 160),
       url: `${SITE}/ppiu/${ppiu.slug}`,
       type: "website",
+      siteName: "SolusiHajj",
+      images: [ogCard],
     },
+    twitter: { card: "summary_large_image", images: [ogCard.url] },
   };
 }
 

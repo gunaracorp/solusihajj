@@ -12,6 +12,7 @@ import {
 } from "@/lib/airlines";
 import { slugify } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ogImage } from "@/lib/og";
 import { PageHero, SectionHeading, MetaChip } from "@/components/seo/pkg-ui";
 import { Badge } from "@/components/ui/badge";
 import { Plane, Route, Globe2, CalendarClock } from "lucide-react";
@@ -31,6 +32,14 @@ export const metadata: Metadata = {
       "76+ maskapai dari 45 negara yang melayani rute jamaah ke Arab Saudi, lengkap rute riil, frekuensi, dan jadwal charter grup dari database nasional.",
     url: `${SITE}/maskapai`,
     type: "website",
+    images: [
+      ogImage({
+        title: "Maskapai Penerbangan Umrah & Haji",
+        kicker: "76+ Maskapai · 45 Negara",
+        sub: "Rute riil ke Jeddah & Madinah — frekuensi & jadwal charter grup",
+        foot: "Garuda · Saudia · Lion · Turkish · dan 70+ lainnya",
+      }),
+    ],
   },
 };
 
