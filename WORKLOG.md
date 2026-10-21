@@ -570,3 +570,18 @@ Stage Summary:
 - CMS admin kini DIAKSES PUBLIK dari SPA aktif (#/admin) dengan badge rilis live terverifikasi browser — badge admin v2.1.0 SELESAI
 - Fix permanen: LocaleProvider wiring, model User+Session, baris 38 admin-dashboard.tsx (valid), seed 2 user
 - Pre-existing teridentifikasi (bukan blocker rilis): model CMS legacy belum ada di schema → beberapa API admin legacy 500/error card; dirujuk ke roadmap v2.2
+
+---
+
+Task ID: 10-c
+Agent: Z.ai Code (orchestrator)
+Task: [v2.1.0] Finalisasi — commit, tag, status push remote
+
+Work Log:
+- Commit b20092a "release: SolusiHajj v2.1.0 — Sinyal Global" (pre-commit Release Gate LOLOS saat commit — bukti gate aktif)
+- Git tag annotated v2.1.0 dibuat; tag v2.0.0 sudah ada sebelumnya; verifikasi `verify:version` LOLOS pasca-commit
+- Remote origin ditambahkan: https://github.com/prabudanling/solusihajj.git
+- Push GAGAL karena sandbox tanpa kredensial GitHub (tanpa gh CLI, tanpa SSH key, tanpa credential helper, terminal non-interaktif). Instruksi push manual tercatat di laporan rilis: `git push origin main --follow-tags`
+
+Stage Summary:
+- Rilis v2.1.0 lengkap & immutable secara lokal (commit + tag); push remote menunggu kredensial pemilik repo
