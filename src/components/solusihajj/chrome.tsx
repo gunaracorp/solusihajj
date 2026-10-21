@@ -46,6 +46,7 @@ import { Link, useHashRoute, scrollToId } from "@/lib/solusihajj/router";
 import { waLink, waMessages } from "@/lib/solusihajj/wa";
 import { I18nProvider, useI18n, type Lang } from "@/lib/solusihajj/i18n";
 import { cn } from "@/lib/utils";
+import { RELEASE_LABEL, APP_VERSION } from "@/lib/version";
 
 /* ================= UI PREFS — dark mode & mode lansia (persist, hydration-safe) ================= */
 type Prefs = { dark: boolean; elder: boolean };
@@ -855,6 +856,10 @@ export function Footer() {
                 digiman.id
               </a>{" "}
               — by Gugun Gunara
+            </p>
+            {/* GunaraCorp Release System — stempel versi rilis aktif (CHANGELOG.md / VERSION) */}
+            <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-ivory/25" aria-label={`Rilis ${RELEASE_LABEL}`}>
+              Rilis {RELEASE_LABEL} · SemVer {APP_VERSION}
             </p>
           </div>
         </div>

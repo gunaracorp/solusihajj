@@ -7,6 +7,10 @@
 **One gateway for every licensed Umrah & Hajj operator in Asia. Packages from real operators.
 Money guarded by escrow. Trust verified in five layers. AI that explains itself.**
 
+[![Release](https://img.shields.io/badge/Release-GunaraCorp_v2.0.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
+[![Codename](https://img.shields.io/badge/Codename-Nexus_Governance-C9A227?labelColor=07211a)](CHANGELOG.md)
+[![SemVer](https://img.shields.io/badge/SemVer-2.0.0-2D3748?labelColor=07211a)](https://semver.org)
+[![Pages indexed](https://img.shields.io/badge/Sitemap-13.984_URLs-0E6B4E?labelColor=07211a)](public/humans.txt)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Prisma 6 + SQLite](https://img.shields.io/badge/Prisma_6-SQLite-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io)
@@ -15,11 +19,34 @@ Money guarded by escrow. Trust verified in five layers. AI that explains itself.
 [![LLM GLM-4](https://img.shields.io/badge/AI-GLM--4_Live-0E6B4E)](https://z.ai)
 [![UU PDP 27/2022](https://img.shields.io/badge/Compliance-UU_PDP_27%2F2022-C9A227)](https://peraturan.bpk.go.id)
 
-![SolusiHajj R3](download/solusihajj/screenshot-r3-escrow.png)
-
 **[Readme Bahasa Indonesia](README_ID.md) — versi Indonesia tersedia**
 
 </div>
+
+---
+
+## ⚡ Release Snapshot — GunaraCorp v2.0.0 "Nexus Governance" (2026-10-22)
+
+This release activates the **GunaraCorp Release System**: from now on, *every command and every
+change* in this repository must carry a version number (SemVer). The full engineering history is
+mapped retroactively — see [CHANGELOG.md](CHANGELOG.md) and [WORKLOG.md](WORKLOG.md).
+
+| Version | Codename | Headline |
+|---|---|---|
+| **v2.0.0** | Nexus Governance | Release system activated — VERSION file, CHANGELOG, versioned WORKLOG, `/api/version`, footer release stamp, git tag |
+| **v1.5.0** | Kelas Dunia | Header & navigation redesigned to global consulting-firm standard (utility trust bar, mega menu, app-grade mobile drawer) |
+| **v1.4.0** | Mesin Konten | Article Content Engine 4 → **112 articles** (±90,000 words, 8 categories, 3-layer silo) + permanent hydration-mismatch fix |
+| **v1.3.0** | Kartu Dinamis | Dynamic OG image cards for **all 13,984 pages** (price/rating/badge) + image sitemap (13,831 images) |
+| **v1.2.0** | Matrix 9.450 | **9,450 programmatic-SEO pages** (210 services × 45 cities, ISR) + lead-capture engine (`ServiceLead`, ref-numbered) |
+| **v1.1.x** | Gerbang SEO | SEO App Router foundation — 210 services, 45 cities, legal pages, sitemap 4,418 URLs, full JSON-LD stack |
+| **v1.0.0** | Fondasi Amanah | SolusiHajj R3 installed & verified — escrow state machine, NurMatch AI, 3,966-organization national database |
+
+Check the running release anytime:
+
+```bash
+curl http://localhost:3000/api/version
+# { "version": "2.0.0", "label": "GunaraCorp v2.0.0", "codename": "Nexus Governance", ... }
+```
 
 ---
 
@@ -37,42 +64,41 @@ packages. Operators supply the packages; SolusiHajj supplies **verification, esc
 |---|---|
 | **Marketplace Engine** | 27 packages, 10 group charter flights, city filters, monthly price calendar, side-by-side compare |
 | **Trust & Syariah** | Verifikasi 5 Lapis, AmanahEscrow 40/40/20 with dual-control, Saksi Jamaah review-gated ratings, public sanctions register |
-| **Real Data** | 796 organizations indexed from 9+ official government/association sources — every row has provenance |
+| **Real Data** | **3,966 organizations** indexed from 9+ official government/association sources — every row has provenance |
+| **Programmatic SEO** | **13,984 URLs** in one sitemap: service pages, city landings, 9,450-page service×city matrix, 112-article content hub |
 | **NurMatch AI** | A live LLM advisor that recommends only from real catalog + database candidates, and shows its reasoning |
 | **Asia-Wide Directory** | Indonesia, Saudi Arabia (Nusuk/MOHU), Pakistan (MORA), Malaysia, Singapore, Brunei, Thailand |
-| **Radical Accessibility** | Elder mode (17 → 19.5 px), dark "Malam Madinah" mode, ID/EN/AR, 48 px touch targets |
+| **Radical Accessibility** | Elder mode (17 → 19.5 px), dark "Malam Madinah" mode, ID/EN/AR, 48 px touch targets, consulting-grade header |
 
 ---
 
-## The Numbers (October 2026)
+## The Numbers (verified live — October 2026)
 
 | Metric | Value | Source |
 |---|---|---|
-| Organizations in database | **796** | Live SQLite, provenance-audited |
-| ─ PPIU (Umrah operators, ID) | 258 | Kemenag + HIMPUH full scrape |
-| ─ PIHK (Hajj-special organizers, ID) | 261 | Kemenag KMA + HIMPUH |
-| ─ USP (Saudi Umrah Service Providers) | 47 | Nusuk — official MOHU platform |
-| ─ UTO (Pakistan Umrah Tour Operators) | 228 | MORA Pakistan official register |
-| ─ BPW (travel bureaus) | 2 | HIMPUH |
-| Countries covered | **3 core + 4 partner** | ID, PK, SA + MY, SG, BN, TH |
-| HIMPUH members scraped | **474 / 474** with full detail | himpuh.or.id pages 1–19 |
-| Airlines / routes indexed | 7 / 19 (real 2025 schedules) | Kemenag decree + airline releases |
-| Packages / charter flights | 27 / 10 | Curated catalog |
-| Escrow contracts (demo-pipeline) | 5 across all states | DRAFT → SETTLED covered |
-| JSON-LD structured data blocks | 29+ | Organization → Dataset → HowTo |
-| UI views | 25 | Single hash-route SPA, static-export ready |
+| Sitemap URLs | **13,984** | Live `sitemap.xml` (1 file, < 50 MB) |
+| ─ Programmatic matrix (service × city) | 9,450 | `/layanan/[slug]/dari-[kota]`, ISR 24 h |
+| ─ Directory (DB-backed profiles) | 3,966 | Live SQLite, provenance-audited |
+| ─ Articles + category hubs | 112 + 8 | E-E-A-T content engine, 8 categories |
+| ─ Services / cities / packages / glossary / airlines / PPIU | 225 / 46 / 28 / 35 / 77 / 19 | Static SEO routes |
+| OG image cards (1200×630, dynamic) | **13,831** | Image sitemap extensions |
+| Organizations in database | **3,966** | 2,670 PPIU · 1,019 PIHK · 228 UTO · 47 USP · 2 BPW |
+| Verified organizations | 3,619 | Status AKTIF/TERDAFTAR |
+| Lead capture | `ServiceLead` + ref `SH-LEAD-YYYY-XXXXX` | Rate-limited, honeypot, page-path attribution |
+| JSON-LD types | 12+ | Organization, Service+Offer, FAQPage, Article, ItemList, Dataset, HowTo… |
+| UI views | 25 | Single hash-route SPA + 30+ App Router SEO routes |
 
 ---
 
 ## Release Ladder
 
-| Release | Codename | Status | Headline |
-|---|---|---|---|
-| **R1** | Gerbang Kepercayaan | DONE | Trust-first homepage, 24-package catalog, public "Cek Izin PPIU" tool, hajj savings calculator |
-| **R1.5** | Marketplace Asia Superapp | DONE | 5-country directory, compare tray, 29 JSON-LD blocks, dark + elder modes, ID/EN/AR |
-| **R2** | Fondasi Data Nasional | DONE | Real national database from 9 official sources, airlines module, live sync pipeline with audit trail |
-| **R3** | AmanahEscrow Aktif + NurMatch AI | **THIS RELEASE** | Working escrow state machine (create → fund → release 40/40/20 → dispute → resolve → refund) + live LLM advisor |
-| **R4** | Production Hardening | Next | Bank VA integration, KYC, operator dashboards, multi-region deployment |
+| Release | GunaraCorp Version | Codename | Status | Headline |
+|---|---|---|---|---|
+| **R1** | — | Gerbang Kepercayaan | DONE | Trust-first homepage, 24-package catalog, public "Cek Izin PPIU" tool, hajj savings calculator |
+| **R1.5** | — | Marketplace Asia Superapp | DONE | 5-country directory, compare tray, 29 JSON-LD blocks, dark + elder modes, ID/EN/AR |
+| **R2** | — | Fondasi Data Nasional | DONE | Real national database from 9 official sources, airlines module, live sync pipeline |
+| **R3** | **v1.0.0 → v1.5.0** | AmanahEscrow + NurMatch + SEO Matrix | **THIS RELEASE** | Escrow state machine, live LLM advisor, 13,984-URL SEO engine, 112-article hub, consulting-grade header |
+| **R4** | v3.x (planned) | Production Hardening | Next | Bank VA integration, KYC, operator dashboards, multi-region deployment |
 
 ---
 
@@ -80,28 +106,28 @@ packages. Operators supply the packages; SolusiHajj supplies **verification, esc
 
 ```mermaid
 flowchart LR
-    subgraph Client["Browser — SPA (hash-route, static-export ready)"]
-        UI["25 views<br/>Design System 'Amanah'<br/>ID / EN / AR · dark · elder"]
+    subgraph Client["Browser — SPA (hash-route) + 30+ SEO App Router routes"]
+        UI["25 SPA views + SEO pages<br/>Design System 'Amanah'<br/>ID / EN / AR · dark · elder"]
     end
 
     subgraph Next["Next.js 16 App Router (port 3000)"]
         API1["/api/r2/*<br/>companies · airlines · stats<br/>sources · sync"]
-        API2["/api/r3/escrow<br/>GET list · POST create"]
-        API3["/api/r3/escrow/[id]<br/>POST action state machine"]
-        API4["/api/r3/ai/match<br/>NurMatch AI + fallback"]
+        API2["/api/r3/escrow · /api/r3/ai/match"]
+        API3["/api/leads · /api/og<br/>lead capture · OG cards"]
+        API4["/api/version · /api/health<br/>release identity"]
+        SEO["(seo) route group<br/>layanan · kota · paket · artikel<br/>glosarium · maskapai · ppiu · direktori"]
     end
 
     subgraph Data["Data Layer"]
-        DB[("Prisma + SQLite<br/>9 models")]
-        SEED["Seed & scraper scripts<br/>scripts/*.ts"]
+        DB[("Prisma + SQLite<br/>13 models")]
+        SEED["Seed & scraper scripts"]
     end
 
     subgraph Sources["Official Sources (scraped Oct 2026)"]
-        H["HIMPUH<br/>474 members, pages 1-19"]
-        N["Nusuk / Saudi MOHU<br/>47 providers"]
-        P["MORA Pakistan<br/>228 operators"]
-        K["Kemenag · Kemenhaj<br/>SISKOPATUH · Satu Data"]
-        A["Airlines<br/>GA SV JT QG IU MS TK"]
+        H["HIMPUH · Kemenag<br/>SISKOPATUH · Satu Data"]
+        N["Nusuk / Saudi MOHU"]
+        P["MORA Pakistan"]
+        A["Airlines (77 indexed)"]
     end
 
     subgraph AI["Z.ai SDK (server-only)"]
@@ -109,22 +135,22 @@ flowchart LR
     end
 
     UI --> API1 & API2 & API3 & API4
-    API1 & API2 & API3 --> DB
-    API4 --> DB
-    API4 --> LLM
+    UI --> SEO
+    SEO & API1 & API2 & API3 --> DB
+    API2 --> LLM
     SEED --> DB
-    H & N & P & K & A --> SEED
+    H & N & P & A --> SEED
 ```
 
 ### Data Provenance — every row knows where it came from
 
 ```
-HIMPUH (474) ──► fetch 19 list pages ──► fetch 474 detail pages ──► parse jenis/registrasi/phone/email/web
+HIMPUH (474) ──► 19 list pages ──► 474 detail pages ──► parse jenis/registrasi/phone/email/web
 Nusuk   (47) ──► provider cards ──► 47 profile pages (city, phone, CF-decoded email, about)
-MORA PK (228)──► official document table ──► 344 rows ──► filter to 228 company-like names
+MORA PK (228)──► official document table ──► 344 rows ──► 228 company-like names
                                     │
                                     ▼
-                    normalize(name) dedup-index ──► merge or create Company
+                    normalize(name) dedup-index ──► merge or create Company (3,966 rows)
                                     │
                                     ▼
               DataSource.recordsIndexed++  ·  SyncEvent(SUCCESS, note)  ──► audit trail
@@ -159,6 +185,18 @@ Every transition writes an immutable `EscrowEvent` — the pilgrim (Saksi Jamaah
 4. If the AI is unavailable, a **transparent deterministic scorer** takes over — the feature never dies.
 5. Every session is stored (`AiMatchSession`) — recommendations are auditable, not a black box.
 
+### Programmatic SEO engine (v1.1 → v1.4)
+
+- **Service×City matrix** — 9,450 static pages (`/layanan/[slug]/dari-[kota]`), each with unique intro,
+  airport/charter context, combined FAQ, two-way silo links, and per-combination metadata + OG card.
+- **Content hub** — 112 articles in 8 categories (Panduan Umrah, Manasik & Doa, Visa & Dokumen,
+  Hotel & Transportasi, Biaya & Keuangan, Keluarga & Lansia, Musim & Waktu, Keamanan & Verifikasi),
+  with index → category → detail → related silo architecture.
+- **Structured data everywhere** — Service+Offer, FAQPage, Article, CollectionPage, BreadcrumbList,
+  Organization, ItemList, Dataset, HowTo, DefinedTerm, TravelAgency, SearchAction.
+- **Dynamic OG cards** — one API route (`/api/og`) renders branded 1200×630 cards (price, rating,
+  verification badge) for every page; wired into metadata + image sitemap.
+
 ---
 
 ## Quick Start
@@ -178,6 +216,9 @@ bun run dev
 
 # 5. Lint
 bun run lint
+
+# 6. Verify the running release
+curl http://localhost:3000/api/version
 ```
 
 Re-run the scrapers anytime (resumable, checkpointed):
@@ -193,6 +234,8 @@ bun scripts/fetch-asia.ts          # Nusuk 47 providers + MORA Pakistan -> scrip
 
 | Endpoint | Method | Purpose |
 |---|---|---|
+| `/api/version` | GET | **Release identity** — version, label, codename, build date (GunaraCorp Release System) |
+| `/api/health` | GET | Healthcheck — DB latency + **version block** + runtime |
 | `/api/r2/companies` | GET | Directory search: `q, type, province, status, limit` + facets |
 | `/api/r2/airlines` | GET | Airlines + real routes, `byService` filter |
 | `/api/r2/stats` | GET | Aggregates: totals, by type/status/country/province |
@@ -201,6 +244,8 @@ bun scripts/fetch-asia.ts          # Nusuk 47 providers + MORA Pakistan -> scrip
 | `/api/r3/escrow` | GET / POST | List contracts + volume / create contract (auto 40-40-20 milestones) |
 | `/api/r3/escrow/[id]` | GET / POST | Full detail + audit trail / action: `FUND, RELEASE, DISPUTE, RESOLVE, REFUND` |
 | `/api/r3/ai/match` | GET / POST | Recent AI sessions / profile → live LLM recommendation |
+| `/api/leads` | POST / GET | **Lead capture** — public POST (rate-limited, honeypot) / admin GET |
+| `/api/og` | GET | **Dynamic OG card** 1200×630 — params `t, chip, price, foot, k, rating, reviews, badge, sub` |
 
 Escrow action rules enforced server-side: sequential releases only, no release before `FUNDED`,
 dispute requires ≥ 10-character evidence note, refund only of unreleased remainder.
@@ -211,7 +256,7 @@ dispute requires ≥ 10-character evidence note, refund only of unreleased remai
 
 `DataSource` · `SyncEvent` · `Company` (unique name+orgType, indexed) · `SanctionRecord` ·
 `GovRegulation` · `Airline` · `FlightRoute` · `EscrowContract` · `EscrowMilestone` (unique contractId+seq) ·
-`EscrowEvent` (append-only) · `AiMatchSession`
+`EscrowEvent` (append-only) · `AiMatchSession` · `ServiceLead` (unique ref, page-path attribution)
 
 ---
 
@@ -228,6 +273,74 @@ dispute requires ≥ 10-character evidence note, refund only of unreleased remai
 | Radius / shadows | 16 / 12 px, 3-level warm-green shadows |
 | Elder mode | body 17 → 19.5 px, persistable |
 | Dark mode | "Malam Madinah" palette |
+| Header | CHROME R2 — consulting-grade: utility trust bar + mega menu + app-grade drawer |
+
+---
+
+## GunaraCorp Release System (versioning governance)
+
+This repository is governed by the **GunaraCorp Release System** — every command and every change
+must carry a version. International-standard practices:
+
+| Artifact | Role |
+|---|---|
+| [`VERSION`](VERSION) | Canonical version number (root, single line) |
+| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog 1.1.0 — every release, categorized (Added/Changed/Fixed/Verified) |
+| [`WORKLOG.md`](WORKLOG.md) | Engineering task ledger — chronological, every task stamped `[vX.Y.Z]` |
+| `src/lib/version.ts` | Runtime source of truth (imported by API + footer — never hardcode versions elsewhere) |
+| `/api/version` | Live release identity for post-deploy verification |
+| Git tag `vX.Y.Z` | Immutable release snapshot |
+
+**Semantic Versioning policy:**
+
+- **MAJOR** — governance/architecture overhaul or product-ladder jump (R-ladder).
+- **MINOR** — new features without breaking (new pages, engines, modules).
+- **PATCH** — bug fixes and hardening without new features.
+
+**Release SOP (bump a version):**
+
+1. Update `APP_VERSION`, `APP_CODENAME`, `APP_BUILD_DATE` in `src/lib/version.ts`.
+2. Sync `VERSION` (root) and `package.json` `"version"`.
+3. Add a new section at the top of `CHANGELOG.md` (Keep a Changelog format).
+4. Append the task entry to `WORKLOG.md` stamped with the new version.
+5. Commit + `git tag -a vX.Y.Z -m "GunaraCorp vX.Y.Z — <codename>"`.
+6. Verify: `curl /api/version` returns the new version; footer stamp updates automatically.
+
+---
+
+## Repository Layout
+
+```
+VERSION                     # Canonical release number
+CHANGELOG.md                # Keep a Changelog — release history
+WORKLOG.md                  # Versioned engineering task ledger
+src/
+  app/
+    page.tsx                # SPA shell (hash-route, 25 views)
+    (seo)/                  # 30+ SEO App Router routes
+      layanan/[slug]/[kota] # 9,450-page service×city matrix (ISR)
+      artikel/              # 112-article hub + 8 category routes
+      kota/ paket/ glosarium/ maskapai/ ppiu/ direktori/ legal
+    api/
+      version/ health/      # Release identity + healthcheck
+      leads/ og/            # Lead capture + dynamic OG cards
+      r2/                   # Directory, airlines, stats, sources, sync
+      r3/                   # Escrow state machine + NurMatch AI
+  components/
+    solusihajj/             # SPA views + CHROME R2 header/footer
+    seo/                    # JSON-LD, lead form, silo components
+    admin/ views/ ui/       # Admin dashboard, views, shadcn/ui
+  data/
+    services/               # 210 services, 14 categories
+    article-engine/         # 108 articles (6 batches) + index
+    cities.ts               # 45 departure cities
+  lib/
+    version.ts              # Runtime release identity (source of truth)
+    og.ts solusihajj/       # OG helper, router/seo/i18n/wa/compare
+prisma/schema.prisma        # 13 models (incl. ServiceLead)
+scripts/                    # Scrapers, seeders, daemon, audit tools
+docs/                       # NEXUS PROTOCOL blueprint (39 documents)
+```
 
 ---
 
@@ -238,7 +351,7 @@ dispute requires ≥ 10-character evidence note, refund only of unreleased remai
 | ![Escrow](download/solusihajj/screenshot-r3-escrow.png) | ![NurMatch](download/solusihajj/screenshot-r3-nurmatch-result.png) |
 | *Pusat AmanahEscrow — live contracts, Rp 428 jt under management* | *NurMatch AI — live GLM-4 answer citing real packages & operators* |
 | ![R2 Data](download/solusihajj/screenshot-r2-pusat-data.png) | ![Home](download/solusihajj/screenshot-home.png) |
-| *Pusat Data Nasional — 796 organizations with provenance* | *Homepage — trust-first marketplace* |
+| *Pusat Data Nasional — 3,966 organizations with provenance* | *Homepage — trust-first marketplace, consulting-grade header* |
 
 ---
 
@@ -247,49 +360,26 @@ dispute requires ≥ 10-character evidence note, refund only of unreleased remai
 - **UU PDP 27/2022** aligned: no personal data in AI sessions, encrypted fields planned per doc 23.
 - Escrow ledger is **append-only** (`EscrowEvent`); releases require dual-control records.
 - Public **sanctions register** (SanctionRecord) keeps flagged operators visible.
+- Lead capture hardened: rate limiting (5/min/IP), honeypot field, phone-format validation, admin-only reads.
 - No quota selling, no package fabrication — platform is a pure *wadah* (container).
 - z-ai-web-dev-sdk is **server-side only**; the AI key never reaches the browser.
 
 ---
 
-## Repository Layout
-
-```
-src/
-  app/
-    page.tsx                 # Single visible route (SPA shell)
-    api/r2/                  # Directory, airlines, stats, sources, sync
-    api/r3/escrow/           # Escrow list/create + [id] state machine
-    api/r3/ai/match/         # NurMatch AI (LLM live + fallback)
-  components/solusihajj/
-    app.tsx                  # Hash-router view map (25 views)
-    chrome.tsx               # Header/Footer/WA/i18n/prefs
-    pages/                   # home, catalog, ppiu, trust, market, resources,
-                             # data, airlines, escrow-live, nurmatch-ai, tools, static
-  data/                      # 27 packages, operators, glossary, SEO map
-  lib/solusihajj/            # router, seo, i18n, wa, compare
-prisma/schema.prisma         # 11 models
-scripts/
-  fetch-himpuh-full.ts       # HIMPUH scraper (resumable, checkpointed)
-  fetch-asia.ts              # Nusuk + MORA Pakistan scraper
-  seed-r2.ts / seed-r3.ts    # Provenance-logged importers
-docs/ (download/solusihajj/docs/)  # 39 NEXUS PROTOCOL documents
-```
-
----
-
 ## Roadmap
 
-- **R4-Production**: bank VA integration (Bank Syariah), KYC for operators, operator self-service dashboard,
+- **v2.1 (Prioritas 5)** — `llms.txt`, RSS activation, hreflang id/en (next-intl), `/bandingkan` SEO page, faceted catalog pages.
+- **R4-Production (v3.x)** — bank VA integration (Bank Syariah), KYC for operators, operator self-service dashboard,
   contract e-signature, WebPush milestone notifications.
-- **Data**: nightly incremental rescrapes, Saudi MOHU eservices when reachable, more Asian registries
+- **Data** — nightly incremental rescrapes, Saudi MOHU eservices when reachable, more Asian registries
   (India, Bangladesh, Malaysia TABUNG HAJI ecosystem).
-- **AI**: voice input for elders, Arabic & English reasoning, itinerary-aware packing lists.
+- **AI** — voice input for elders, Arabic & English reasoning, itinerary-aware packing lists.
 
 ## Systems Architecture & Support
 
-SolusiHajj is engineered under the discipline of **GUNARA MASTER SYSTEM v3.0** and the **NEXUS PROTOCOL v1.0**
-document suite. System architecture, quality gates, and data pipelines are supported by:
+SolusiHajj is engineered under the discipline of **GUNARA MASTER SYSTEM v3.0**, the **NEXUS PROTOCOL v1.0**
+document suite, and the **GunaraCorp Release System v2.0.0**. System architecture, quality gates,
+and data pipelines are supported by:
 
 > **by Gugun Gunara — Muhammad Lutfi Azmi** (prabudanling · Santri Angon)
 > **PT Top Konsultan Internasional** ([topkonsultan.web.id](https://topkonsultan.web.id)) ·
@@ -318,5 +408,7 @@ wireframes, database schema, API spec, security protocol, deployment runbook, an
 
 **SolusiHajj — Amanah Anda, Aman.**
 *Marketplace ibadah terbesar & teraman di Asia — dibangun dengan data resmi, escrow nyata, dan AI yang jujur.*
+
+**Rilis aktif: GunaraCorp v2.0.0 — "Nexus Governance"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
 
 </div>

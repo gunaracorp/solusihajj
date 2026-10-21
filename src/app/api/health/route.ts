@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import os from "node:os";
 import { db } from "@/lib/db";
+import { APP_VERSION, RELEASE_LABEL, APP_CODENAME } from "@/lib/version";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,11 @@ export async function GET() {
   const payload = {
     ok: dbOk,
     service: "muhdin.web.id",
+    version: {
+      number: APP_VERSION,
+      label: RELEASE_LABEL,
+      codename: APP_CODENAME,
+    },
     checks: {
       database: { ok: dbOk, latencyMs: dbLatencyMs, error: dbError },
     },

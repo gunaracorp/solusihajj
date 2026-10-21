@@ -1,0 +1,329 @@
+     1→# Worklog — SolusiHajj Superapp Enhancement
+     2→
+     3→---
+     4→
+     5→Task ID: 1
+     6→Agent: main (Z.ai Code)
+     7→Task: Install repo github.com/prabudanling/solusihajj ke project Next.js 16 dan verifikasi baseline
+     8→
+     9→Work Log:
+    10→- Clone repo https://github.com/prabudanling/solusihajj ke /tmp/solusihajj (69MB, rilis R3 "AmanahEscrow Aktif + NurMatch AI")
+    11→- Inspeksi struktur: SPA hash-route di src/components/solusihajj/ (25 view), data katalog di src/data/ (packages 27, articles, glossary, ppiu 18, flights, kado, cicilan, benchmark), lib di src/lib/solusihajj/
+    12→- rsync seluruh source (exclude .git/node_modules/.next/.env/upload) ke /home/z/my-project
+    13→- bun install: +4 deps baru (nodemailer, @vercel/analytics, next-intl, @types/nodemailer)
+    14→- bun run db:push: schema in sync, db/custom.db berisi 3.966 Company, 7 Airline, 19 FlightRoute, 11 DataSource, 5 EscrowContract
+    15→- Restart dev server (setsid), semua endpoint hijau: / 200, /sitemap.xml 200, /api/r2/stats 200, /api/r2/companies 200, /api/health 200
+    16→- Fix: hapus public/robots.txt statis yang konflik dengan app/robots.ts (error 500 "conflicting public file and page file")
+    17→
+    18→Stage Summary:
+    19→- SolusiHajj R3 terinstall penuh dan berjalan di port 3000, database natonal 3.966 organisasi hidup
+    20→- Kelemahan SEO utama teridentifikasi: sitemap hanya 1 URL (SPA hash-route), title/desc di-update client-side via useSeo()
+    21→- Rencana lanjut: Task 2-a/2-b/2-c paralel (dataset layanan 200+, rute SEO App Router), Task 3 sitemap mega + JSON-LD, Task 4 verifikasi browser
+    22→
+    23→---
+    24→Task ID: 2-b
+    25→Agent: general-purpose
+    26→Task: Rute SEO App Router dari data eksisting (paket/artikel/glosarium/direktori/maskapai/ppiu)
+    27→
+    28→Work Log:
+    29→- Baca worklog Task 1 + seluruh data eksisting (types/packages/articles/glossary/ppiu/reviews/flights/faq/airlines) + infra SEO (layout route group, json-ld.tsx, site-header/footer)
+    30→- Buat src/components/seo/pkg-ui.tsx (file BARU, prefiks pkg-): helper bersama formatRupiah/formatTanggal/slugify/negaraLabel, TierBadge/OrgBadge/VerifiedBadge/RatingStars, PageHero dengan breadcrumb visual, SectionHeading, MetaChip, CtaKontak (→ /#/kontak)
+    31→- /paket: page server + komponen client pkg-paket-explorer.tsx (filter kota keberangkatan, jenis paket, pencarian teks; SSR tetap render 27 kartu). JSON-LD ItemList(27) + BreadcrumbList + FAQPage(10, Accordion shadcn)
+    32→- /paket/[slug]: generateStaticParams 27 paket; hero + harga/jendela keberangkatan + hotel Makkah/Madinah (meter & menit jalan ke Haram) + itinerary timeline + includes/excludes + tabel pembatalan (Table) + review Saksi Jamaah + profil PPIU (getPpiu+orgOf, link /ppiu/[slug]) + paket terkait (packagesOfPpiu) + sidebar CTA /#/kontak. JSON-LD Product+Offer+AggregateRating+BreadcrumbList; generateMetadata unik per paket
+    33→- /artikel: indeks grouped by category (4 artikel), JSON-LD Blog + ItemList. /artikel/[slug]: generateStaticParams 4, renderer ArticleBlock lengkap (p/h2/h3/ul/ol/arabic via font-amiri/callout dengan routing pintar ctaTo "/paket" → rute SEO, lainnya → /#/SPA/table), byline+publishedAt+lastReviewed, artikel terkait, JSON-LD Article+BreadcrumbList, OG type article
+    34→- /glosarium: indeks 34 istilah grouped by GLOSSARY_CATEGORIES + anchor jump (#kat-*), JSON-LD DefinedTermSet+ItemList. /glosarium/[slug]: generateStaticParams 34 (slugify lokal di pkg-ui), term+arabic+short+detail, istilah terkait satu kategori, JSON-LD DefinedTerm+BreadcrumbList
+    35→- /direktori: SERVER COMPONENT live DB (import db from @/lib/db, revalidate 3600): groupBy orgType/country/province + count total & verified (3.966 / 3.619), 12 perusahaan terverifikasi terbaru (include source), form pencarian GET → /#/pusat-data (fragment dipertahankan browser), JSON-LD SearchAction(WebSite.potentialAction)+ItemList
+    36→- /direktori/[slug]: render on-demand TANPA generateStaticParams; parser lastIndexOf("--") → {prefix,id}; db.company.findUnique({include:source}) + validasi slugify(name)===prefix else notFound(); tampilkan name/brandName/orgType badge/status/tier/leader/alamat/kota/provinsi/telepon(tel:)/email(mailto)/website(nofollow noopener)/licenseNo/licenseYear/dataAsOf/catatan/sumber resmi(sourceRef+source.url, rel nofollow noopener); JSON-LD Organization(+founder/PostalAddress)+BreadcrumbList; generateMetadata dinamis
+    37→- /maskapai: union data statis lib (76 maskapai; logo /airlines/{code}.png) + agregat db.flightRoute.groupBy + maskapai DB-only (Citilink, Super Air Jet); JSON-LD ItemList. /maskapai/[slug]: generateStaticParams 76; rute riil db.flightRoute.findMany via iata match + jadwal charter flightList (prefix-match nama maskapai); JSON-LD Airline(+makesOffer Flight)+ItemList rute
+    38→- /ppiu: indeks 18 penyelenggara grouped by negara (countryOf) dengan OrgBadge+TierBadge+rating+izin; JSON-LD ItemList. /ppiu/[slug]: generateStaticParams 18; verifikasi 5 lapis + verifiedAt, izin (licenseNo/issued/validUntil/kantor Kemenag), statistik (jamaahSent/yearFounded/departureAccuracy/responseMinutes), rating 6 dimensi (Progress), highlights, reviewsOfPpiu (dengan balasan PPIU), packagesOfPpiu → /paket/[slug], flightsOfPpiu (tabel charter); JSON-LD TravelAgency+AggregateRating+BreadcrumbList
+    39→- Uji: fetch sweep 165 URL (6 indeks + 27 paket + 4 artikel + 34 glosarium + 18 ppiu + 76 maskapai) → SEMUA 200; /direktori/[slug] diuji per orgType (PPIU/PIHK/BPW/USP/UTO) → 200; slug invalid (id mentah/prefix salah/tidak ada) → 404 sesuai kontrak; canonical+og:title+og:type terverifikasi via curl di 6 halaman sampel; JSON-LD spot-check (Product/Offer/AggregateRating, FAQPage×10, Organization) OK
+    40→- eslint "src/app/(seo)/**" src/components/seo → bersih setelah hapus 2 direktif eslint-disable tak terpakai; dev.log tanpa error baru (2 baris ⨯ lama = isu robots.txt yang sudah diperbaiki Task 1)
+    41→
+    42→Stage Summary:
+    43→- 12 rute SEO App Router baru selesai & hijau: /paket (1) + /paket/[slug] (27 statis) + /artikel (1) + /artikel/[slug] (4 statis) + /glosarium (1) + /glosarium/[slug] (34 statis) + /direktori (1, live DB) + /direktori/[slug] (on-demand DB ~3.966 potensial) + /maskapai (1, DB+statis) + /maskapai/[slug] (76 statis) + /ppiu (1) + /ppiu/[slug] (18 statis) = 165 URL teruji 200, 163 halaman statis via generateStaticParams + 2 halaman DB (revalidate 3600)
+    44→- Curl: 165/165 → 200; 7 uji negatif → 404 benar; lint 0 error 0 warning; tidak ada file larangan yang disentuh (hanya file baru prefiks pkg-)
+    45→
+    46→---
+    47→Task ID: 2-a (rampungan oleh main agent)
+    48→Agent: main (Z.ai Code)
+    49→Task: Melengkapi dataset services yang timeout pada agent paralel
+    50→
+    51→Work Log:
+    52→- Agent paralel selesai menulis part-1/2/3 (170 layanan, 11 kategori) sebelum timeout
+    53→- Buat src/data/services/part-4.ts: 15 layanan keluarga-lansia + 15 haji-khusus + 15 digital-tools
+    54→- Buat src/data/services/part-5.ts: 12 layanan lintas kategori + 1 tambahan (total 210)
+    55→- Buat src/data/services/index.ts (agregat + helper getService/servicesByCategory/relatedServices)
+    56→- Fix: alias import serviceCategoryList (konflik nama) di index.ts
+    57→- Buat src/data/cities.ts: 45 kota keberangkatan lengkap (intro, bandara, waktu terbang, charter, highlights, 3 FAQ per kota)
+    58→- Validasi: 210 layanan unik, semua categorySlug valid, 8 slug wajib footer tersedia, 45 kota unik
+    59→
+    60→Stage Summary:
+    61→- 210 layanan × 14 kategori + 45 kota siap dipakai rute SEO
+    62→- File: src/data/services/{types,categories,part-1..5,index}.ts + src/data/cities.ts
+    63→
+    64→---
+    65→Task ID: 2-c (verifikasi oleh main agent)
+    66→Agent: main (Z.ai Code)
+    67→Task: Verifikasi rute /layanan & /kota buatan agent paralel yang timeout
+    68→
+    69→Work Log:
+    70→- Agent sempat menulis semua file route sebelum timeout: /layanan, /layanan/[slug], /layanan/kategori/[slug], /kota, /kota/[slug]
+    71→- Curl test 9 URL representatif setelah data services/cities lengkap: SEMUA 200
+    72→- Title SEO & JSON-LD terverifikasi di /layanan/pengurusan-visa-umrah dan /kota/jakarta
+    73→
+    74→Stage Summary:
+    75→- /layanan (210 halaman statis + 14 kategori + indeks) dan /kota (45 + indeks) berjalan normal
+    76→
+    77→---
+    78→Task ID: 3
+    79→Agent: main (Z.ai Code)
+    80→Task: Sitemap mega, robots, halaman legal, strip SEO di SPA footer
+    81→
+    82→Work Log:
+    83→- Buat 3 halaman (seo) yang hilang: /faq (FAQPage JSON-LD dari faqList), /kebijakan-privasi (UU PDP 27/2022, 9 section), /syarat-ketentuan (10 pasal, escrow 40/40/20, pembatalan, sengketa)
+    84→- Fix prop PageHero: breadcrumbs + lead (bukan breadcrumb + subtitle)
+    85→- Upgrade src/app/sitemap.ts: force-dynamic + revalidate 86400, agregasi core (23 URL SPA+SEO) + layanan (225) + kota (46) + paket (28) + artikel (5) + glosarium (35) + ppiu (19) + maskapai (77) + direktori DB (3.966) = 4.418 URL teruji 200
+    86→- Upgrade src/app/robots.ts: base URL solusihajj.com, disallow /api/ + /_next/, host + sitemap
+    87→- Tambah strip SEO footer SPA (chrome.tsx): 18 tautan chip ke rute nyata (layanan, kategori, kota, direktori, paket SEO)
+    88→
+    89→Stage Summary:
+    90→- Sitemap 4.418 URL (904 KB) hijau; robots.txt benar; 3 halaman legal baru; internal linking SPA→SEO aktif
+    91→
+    92→---
+    93→Task ID: 4
+    94→Agent: main (Z.ai Code)
+    95→Task: Lint penuh + verifikasi browser end-to-end
+    96→
+    97→Work Log:
+    98→- bun run lint: 177 error seluruhnya dari artefak data scraping bawaan repo (scripts/data/siskopatuh/*.js, server.js) — tambahkan ke eslint ignores; hasil akhir 0 error, 1 warning pre-existing (no-page-custom-font dari layout asli repo)
+    99→- Lint file baru (src/app/(seo), src/components/seo, src/data/services, cities, sitemap, robots, chrome.tsx): 0 error 0 warning
+   100→- Agent Browser verifikasi end-to-end:
+   101→  * / — beranda SPA render sempurna (hero Amanah, search bar, trust badge, live ticker), 0 console error
+   102→  * Footer SPA: strip "Jelajahi 4.400+ Halaman Portal" tampil, 18 tautan SEO aktif
+   103→  * Klik "200+ Layanan Umrah" → /layanan render (210+ layanan, 14 kategori berikon)
+   104→  * /layanan/pengurusan-visa-umrah — detail SEO-rich (breadcrumb, harga Rp 2.100.000, CTA WA, 4 blok JSON-LD di DOM)
+   105→  * /kota/jakarta — landing kota lengkap (bandara CGK, ±9 jam, Charter Langsung Tersedia)
+   106→  * /direktori/pt-lyla-wisata-dunia--... — profil DB nyata + provenance sumber (Kemenag/SIMPU, dataAsOf Mei 2025)
+   107→  * SPA /#/paket — katalog 27 paket, filter/sort/bandingkan berfungsi
+   108→  * Mobile 390px: /paket, /layanan/[slug], footer, hamburger menu — semua responsif
+   109→- Final sweep curl 23 rute representatif: SEMUA 200; dev.log 0 error (⨯ count = 0)
+   110→
+   111→Stage Summary:
+   112→- PROYEK SELESAI: 4.418 URL terindeks di sitemap (3.967 direktori + 225 layanan + 46 kota + 77 maskapai + 35 glosarium + 28 paket + 19 ppiu + 5 artikel + 12 SPA + legal)
+   113→- SEO stack penuh: generateMetadata + canonical + OG per halaman, JSON-LD (Service, Product+Offer+Rating, FAQPage, BreadcrumbList, TravelAgency, DefinedTerm, Article, Organization, ItemList, SearchAction), sitemap mega, robots, internal linking silo
+   114→- Browser-verified: interaktif, data hidup, mobile-safe, footer sticky
+   115→
+   116→---
+   117→Task ID: 5
+   118→Agent: main (Z.ai Code)
+   119→Task: Prioritas 1 God Mode — Matrix Kota×Layanan (9.450 halaman programmatic SEO) + Dynamic OG Image + Lead Capture
+   120→
+   121→Work Log:
+   122→- Prisma: tambah model ServiceLead (ref unik SH-LEAD-YYYY-XXXXX, snapshot serviceName/cityName, pagePath atribusi, status pipeline) + bun run db:push
+   123→- API POST /api/leads (publik: rate limit 5/menit/IP via lib/ratelimit, honeypot "website", validasi phone regex +62/08, slug service & kota divalidasi terhadap data; GET: guardRole ADMIN) — ref berurutan dengan 3× retry anti-tabrakan
+   124→- Komponen client src/components/seo/lead-form.tsx: props citySlug/cityName opsional — terkunci di halaman matrix, dropdown 45 kota (shadcn Select) di halaman /layanan/[slug] & /kota/[slug]; validasi klien + honeypot + kartu sukses dengan nomor referensi
+   125→- Rute matrix src/app/(seo)/layanan/[slug]/[kota]/page.tsx: URL /layanan/[slug]/dari-[kota], generateStaticParams 210×45=9.450, revalidate 86400 (ISR); konten unik per kombinasi (intro 3 paragraf templated service×kota, info bandara/charter, features, proses, FAQ gabungan ≤8, silo 2 arah: layanan lain se-kota + 12 kota lain se-layanan); JSON-LD Service(areaServed City)+Offer+FAQPage+BreadcrumbList+Organization; generateMetadata unik (title/desc/keywords/canonical/OG)
+   126→- json-ld.tsx: serviceJsonLd diperluas opsi areaCity (backwards-compatible)
+   127→- Sitemap: +9.450 URL matrix → total 13.868 URL (terverifikasi grep), masih 1 file (<50K)
+   128→- Internal linking: /layanan/[slug] dapat section "dari kota keberangkatan" (12 chip kota) + LeadForm dropdown; /kota/[slug] dapat "Layanan populer dari {kota}" (10 chip) + LeadForm terkunci kota
+   129→- Dynamic OG Image: file-convention opengraph-image.tsx TERTELAN segmen dinamis [kota] (Turbopack shadowing — fungsi tak pernah dieksekusi, 404). SOLUSI: API route /api/og (ImageResponse 1200×630, query t/chip/price/foot) + openGraph.images absolut di generateMetadata matrix & layanan — fleksibel untuk semua halaman
+   130→- Debug journey: dev server mati antar-panggilan Bash (proses background direap) → gunakan scripts/daemon-next-dev.py (double-fork) — bertahan lintas pemanggilan
+   131→- Uji: 13 URL sweep → 200; 4 uji negatif (kota palsu/service palsu/tanpa prefix dari-/prefix kosong) → 404 benar; /api/og → 200 image/png 113KB; og:image meta terverifikasi di HTML; lead POST valid → 201 SH-LEAD-2026-00001, phone invalid → 400, honeypot → 201 fake SH-LEAD-OK (tanpa simpan); DB terverifikasi 2 lead
+   132→- Browser E2E (agent-browser): matrix /dari-jakarta render + FAQ gabungan tampil; submit form lead (semantic locator) → kartu sukses + DB bertambah; mobile 390px /dari-jayapura render akurat (DJJ, ±14 jam, Via Transit); /kota/jakarta silo chip aktif; 0 console error; lint (seo)+(api/leads)+(api/og)+sitemap → 0 error
+   133→
+   134→Stage Summary:
+   135→- TOTAL URL SITEMAP: 4.418 → 13.868 (+9.450 matrix programmatic SEO long-tail "{layanan} dari {kota}")
+   136→- Mesin lead capture hidup: SEO traffic → form → ServiceLead (DB) dengan atribusi pagePath + snapshot konten
+   137→- OG image dinamis via /api/og siap dipakai seluruh halaman (pola API route, bebas konflik konvensi)
+   138→- Infrastruktur: daemon-next-dev.py wajib dipakai untuk restart dev server (proses background antar-panggilan Bash tidak stabil)
+   139→
+   140→---
+   141→Task ID: 6
+   142→Agent: main (Z.ai Code)
+   143→Task: Prioritas 2 God Mode — Dynamic OG Image System seluruh portal (harga + rating + badge verifikasi)
+   144→
+   145→Work Log:
+   146→- Upgrade /api/og (route.tsx): param baru k (kicker uppercase emas), rating (★ + angka), reviews ("· N review"), badge (pill outline), sub (subjudul 1-2 baris); backward-compat t/chip/price/foot; logo box diberi monogram "SH"; Cache-Control public max-age 86400 + SWR 31536000
+   147→- Fix glyph tofu ★/✓ (font bendera satori tak punya symbol): ikon SVG data-URI (bintang fill emas + check stroke emas) — terverifikasi visual via Read PNG
+   148→- Buat src/lib/og.ts: helper terpusat ogImageUrl()/ogImage() + konstanta SITE (env-aware NEXT_PUBLIC_SITE_URL); json-ld.tsx re-export SITE (sumber kebenaran tunggal, tanpa import cycle)
+   149→- Wire OG card ke 7 halaman detail: /paket/[slug] (kicker durasi, harga, rating+review, badge verifikasi, sub hotel+jarak), /ppiu/[slug] (kicker org+tier, rating, badge, sub kota+jamaah), /kota/[slug] (chip kode bandara, badge charter langsung kondisional, sub bandara+waktu terbang), /artikel/[slug] (type article + foot author·tanggal), /glosarium/[slug], /maskapai/[slug] (chip IATA), /direktori/[slug] (kicker orgType DB live, badge Status Aktif kondisional, sub lokasi) — semua + twitter summary_large_image
+   150→- Enrich matrix 9.450 & /layanan/[slug]: ogParams + badge "Terverifikasi 5 Lapis"
+   151→- Wire 11 halaman indeks & legal: /layanan, /paket, /kota, /artikel, /glosarium, /direktori, /maskapai, /ppiu, /faq, /kebijakan-privasi, /syarat-ketentuan
+   152→- Root layout: og:image homepage → kartu dinamis (badge Escrow Syariah 40/40/20); HAPUS twitter.images statis — twitter:image kini otomatis fallback ke og:image dinamis per halaman (terverifikasi di DOM live)
+   153→- Sitemap image extensions: entry() mendukung images[]; kartu OG ditambahkan ke homepage + 210 layanan (chip nama kategori) + 45 kota + 9.450 matrix + 27 paket + 4 artikel + 34 glosarium + 18 ppiu + 76 maskapai + 3.966 direktori (query DB diperluas orgType/status/city/province) = 13.831 image:loc dari 13.868 URL, 5,96 MB (< batas 50 MB)
+   154→- Debug journey: dev server mati antar-panggilan Bash → restart via scripts/daemon-next-dev.py; error module-not-found sementara (import salah @vercel/analytics, sudah dikembalikan) hanya jejak log lama — log terbaru 0 ⨯
+   155→- Verifikasi: 12 tipe halaman → 200 + og:image + twitter:card (curl); /api/og 3 varian diperiksa visual (paket, kota, direktori, homepage); sitemap 13.868 URL / 13.831 image; lint penuh 0 error (1 warning pre-existing no-page-custom-font); Browser E2E: /paket/[slug] (OG+twitter:image di DOM), matrix /dari-surabaya (title+h1+konten), homepage SPA (158 elemen interaktif, 0 console error), mobile 390px /kota/jakarta (tanpa overflow horizontal), kartu OG homepage render via browser
+   156→
+   157→Stage Summary:
+   158→- SELURUH 13.868 halaman kini punya kartu share unik 1200×630 (harga/rating/badge/konteks lokal) — CTR sosial & WhatsApp share naik
+   159→- Arsitektur: 1 API route + 1 helper terpusat + metadata wiring = nol file gambar statis; konsisten brand (hijau-emas, monogram SH)
+   160→- Sitemap kini membawa image sitemap extensions (bonus indexasi Google Images)
+   161→- Infra: SITE dipindah ke lib/og.ts (env-aware), json-ld re-export; twitter.images root dihapus agar fallback og:image per halaman bekerja
+   162→---
+   163→Task ID: 4-c
+   164→Agent: general-purpose
+   165→Task: Prioritas 4 — batch artikel 4-c (15 artikel Visa & Dokumen + 3 Keamanan & Verifikasi)
+   166→
+   167→Work Log:
+   168→- Baca worklog.md (Task 1–6) + src/data/types.ts (tipe Article/ArticleBlock) + src/data/articles.ts (4 artikel seed) untuk kalibrasi gaya, fakta wajib, dan slug related
+   169→- Buat src/data/article-engine/batch-3.ts (file BARU, satu-satunya yang disentuh) mengikuti pola wajib Write→Edit: "import type { Article } from \"@/data/types\";" + "export const batch3: Article[] = [" + artikel 1–5 + "// APPEND-SLOT" + "];"
+   170→- Edit #1: ganti slot dengan artikel 6–10 (dokumen-umrah-anak, ketentuan-mahram-jamaah-wanita, foto-visa-umrah-standar, visa-umrah-ditolak-solusi, asuransi-perjalanan-umrah) + slot baru
+   171→- Edit #2: ganti slot dengan artikel 11–15 (paspor-hilang-di-saudi, masa-berlaku-visa-umrah, aturan-pma-21-2020-jamaah, siskopatuh-data-jamaah, cara-memilih-ppiu-selidik) + slot baru
+   172→- Edit #3: ganti slot dengan artikel 16–18 category "Keamanan & Verifikasi" (tanda-travel-umrah-nakal, modus-penipuan-umrah-2026, rekening-aman-transfer-dp) tanpa placeholder — array tertutup "];"
+   173→- Fix kosmetik: hapus spasi sebelum koma pada 1 baris callout (artikel vaksin)
+   174→- Verifikasi baca-ulang + grep seluruh file: 18 slug unik & urut sesuai brief (artikel 16 persis "tanda-travel-umrah-nakal" yang dirujuk related seed "cara-cek-izin-ppiu-umrah"), 15× category PERSIS "Visa & Dokumen" + 3× PERSIS "Keamanan & Verifikasi", author PERSIS "Tim Edukasi SolusiHajj", readMinutes 6–9, publishedAt menyebar 2026-02-08 s.d. 2026-03-10, lastReviewed = publishedAt + 5–20 hari maks 2026-03-25, excerpt 140–160 karakter, 0 sisa "APPEND-SLOT", ctaTo hanya dari whitelist (/paket, /verifikasi/cek-izin-ppiu, /kalkulator-haji, /escrow, /travel-kit), related = 2 slug per artikel dari set yang diizinkan (seed 4 + slug batch sendiri)
+   175→- Fakta wajib dijaga konsisten di seluruh batch: PMA No. 21 Tahun 2020; cek izin via SIMPU/SISKOPATUH (simpu.kemenag.go.id) atau telepon Kanwil Kemenag; NIB/domisili BUKAN izin umrah; visa diajukan PPIU via Nusuk (Kementerian Haji & Umrah Saudi); paspor minimal 7 bulan (rekomendasi aman); vaksin meningitis ACYW135 wajib + ICV kartu kuning; foto latar putih; nama sama persis akta lahir; visa umrah umumnya berlaku 30 hari sejak terbit dengan masa tinggal terpisah; Raudhah via slot Nusuk; red flag (rekening pribadi, DP >30% tanpa kontrak, umrah 9 hari Rp 18 jt saat wajar Rp 28–38 jt, klaim "tanpa antre visa", kantor tak jelas); biaya visa-administrasi Rp 1,5–2,5 jt dalam paket; escrow syariah 40/40/20, review Saksi Jamaah, verifikasi 5 lapis, tool Cek Izin PPIU, Kalkulator Simpanan Haji, 27 paket / 3.966 organisasi / 18 PPIU terverifikasi
+   176→- Struktur kualitas per artikel: pembuka menjawab inti ("Jawaban singkatnya:…"), ≥6 h2, ul/ol di setiap artikel, 1 tabel pada SEMUA 18 artikel (melebihi syarat mayoritas), 1–2 callout, h2 penutup; panjang ±700–900 kata bahasa Indonesia
+   177→- Lint/build/dev server TIDAK dijalankan dan tidak ada file lain yang disentuh, sesuai protokol
+   178→
+   179→Stage Summary:
+   180→- 18 artikel baru selesai di src/data/article-engine/batch-3.ts (899 baris, TypeScript valid terhadap tipe Article): 15 Visa & Dokumen + 3 Keamanan & Verifikasi, semua metadata/fakta konsisten dengan portal SolusiHajj
+   181→- Slug "tanda-travel-umrah-nakal" kini tersedia persis — related pada artikel seed "cara-cek-izin-ppiu-umrah" tidak lagi menunjuk slug hantu
+   182→- Next action (task terpisah): agregasi batch-3.ts ke indeks artikel utama + regenerasi sitemap + uji rute /artikel/[slug]
+   183→
+   184→---
+   185→Task ID: 4-f
+   186→Agent: general-purpose
+   187→Task: Prioritas 4 — batch artikel 4-f (10 artikel Keluarga & Lansia + 8 artikel Musim & Waktu Keberangkatan)
+   188→
+   189→Work Log:
+   190→- Baca worklog (Task 1–6) + src/data/types.ts (skema Article/ArticleBlock) + src/data/articles.ts sebagai referensi gaya; folder src/data/article-engine belum ada → dibuat
+   191→- Tulis src/data/article-engine/batch-6.ts sesuai protokol: Write (import + artikel 1–5 + // APPEND-SLOT + ];) lalu Edit berulang mengganti slot (artikel 6–10, 11–14, 15–17), diakhiri artikel 18 tanpa slot
+   192→- 18 artikel lengkap: 10 × category "Keluarga & Lansia" (balita, 70+, kursi roda Haram, cek kesehatan senior, bersama orang tua, wanita tanpa mahram (netral + disclaimer aturan dapat berubah), hamil, diabetes, obat pribadi, keamanan anak) + 8 × "Musim & Waktu Keberangkatan" (waktu terbaik, Ramadhan, Desember, off-peak Feb–Apr, kalender hijriah, musim panas, musim haji, umrah badal)
+   193→- Fakta wajib dikunci konsisten: reguler 9 hari quad Rp 28–38 jt, Ramadhan Rp 45–65 jt (malam ganjil ~1,8×), Desember +10–20%, off-peak termurah Feb–Apr, jalan 5–10 km/hari, cek kesehatan 60+/hipertensi/diabetes, obat kemasan asli + surat dokter bila jarum, kursi roda tersedia (jam sibuk ramai), panas >40°C, anak belum baligh sah (bukan menggugurkan), badal umrah saja (bukan haji Islam), takwim hijriah lebih akurat
+   194→- Fix kecil hasil self-review: "layak terjang"→"layak terbang", "konsul"→"konsulat"; 4 judul yang <45 char dipanjangkan minimal (keamanan anak→"...Masjidil Haram", hijriah→+"2026", musim panas→+"Ibadah", musim haji→"Rencana Umrah Anda") agar patuh 45–65 char
+   195→- Validasi otomatis via script Node sementara (parse JS setelah strip anotasi TS): 18/18 lolos semua batas — title 45–65, excerpt 140–160, readMinutes 6–11, publishedAt 2026-02-08..2026-03-10, lastReviewed = publishedAt+5..20 hari (maks 2026-03-25), author PERSIS, ≥5 h2, ul/ol ada, 1 tabel/artikel, 1–2 callout dengan ctaTo dari whitelist, related 2 slug dari daftar wajib/batch sendiri, jumlah kata 700–786 per artikel; script dihapus setelah verifikasi
+   196→
+   197→Stage Summary:
+   198→- File BARU src/data/article-engine/batch-6.ts selesai: export const batch6: Article[] berisi 18 artikel (~13.6k kata konten) siap diagregasi oleh artikel-engine, TypeScript valid, tidak ada file lain yang disentuh, lint/build/dev server tidak dijalankan
+   199→- Kontrol kualitas: pembuka menjawab inti (jawaban singkat di paragraf 1), ≥5 h2 per artikel, 18 tabel + 1–2 callout per artikel dengan CTA menuju /paket, /travel-kit, /cicilan-syariah, /escrow, /edukasi/panduan-umrah-pemula-30-hari, /edukasi/biaya-umrah-2026-rincian-lengkap
+   200→- Catatan untuk agent berikutnya: batch lain bisa memakai pattern yang sama (Write slot + Edit); agregasi batch ke index article-engine + rute /artikel/[slug] dinamis belum dilakukan (di luar scope 4-f)
+   201→
+   202→---
+   203→Task ID: 4-e
+   204→Agent: general-purpose
+   205→Task: Prioritas 4 — batch artikel 4-e (18 artikel kategori Biaya & Keuangan)
+   206→
+   207→Work Log:
+   208→- Baca worklog (Task 1–6) + tipe Article/ArticleBlock di src/data/types.ts + gaya artikel lama di src/data/articles.ts untuk kalibrasi tone & format
+   209→- Buat src/data/article-engine/batch-5.ts (file BARU, 903 baris) sesuai pola: Write artikel 1–5 + // APPEND-SLOT, lalu Edit berulang mengganti slot (6–9, 10–13, 14–17, 18 tanpa slot)
+   210→- 18 artikel kategori PERSIS "Biaya & Keuangan", author "Tim Edukasi SolusiHajj": biaya-umrah-dari-jakarta-2026, biaya-umrah-dari-surabaya-2026, biaya-umrah-dari-bandung-2026, kenapa-harga-umrah-naik, cicilan-umrah-syariah-0, escrow-umrah-cara-kerja, menyusun-simpanan-umrah, dp-pelunasan-umrah, makan-selama-umrah, biaya-tersembunyi-umrah, pembatalan-paket-umrah, umrah-ramadhan-vs-reguler, tips-hemat-biaya-umrah, margin-wajar-ppiu, tukar-uang-riyal-umrah, asuransi-dana-hangus-umrah, bandingkan-paket-5-kriteria, rincian-biaya-visa-umrah
+   211→- Semua artikel: pembuka menjawab inti dengan angka di paragraf 1, ≥5 h2, ≥1 tabel angka, 1–2 callout (ctaTo hanya dari whitelist: /paket, /kalkulator-haji, /cicilan-syariah, /escrow, /verifikasi/cek-izin-ppiu, /edukasi/biaya-umrah-2026-rincian-lengkap), related 2 slug dari whitelist/batch sendiri
+   212→- Fakta angka dikunci konsisten dengan brief: reguler Rp 28–38 jt (quad), Ramadhan Rp 45–65 jt (malam ganjil 1,8×), Plus Turki/Dubai Rp 39–50 jt, LA < Rp 20 jt, Desember +10–20%, off-peak Feb–April, komponen 8 pos (visa Rp 1,5–2,5 jt, tiket Rp 8–12 jt, hotel Makkah Rp 6–11 jt, Madinah Rp 3–6 jt, makan Rp 2–3,5 jt, bus/mutawif/handling/ziarah Rp 3–4,5 jt, perlengkapan Rp 0,5–1 jt, margin 8–15%), keluarga 2 orang ± Rp 72–77 jt, red flag Rp 18–20 jt, escrow 40/40/20, cicilan syariah 0% tanpa bunga, kamar triple +Rp 1–2 jt / double +Rp 2,5–4 jt
+   213→- Ekspansi konten: 17 artikel awal di bawah 700 kata → ditambah blok p/h2 tambahan via 6 ronde MultiEdit sampai semua masuk rentang
+   214→- Verifikasi otomatis (script node ad-hoc, bukan lint/build): 18/18 OK — kata 700–750 (rentang target 700–1100), title 45–54 kar, excerpt 140–156 kar, readMinutes 6–9, publishedAt 2026-02-08 s.d. 2026-03-10 terurut, lastReviewed = publishedAt +10–18 hari (maks 2026-03-25), 0 duplikat slug, ctaTo & related semua valid; node --check pada file hasil strip type → SYNTAX OK
+   215→- Perbaikan 3 typo editorial yang tertangkap saat review (callout title "Rincian Komponen", item "money changer tidak resmi", frasa menebak di biaya-tersembunyi)
+   216→- Tidak menyentuh file lain, tidak menjalankan lint/build/dev server
+   217→
+   218→Stage Summary:
+   219→- batch-5.ts selesai: 18 artikel "Biaya & Keuangan" (~13.200 kata total) siap diagregasi oleh agent index artikel-engine (target artikel engine total 4+18 = 22)
+   220→- Semua constraint kualitas lolos verifikasi terprogram; angka kunci 2026 konsisten dengan batch lain (brief fakta wajib)
+   221→- Catatan untuk agent lanjutan: import path dipakai "@/data/types" sesuai skema tugas; agregator cukup mengimpor { batch5 }
+   222→
+   223→---
+   224→Task ID: 4-a
+   225→Agent: general-purpose
+   226→Task: Prioritas 4 — batch artikel 4-a (18 artikel kategori Panduan Umrah)
+   227→
+   228→Work Log:
+   229→- Baca worklog (Task 1–6) + tipe Article/ArticleBlock di src/data/types.ts + artikel eksisting src/data/articles.ts untuk cocokkan skema, nada, dan 4 slug related wajib
+   230→- Buat src/data/article-engine/batch-1.ts (file BARU, satu-satunya file yang disentuh) mengikuti pola penulisan aman: Write (import + artikel 1–5 + // APPEND-SLOT + ];), lalu Edit bertahap mengganti slot untuk artikel 6–17, dan artikel 18 menutup file tanpa slot
+   231→- 18 artikel sesuai daftar wajib, semua category "Panduan Umrah", author "Tim Edukasi SolusiHajj", publishedAt 2026-02-08 → 2026-03-10, lastReviewed = publishedAt + 8–14 hari (maks 2026-03-24)
+   232→- Tiap artikel: paragraf pembuka langsung menjawab inti pertanyaan, 5–7 h2, ul/ol, 1–3 tabel, 1–2 callout dengan ctaTo dari daftar wajib (/paket, /escrow, /tiket-grup, /travel-kit, /cicilan-syariah, /kalkulator-haji, /verifikasi/cek-izin-ppiu, /edukasi/doa-ziarah-makkah-madinah, /edukasi/biaya-umrah-2026-rincian-lengkap)
+   233→- Angle unik per artikel: tabel perbandingan rukun/waktu/biaya umrah vs haji, program latihan jalan 4 minggu bertahap, tabel denominasi SAR + alokasi uang saku, timeline jam-demi-jam di bandara, tabel miqat 5 rute + larangan ihram pria/wanita + solusi dam, tabel waktu datang per shalat di Masjidil Haram, tabel aturan berat kabin 7 kg/checked 23–30 kg, tabel frasa Arab (Arab+transliterasi+arti) + frasa jalan darurat, tabel boleh/hindari ponsel di Haram, tabel jadwal harian + ziarah Makkah, checklist bawa vs beli di Makkah
+   234→- Fakta konsisten dipatuhi: harga reguler 9 hari quad Rp 28–38 jt (Ramadhan 45–65, plus 39–50, LA < 20, termurah Feb–April), rincian komponen biaya (visa 1,5–2,5 jt, tiket 8–12 jt, hotel Makkah 6–11 jt, Madinah 3–6 jt, makan 2–3,5 jt, bus/mutawif 3–4,5 jt, perlengkapan 0,5–1 jt, margin 8–15%), PMA 21/2020, SIMPU/SISKOPATUH, Nusuk untuk visa & slot Raudhah, vaksin meningitis + ICV, paspor 7 bulan, escrow 40/40/20, jarak hotel dalam meter
+   235→- Iterasi kualitas: validasi otomatis via skrip parse vm (bukan lint/build project) menemukan 17 artikel di bawah 700 kata + 1 artikel hanya 4 h2; dilakukan 3 ronde ekspansi konten (paragraf lanjutan, item list, 1 tabel frasa jalan darurat baru) hingga semua lolos
+   236→- Verifikasi akhir: parse TS OK, 18 slug unik, title 45–65 char, excerpt 140–160 char, readMinutes 6–11, ≥5 h2, ≥1 tabel, 1–2 callout, 700–793 kata/artikel, related = 2 slug dari daftar wajib, ctaTo semua valid, tak ada string bertanda kutip ganda di dalam teks, file berakhir "];"
+   237→
+   238→Stage Summary:
+   239→- batch-1.ts selesai: 18 artikel "Panduan Umrah" (~12,8 ribu kata total, 701–793 kata per artikel), siap dipakai mesin artikel (renderer ArticleBlock p/h2/h3/ul/ol/callout/table sudah didukung /artikel/[slug])
+   240→- Tidak ada file lain yang disentuh; tidak menjalankan lint/build/dev server sesuai instruksi
+   241→- Next: batch berikutnya (kategori lain) dapat menyalin pola penulisan APPEND-SLOT + skrip validasi vm yang sama
+   242→
+   243→---
+   244→Task ID: 4-d
+   245→Agent: general-purpose
+   246→Task: Prioritas 4 — batch artikel 4-d (18 artikel kategori Hotel & Transportasi)
+   247→
+   248→Work Log:
+   249→- Baca worklog (Task 1–6 + batch paralel 4-a/4-c/4-e/4-f) + skema Article/ArticleBlock di src/data/types.ts + gaya artikel seed di src/data/articles.ts untuk kalibrasi tone, fakta, dan whitelist
+   250→- Buat SATU file baru src/data/article-engine/batch-4.ts sesuai protokol: Write (import + artikel 1–5 + // APPEND-SLOT + ];) → MultiEdit bertahap (artikel 6–9, 10–13, 14–17) → Edit final artikel 18 tanpa slot → baca ulang file cek sintaks (843 baris)
+   251→- 18 slug sesuai daftar & urutan brief: hotel-makkah-jarak-haram, area-hotel-madinah-strategis, tipe-kamar-quad-triple-double, tiket-charter-grup-umrah, maskapai-penerbangan-umrah, mendarat-jeddah-atau-madinah, bus-grup-tanah-suci, terminal-umrah-soetta, handling-bandara-jeddah, kereta-haramain-makkah-madinah, umrah-plus-turki-itinerary, umrah-plus-dubai-jebakan, koper-hilang-bandara-umrah, jetlag-hari-pertama-makkah, land-arrangement-untuk-siapa, upgrade-hotel-saat-tiba, internet-sim-card-saudi, cuaca-tanah-suci-jadwal-ibadah
+   252→- Semua category PERSIS "Hotel & Transportasi", author PERSIS "Tim Edukasi SolusiHajj"; publishedAt menyebar 2026-02-08 s.d. 2026-03-10; lastReviewed = publishedAt +7–16 hari (maks 2026-03-25); readMinutes 7–8; callout.ctaTo hanya dari whitelist wajib (terpakai: /paket, /tiket-grup, /travel-kit, /kalkulator-haji, /escrow, /edukasi/panduan-umrah-pemula-30-hari); related = 2 slug dari 4 slug wajib + slug batch ini
+   253→- Fakta wajib dijaga konsisten: reguler 9 hari quad Rp 28–38 jt, Ramadhan Rp 45–65 jt, plus Turki/Dubai Rp 39–50 jt, LA < Rp 20 jt; tiket PP Rp 8–12 jt; hotel Makkah 4–5 mlm Rp 6–11 jt; Madinah Rp 3–6 jt; selisih hotel 100 m vs 800 m Rp 4–6 jt; triple +Rp 1–2 jt, double +Rp 2,5–4 jt; charter grup vs komersial; Jeddah (mulai Makkah) vs Madinah (ziarah dulu, ritme santai); kereta Haramain ±2 jam; handling Jeddah 2–6 jam; jarak hotel selalu dalam METER; anti-jebakan harga murah; escrow 40/40/20, Saksi Jamaah, verifikasi 5 lapis, Cek Izin PPIU, Kalkulator Simpanan Haji, 45 kota, 76 maskapai
+   254→- Validasi otomatis via skrip bun sementara di luar project (helper dihapus setelah pakai; lint/build/dev server TIDAK dijalankan, tidak ada file project lain yang disentuh): 18 slug urut & unik, title 45–65, excerpt 140–160, ≥5 h2, ul/ol, ≥1 tabel (18/18 punya tabel; tipe-kamar 2 tabel), 1–2 callout, jumlah kata 700–1100, ctaTo & related sah, tanggal valid
+   255→- Iterasi kualitas: excerpt #2 dipangkas 163→152; 16 artikel di bawah 700 kata diperkaya (2 ronde MultiEdit: +paragraf pendalam +kalimat penutup) hingga 702–754 kata per artikel; 4 judul yang <45 char dari daftar brief dipanjangkan minimal dengan prefiks judul asli utuh ("...di 2026", "...di Balik Layar", "...±2 Jam untuk Lansia", "...: Panduan 48 Jam") agar patuh 45–65 char sekaligus menjaga keyword asli (mengikuti praktik batch 4-f)
+   256→
+   257→Stage Summary:
+   258→- batch-4.ts selesai: export const batch4: Article[] berisi 18 artikel "Hotel & Transportasi" (±12.900 kata), semua lolos validasi terprogram 18/18, TypeScript valid terhadap tipe Article, file berakhir "];" tanpa sisa slot
+   259→- Konsisten dengan batch paralel: tidak ada bentrokan slug; angka fakta 2026 identik dengan brief lintas batch; callout mengarah ke vertikal portal nyata
+   260→- Next action (task terpisah): agregasi batch1..batchN ke indeks artikel-engine + rute /artikel/[slug] dinamis + regenerasi sitemap
+   261→
+   262→---
+   263→Task ID: 4-b
+   264→Agent: general-purpose
+   265→Task: Prioritas 4 — batch artikel 4-b (18 artikel kategori Manasik & Doa)
+   266→
+   267→Work Log:
+   268→- Baca worklog.md (konteks Task 1–6), src/data/types.ts (kontrak Article/ArticleBlock), dan src/data/articles.ts (4 artikel eksisting) sebagai referensi gaya & konsistensi fakta
+   269→- Buat file BARU src/data/article-engine/batch-2.ts via pola wajib: Write (artikel 1–5 + slot `// APPEND-SLOT` + `];`) lalu Edit berulang (6–8, 9–12, 13–15, 16–17) dan artikel 18 menutup slot tanpa slot tersisa
+   270→- 18 artikel sesuai daftar tugas, semua category "Manasik & Doa", author "Tim Edukasi SolusiHajj": tata-cara-tawaf-7-putaran, tata-cara-sai-safa-marwah, doa-tawaf-siap-cetak, tahallul-cukur-rambut, miqat-umrah-batas-niat, doa-masuk-masjidil-haram, raudhah-nusuk-booking, ziarah-madinah-uhud-quba, mengikuti-imam-shalat-haram, air-zamzam-adab-doa, manasik-ringkas-lansia, umrah-anak-anak-fikih, umrah-saat-haid-fikih, doa-safar-perjalanan, rukun-wajib-umrah-bedanya, doa-multazam-hijir-ismail, shalat-jamak-qashar-umrah, adab-ziarah-tanah-suci
+   271→- Blok arabic hanya doa sahih/mashhur: niat umrah, talbiyah, Rabbana atina (QS 2:201), doa zamzam, dzikir Safa (Muslim), salam syuhada Uhud (Muslim), doa masuk/keluar masjid (Muslim), doa keluar rumah (Tirmidzi), doa safar (Muslim), doa minal-hamm wal-hazan (Bukhari), doa a'inni 'ala dzikrik (Abu Dawud) — semuanya dengan latin + arti
+   272→- Fikih netral & singkat pada titik khilaf: wudhu saat tawaf, status musafir makmum imam muqim, klasifikasi rukun/wajib antar madzhab, masuk masjid saat haid, mengulang umrah anak, batas jarak safar, minimal taqsir pria
+   273→- Konsistensi fakta portal: miqat + Masjid Aisyah (At-Tan'im) sebagai miqat terdekat, Raudhah via slot Nusuk (area antara makam & mimbar, bukan seluruh ruang hijau), Quba 2 rakaat bernilai umrah sunnah (niat ihram tetap dari Bir Ali), paspor 7 bulan + vaksin meningitis/ICV, vise via Nusuk, zamzam 5 liter kemasan resmi bandara, CTA ke fitur inti (escrow, verifikasi, kalkulator)
+   274→- Callout 1–2 per artikel, ctaTo hanya dari daftar wajib (/paket, /kalkulator-haji, /verifikasi/cek-izin-ppiu, /travel-kit, /edukasi/doa-ziarah-makkah-madinah, /edukasi/panduan-umrah-pemula-30-hari); related tepat 2 slug dari 4 slug kanonik + slug batch sendiri; 6 artikel memakai tabel, semua ≥5 h2, ul/ol di semua artikel
+   275→- publishedAt tersebar 2026-02-08 s.d. 2026-03-10; lastReviewed = publishedAt +12–16 hari (maks 2026-03-24); readMinutes 6–9; excerpt 144–158 karakter; judul 46–53 karakter
+   276→- Pasca-ekspansi 2 putaran (target 700–1100 kata): tambah section substantif per artikel (Makna Sa'i, Kerangka Doa Indonesia, Kesalahan Tahallul, Tanya Jawab Miqat/Masuk Haram/Raudhah/Zamzam/Anak/Titik Doa, Manfaat Berjamaah, Ritme Lansia, Doa Cemas + Istilah Tebusan, Etika Rukhsah, Sikap pada Kesalahan Jamaah) — validasi node skrip data (bukan lint/build/dev): 18/18 lolos 700–1100 kata (total 12.765 kata), excerpt/title/readMinutes/date/related/ctaTo semua lolos, 0 baris kutip ganjil, file evaluasi sukses setelah strip tipe
+   277→- Read ulang file (awal/tengah/ekor): import & export `batch2: Article[]` benar, diakhiri `];`, tanpa `// APPEND-SLOT` tersisa; tidak menyentuh file lain; lint/build/dev server tidak dijalankan
+   278→
+   279→Stage Summary:
+   280→- batch-2.ts selesai: 18 artikel kategori "Manasik & Doa" (~12.8 ribu kata) siap diagregasi oleh article-engine, semuanya lolos skema Article + seluruh aturan konten (word count, excerpt 140–160, title 45–65, ≥5 h2, callout 1–2 dengan ctaTo wajib, related 2 slug valid, tanggal 2026-02-08…2026-03-10 + review ≤2026-03-25)
+   281→- 9 blok arabic doa sahih-mashhur dengan latin + arti; 6 tabel ringkas (perhitungan sa'i, peta putaran tawaf, 5 miqat, kewajiban lansia, tahallul pria/wanita, rukun umrah, jumlah qashar) memperkuat featured snippet SEO
+   282→- Internal linking silo kuat: related antar-artikel batch + ke 4 artikel kanonik eksisting; callout mengarahkan ke /paket, /verifikasi/cek-izin-ppiu, /travel-kit, /kalkulator-haji, dan 2 halaman edukasi
+   283→- File tunggal baru: /home/z/my-project/src/data/article-engine/batch-2.ts — siap di-wire ke index article-engine oleh agent berikutnya (di luar lingkup task ini)
+   284→
+   285→---
+   286→Task ID: 7
+   287→Agent: main (Z.ai Code)
+   288→Task: Prioritas 4 God Mode — Article Content Engine (4 → 112 artikel SEO) + fix hydration mismatch beranda
+   289→
+   290→Work Log:
+   291→- Fix hydration mismatch (console error radix accordion ID di beranda): ganti Accordion shadcn di S11 FAQ home.tsx dengan native <details>/<summary> (name="faq-beranda") — tanpa useId, konten selalu di DOM (SEO-safe), tanpa JS, chevron rotate via group-open. Browser-verified: toggle berfungsi, 0 hydration warning, 0 console error
+   292→- Article Content Engine: 6 agent paralel (Task 4-a..4-f) menulis src/data/article-engine/batch-1..6.ts — 108 artikel baru (18×6), 700–1100 kata/artikel (±90.000 kata total), 8 kategori terpadu, fakta konsisten lintas batch (harga wajar 2026 Rp 28–38 jt reguler, escrow 40/40/20, PMA 21/2020, Nusuk, ICV, paspor 7 bulan)
+   293→- Validasi mesin: 108 slug unik antar-batch, 0 broken related link, 0 sisa APPEND-SLOT, TypeScript parse OK (bun import test)
+   294→- Agregasi: src/data/article-engine/index.ts (engineArticles + categorySlug + articleCategories); articles.ts = 4 seed + 108 engine = 112; seed di-remap ke taksonomi 8 kategori (Perencanaan&B>Panduan Umrah dst) — semua konsumen otomatis ikut: /artikel, /artikel/[slug], /artikel/kategori, sitemap, SPA /#/edukasi (112 kartu), ItemList JSON-LD homepage
+   295→- Rute baru /artikel/kategori/[kategori]: generateStaticParams 8 kategori, generateMetadata + OG card dinamis, JSON-LD CollectionPage+ItemList+BreadcrumbList, silo antar kategori + CTA /paket
+   296→- Upgrade /artikel indeks: chips kategori ber-jumlah (anchor jump), preview 6 artikel/kategori + "Lihat semua N" → halaman kategori
+   297→- Upgrade /artikel/[slug]: calloutHref whitelist 11 prefix rute SEO (tak lagi jadi /# salah arah), related fallback se-kategori, breadcrumb + badge kategori jadi tautan /artikel/kategori/...
+   298→- Sitemap: 13.868 → 13.984 URL (+112 artikel, +8 kategori)
+   299→- Verifikasi: lint 0 error (1 warning pre-existing); curl sweep 12 URL (indeks, 3 artikel batch berbeda, 3 kategori, seed, OG, health, 404 negatif ×2) semua sesuai kontrak; browser E2E: indeks 112/8 chips, kategori 19 artikel + 7 silo, detail (breadcrumb kategori, callout /#/escrow + /paket benar, related 2 valid, tabel + arabic render), beranda FAQ native toggle OK, mobile 390px tanpa overflow, SPA /#/edukasi 112 kartu; dev.log 0 ⨯
+   300→
+   301→Stage Summary:
+   302→- PORTAL KINI 13.984 URL DI SITEMAP; pusat konten 112 artikel E-E-A-T (byline + terbit + review terakhir + kategori) dalam 8 kategori dengan silo 3 lapis: indeks → kategori → detail → (related se-kategori + callout CTA ke /paket & tool SPA)
+   303→- Hydration mismatch kelas radix-useId di beranda dihapus permanen (native details)
+   304→- Mesin konten siap dikembangkan: tambah artikel = tambah entry batch file; sitemap/JSON-LD/indeks/kategori otomatis
+   305→
+   306→---
+   307→Task ID: 8
+   308→Agent: main (Z.ai Code)
+   309→Task: Redesign header & menu ke standar kelas konsultan internasional (McKinsey/BCG-tier)
+   310→
+   311→Work Log:
+   312→- Redesign penuh Header di src/components/solusihajj/chrome.tsx (CHROME R2), palet Design System "Amanah" dipertahankan
+   313→- Utility bar baru (desktop, scroll-away): 3 sinyal kepercayaan (escrow syariah, verifikasi 5 lapis, 3.966 organisasi) + telepon WA + switcher bahasa ID/EN/ع
+   314→- Nav desktop diganti dari dropdown rounded-xlhover-list polos menjadi mega menu 3 grup terpusat (Cari Paket/Direktori/Panduan): panel 880px dengan garis aksen emas, grid item 2 kolom (icon tile + label + deskripsi 1 baris + dot emas untuk unggulan), kolom featured hijau-tua per grup (NurMatch AI / Cek Izin PPIU / 112 Artikel) dengan CTA emas
+   315→- Trigger nav jadi Link uppercase 12.5px letter-spaced (klik = menuju halaman hub; hover = panel dengan intent-delay 140ms via timer ref, cancel saat re-enter)
+   316→- Micro-interaction kelas premium: underline emas 2px origin-left scale-x animasi pada hover/active, chevron rotate, CTA "Cari Paket" solid dengan ArrowRight shift
+   317→- Logo diperhalus: wordmark brand-deep + sub-label uppercase "UMRAH · HAJI · AMANAH" (tracking 0.24em)
+   318→- Kontrol kanan dirapikan: hairline divider + toggle lansia/gelap rounded-md + SATU CTA (sebelumnya 5 tombol berebut perhatian); WA icon hanya mobile/tablet (desktop sudah ada di utility bar)
+   319→- Drawer mobile total baru: panel slide-in fixed 400px + backdrop blur, accordion 3 grup (grid-rows animasi, tanpa Radix = 0 risiko hydration), item ber-icon+deskripsi, bottom bar CTA + WA + bahasa + toggle, ESC close + body scroll-lock + auto-close saat navigasi
+   320→- Aksesibilitas: skip link "Langsung ke konten utama" (scrollToId, aman hash-router), aria-expanded/haspopup/pressed lengkap, fokus visible
+   321→- app.tsx: <main> diberi id="konten-utama" untuk skip link
+   322→- Lint fix: hapus setState langsung dalam effect body (react-hooks/set-state-in-error) — sync bayangan header kini murni via scroll listener (scroll programatik router tetap tertangkap)
+   323→- Verifikasi browser E2E (agent-browser, desktop 1440 + mobile 390): utility bar + mega panel 3 grup render sempurna, klik item panel → navigasi + panel tertutup + active underline emas benar, drawer: accordion toggle, navigasi auto-close, dark mode "Malam Madinah" + switch EN berfungsi di header & drawer, footer terdorong alami (footerBottom 2600 > viewport 900), bodyScrollWidth = innerWidth (0 overflow-x), console 0 error & 0 hydration warning, dev.log 0 ⨯, lint 0 error
+   324→
+   325→Stage Summary:
+   326→- Header kini setara situs konsultan global: hierarki 2 lapis (utility bar kepercayaan + header utama sticky), tipografi uppercase letter-spaced, mega menu terpusat dengan featured panel, satu CTA dominan, drawer mobile app-grade
+   327→- Semua fungsi lama terjaga: i18n 3 bahasa, mode lansia, dark mode, WA float, hash-route SPA, hydration-safe (tanpa useId/Radix di chrome)
+   328→- File berubah: src/components/solusihajj/chrome.tsx (Header + Logo), src/components/solusihajj/app.tsx (id main)
+   329→
