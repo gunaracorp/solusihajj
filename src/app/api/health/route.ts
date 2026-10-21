@@ -28,7 +28,7 @@ export async function GET() {
 
   const payload = {
     ok: dbOk,
-    service: "muhdin.web.id",
+    service: "solusihajj.web.id",
     version: {
       number: APP_VERSION,
       label: RELEASE_LABEL,

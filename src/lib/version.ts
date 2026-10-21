@@ -1,5 +1,5 @@
 /**
- * GunaraCorp Release System — sumber kebenaran versi runtime.
+ * SolusiHajj Release System — sumber kebenaran versi runtime.
  *
  * SOP rilis (wajib urut, lihat WORKLOG.md §SOP Rilis):
  *   1. Naikkan APP_VERSION di file ini (SemVer: MAJOR.MINOR.PATCH).
@@ -9,6 +9,7 @@
  *   4. Verifikasi: `curl /api/version` harus mengembalikan versi baru.
  *
  * Jangan hardcode versi di tempat lain — selalu import dari file ini.
+ * Label mengikuti nama situs resmi: solusihajj.web.id (SolusiHajj Release System).
  */
 
 /** Versi aplikasi aktif (SemVer 2.0.0). */
@@ -20,11 +21,11 @@ export const APP_CODENAME = "Nexus Governance";
 /** Tanggal build rilis aktif (Asia/Jakarta, format ISO ringkas). */
 export const APP_BUILD_DATE = "2026-10-22";
 
-/** Label rilis resmi, contoh: "GunaraCorp v2.0.0". */
-export const RELEASE_LABEL = `GunaraCorp v${APP_VERSION}`;
+/** Label rilis resmi, contoh: "SolusiHajj v2.0.0". */
+export const RELEASE_LABEL = `SolusiHajj v${APP_VERSION}`;
 
 /** Baris rilis lengkap untuk stempel footer/dokumen. */
 export const RELEASE_LINE = `${RELEASE_LABEL} — "${APP_CODENAME}" · build ${APP_BUILD_DATE}`;
 
 /** Otoritas release engineering. */
-export const RELEASE_AUTHORITY = "GunaraCorp Release System";
+export const RELEASE_AUTHORITY = "SolusiHajj Release System";

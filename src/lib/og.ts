@@ -8,7 +8,7 @@
  * Selalu menghasilkan URL absolut (aman untuk sitemap & meta crawler).
  */
 /** Base URL situs — sumber kebenaran tunggal (json-ld.tsx re-export konstanta ini). */
-export const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://solusihajj.com").replace(
+export const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://solusihajj.web.id").replace(
   /\/+$/,
   ""
 );

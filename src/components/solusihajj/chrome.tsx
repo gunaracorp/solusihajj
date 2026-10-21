@@ -857,7 +857,7 @@ export function Footer() {
               </a>{" "}
               — by Gugun Gunara
             </p>
-            {/* GunaraCorp Release System — stempel versi rilis aktif (CHANGELOG.md / VERSION) */}
+            {/* SolusiHajj Release System — stempel versi rilis aktif (CHANGELOG.md / VERSION) */}
             <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-ivory/25" aria-label={`Rilis ${RELEASE_LABEL}`}>
               Rilis {RELEASE_LABEL} · SemVer {APP_VERSION}
             </p>

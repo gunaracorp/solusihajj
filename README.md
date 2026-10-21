@@ -7,7 +7,7 @@
 **One gateway for every licensed Umrah & Hajj operator in Asia. Packages from real operators.
 Money guarded by escrow. Trust verified in five layers. AI that explains itself.**
 
-[![Release](https://img.shields.io/badge/Release-GunaraCorp_v2.0.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/Release-SolusiHajj_v2.0.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
 [![Codename](https://img.shields.io/badge/Codename-Nexus_Governance-C9A227?labelColor=07211a)](CHANGELOG.md)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-2D3748?labelColor=07211a)](https://semver.org)
 [![Pages indexed](https://img.shields.io/badge/Sitemap-13.984_URLs-0E6B4E?labelColor=07211a)](public/humans.txt)
@@ -25,9 +25,9 @@ Money guarded by escrow. Trust verified in five layers. AI that explains itself.
 
 ---
 
-## ⚡ Release Snapshot — GunaraCorp v2.0.0 "Nexus Governance" (2026-10-22)
+## ⚡ Release Snapshot — SolusiHajj v2.0.0 "Nexus Governance" (2026-10-22)
 
-This release activates the **GunaraCorp Release System**: from now on, *every command and every
+This release activates the **SolusiHajj Release System**: from now on, *every command and every
 change* in this repository must carry a version number (SemVer). The full engineering history is
 mapped retroactively — see [CHANGELOG.md](CHANGELOG.md) and [WORKLOG.md](WORKLOG.md).
 
@@ -45,7 +45,7 @@ Check the running release anytime:
 
 ```bash
 curl http://localhost:3000/api/version
-# { "version": "2.0.0", "label": "GunaraCorp v2.0.0", "codename": "Nexus Governance", ... }
+# { "version": "2.0.0", "label": "SolusiHajj v2.0.0", "codename": "Nexus Governance", ... }
 ```
 
 ---
@@ -92,7 +92,7 @@ packages. Operators supply the packages; SolusiHajj supplies **verification, esc
 
 ## Release Ladder
 
-| Release | GunaraCorp Version | Codename | Status | Headline |
+| Release | Version | Codename | Status | Headline |
 |---|---|---|---|---|
 | **R1** | — | Gerbang Kepercayaan | DONE | Trust-first homepage, 24-package catalog, public "Cek Izin PPIU" tool, hajj savings calculator |
 | **R1.5** | — | Marketplace Asia Superapp | DONE | 5-country directory, compare tray, 29 JSON-LD blocks, dark + elder modes, ID/EN/AR |
@@ -234,7 +234,7 @@ bun scripts/fetch-asia.ts          # Nusuk 47 providers + MORA Pakistan -> scrip
 
 | Endpoint | Method | Purpose |
 |---|---|---|
-| `/api/version` | GET | **Release identity** — version, label, codename, build date (GunaraCorp Release System) |
+| `/api/version` | GET | **Release identity** — version, label, codename, build date (SolusiHajj Release System) |
 | `/api/health` | GET | Healthcheck — DB latency + **version block** + runtime |
 | `/api/r2/companies` | GET | Directory search: `q, type, province, status, limit` + facets |
 | `/api/r2/airlines` | GET | Airlines + real routes, `byService` filter |
@@ -277,9 +277,9 @@ dispute requires ≥ 10-character evidence note, refund only of unreleased remai
 
 ---
 
-## GunaraCorp Release System (versioning governance)
+## SolusiHajj Release System (versioning governance)
 
-This repository is governed by the **GunaraCorp Release System** — every command and every change
+This repository is governed by the **SolusiHajj Release System** — every command and every change
 must carry a version. International-standard practices:
 
 | Artifact | Role |
@@ -303,7 +303,7 @@ must carry a version. International-standard practices:
 2. Sync `VERSION` (root) and `package.json` `"version"`.
 3. Add a new section at the top of `CHANGELOG.md` (Keep a Changelog format).
 4. Append the task entry to `WORKLOG.md` stamped with the new version.
-5. Commit + `git tag -a vX.Y.Z -m "GunaraCorp vX.Y.Z — <codename>"`.
+5. Commit + `git tag -a vX.Y.Z -m "SolusiHajj vX.Y.Z — <codename>"`.
 6. Verify: `curl /api/version` returns the new version; footer stamp updates automatically.
 
 ---
@@ -378,7 +378,7 @@ docs/                       # NEXUS PROTOCOL blueprint (39 documents)
 ## Systems Architecture & Support
 
 SolusiHajj is engineered under the discipline of **GUNARA MASTER SYSTEM v3.0**, the **NEXUS PROTOCOL v1.0**
-document suite, and the **GunaraCorp Release System v2.0.0**. System architecture, quality gates,
+document suite, and the **SolusiHajj Release System v2.0.0**. System architecture, quality gates,
 and data pipelines are supported by:
 
 > **by Gugun Gunara — Muhammad Lutfi Azmi** (prabudanling · Santri Angon)
@@ -409,6 +409,6 @@ wireframes, database schema, API spec, security protocol, deployment runbook, an
 **SolusiHajj — Amanah Anda, Aman.**
 *Marketplace ibadah terbesar & teraman di Asia — dibangun dengan data resmi, escrow nyata, dan AI yang jujur.*
 
-**Rilis aktif: GunaraCorp v2.0.0 — "Nexus Governance"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
+**Rilis aktif: SolusiHajj v2.0.0 — "Nexus Governance"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
 
 </div>

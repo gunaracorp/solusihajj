@@ -2,11 +2,11 @@
 
 <div align="center">
 
-**GunaraCorp v2.0.0 — "Nexus Governance"**
+**SolusiHajj v2.0.0 — "Nexus Governance"**
 
 </div>
 
-> **Release authority:** GunaraCorp Release System
+> **Release authority:** SolusiHajj Release System (situs resmi: solusihajj.web.id)
 > **Format:** [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) · **Versioning:** [Semantic Versioning 2.0.0](https://semver.org)
 > **Zona waktu:** Asia/Jakarta (WIB) · **Produk:** SolusiHajj — Marketplace Haji & Umrah "Amanah Anda, Aman."
 > **Log kerja teknis lengkap:** [WORKLOG.md](WORKLOG.md) · **Versi runtime:** `curl /api/version`
@@ -17,7 +17,7 @@
 
 | Segmen | Naik ketika | Contoh |
 |---|---|---|
-| **MAJOR** | Perubahan tata kelola besar, arsitektur fundamental, atau rilis tangga produk (R-ladder) | v1.x → v2.0.0 (aktifasi GunaraCorp Release System) |
+| **MAJOR** | Perubahan tata kelola besar, arsitektur fundamental, atau rilis tangga produk (R-ladder) | v1.x → v2.0.0 (aktifasi SolusiHajj Release System) |
 | **MINOR** | Fitur baru yang tidak merusak (halaman baru, modul baru, mesin baru) | v1.2.0 (Matrix 9.450), v1.4.0 (Mesin Konten) |
 | **PATCH** | Perbaikan bug, hardening, kebersihan lint tanpa fitur baru | v1.1.1 (Verifikasi Penuh) |
 
@@ -28,7 +28,7 @@ Tidak ada perubahan tanpa versi. Detail pekerjaan per task ada di `WORKLOG.md`; 
 
 ## [2.0.0] — 2026-10-22 — "Nexus Governance"
 
-Rilis tata kelola: **GunaraCorp Release System diaktifkan untuk seluruh proyek.**
+Rilis tata kelola: **SolusiHajj Release System diaktifkan untuk seluruh proyek.**
 Mulai versi ini, setiap perintah dan perubahan wajib memiliki nomor versi, dan seluruh riwayat
 pekerjaan dipetakan retroaktif ke SemVer (lihat riwayat di bawah).
 
@@ -43,7 +43,7 @@ pekerjaan dipetakan retroaktif ke SemVer (lihat riwayat di bawah).
 
 ### Changed
 - `package.json`: nama proyek `nextjs_tailwind_shadcn_ts` → **`solusihajj`**, versi `0.2.1` → **`2.0.0`** (termasuk sinkronisasi `bun.lock`).
-- `README.md` + `README_ID.md` ditulis ulang ke standar internasional: badge versi, angka aktual terverifikasi (13.984 URL sitemap, 3.966 organisasi, 112 artikel), peta fitur v1.2–v1.5, seksi GunaraCorp Release System, SOP rilis.
+- `README.md` + `README_ID.md` ditulis ulang ke standar internasional: badge versi, angka aktual terverifikasi (13.984 URL sitemap, 3.966 organisasi, 112 artikel), peta fitur v1.2–v1.5, seksi SolusiHajj Release System, SOP rilis.
 
 ### Verified
 - Sitemap live **13.984 URL**, DB **3.966 organisasi** (2.670 PPIU · 1.019 PIHK · 228 UTO · 47 USP · 2 BPW), `/api/health` 200, `/api/version` 200, lint 0 error.
