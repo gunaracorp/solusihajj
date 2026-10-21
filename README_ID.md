@@ -7,10 +7,10 @@
 **Satu gerbang untuk semua penyelenggara Umrah & Haji berizin di Asia. Paket dari operator sungguhan.
 Dana dijaga escrow. Kepercayaan diverifikasi lima lapis. AI yang jujur menjelaskan dirinya.**
 
-[![Rilis](https://img.shields.io/badge/Rilis-SolusiHajj_v2.0.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
-[![Kode Rilis](https://img.shields.io/badge/Kode-Nexus_Governance-C9A227?labelColor=07211a)](CHANGELOG.md)
+[![Rilis](https://img.shields.io/badge/Rilis-SolusiHajj_v2.1.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
+[![Kode Rilis](https://img.shields.io/badge/Kode-Sinyal_Global-C9A227?labelColor=07211a)](CHANGELOG.md)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-2D3748?labelColor=07211a)](https://semver.org)
-[![Halaman terindeks](https://img.shields.io/badge/Sitemap-13.984_URL-0E6B4E?labelColor=07211a)](public/humans.txt)
+[![Halaman terindeks](https://img.shields.io/badge/Sitemap-14.714_URL-0E6B4E?labelColor=07211a)](public/humans.txt)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Prisma 6 + SQLite](https://img.shields.io/badge/Prisma_6-SQLite-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io)
@@ -25,14 +25,18 @@ Dana dijaga escrow. Kepercayaan diverifikasi lima lapis. AI yang jujur menjelask
 
 ---
 
-## ⚡ Ringkasan Rilis — SolusiHajj v2.0.0 "Nexus Governance" (22 Oktober 2026)
+## ⚡ Ringkasan Rilis — SolusiHajj v2.1.0 "Sinyal Global" (22 Oktober 2026)
 
-Rilis ini mengaktifkan **SolusiHajj Release System**: mulai sekarang, *setiap perintah dan setiap
-perubahan* di repositori ini wajib memiliki nomor versi (SemVer). Seluruh riwayat rekayasa dipetakan
-retroaktif — lihat [CHANGELOG.md](CHANGELOG.md) dan [WORKLOG.md](WORKLOG.md).
+v2.1.0 mengirim **Prioritas 5 — mesin penemuan & distribusi**: `llms.txt` untuk LLM crawler,
+RSS kanonik, hreflang id/en via next-intl, halaman `/bandingkan`, dan katalog berfaset
+720 halaman — sitemap kini **14.714 URL**. Tata kelola dikunci **CI Release Gate**
+(pre-commit hook menolak drift versi). v2.0.0 mengaktifkan **SolusiHajj Release System**:
+setiap perintah dan perubahan wajib berversi (SemVer) — lihat [CHANGELOG.md](CHANGELOG.md)
+dan [WORKLOG.md](WORKLOG.md).
 
 | Versi | Kode Rilis | Sorotan |
 |---|---|---|
+| **v2.1.0** | Sinyal Global | `llms.txt` · RSS kanonik `/feed.xml` · hreflang id/en (10 halaman `/en`, next-intl) · halaman `/bandingkan` · katalog berfaset 720 halaman `/katalog` · CI Release Gate · badge rilis di admin · sitemap 13.984 → **14.714** |
 | **v2.0.0** | Nexus Governance | Sistem versioning aktif — file VERSION, CHANGELOG, WORKLOG ber-versi, `/api/version`, stempel versi di footer, git tag |
 | **v1.5.0** | Kelas Dunia | Header & navigasi didesain ulang setara konsultan global (utility bar kepercayaan, mega menu, drawer mobile kelas aplikasi) |
 | **v1.4.0** | Mesin Konten | Mesin Artikel 4 → **112 artikel** (±90.000 kata, 8 kategori, silo 3 lapis) + fix permanen hydration mismatch |
@@ -45,7 +49,7 @@ Cek rilis yang berjalan kapan saja:
 
 ```bash
 curl http://localhost:3000/api/version
-# { "version": "2.0.0", "label": "SolusiHajj v2.0.0", "codename": "Nexus Governance", ... }
+# { "version": "2.1.0", "label": "SolusiHajj v2.1.0", "codename": "Sinyal Global", ... }
 ```
 
 ---
@@ -77,17 +81,22 @@ Platform tidak pernah menjual paket milik sendiri. Operator menyuplai paket; Sol
 
 | Metrik | Nilai | Sumber |
 |---|---|---|
-| URL sitemap | **13.984** | `sitemap.xml` live (1 file, < 50 MB) |
+| URL sitemap | **14.714** | `sitemap.xml` live (1 file, < 50 MB) |
 | ─ Matriks programatik (layanan × kota) | 9.450 | `/layanan/[slug]/dari-[kota]`, ISR 24 jam |
 | ─ Direktori (profil dari DB) | 3.966 | SQLite hidup, provenance diaudit |
+| ─ Katalog berfaset (v2.1.0) | 720 | `/katalog` — 5 tipe + 335 kota + 31 provinsi + 53 prov×tipe + 293 kota×tipe |
 | ─ Artikel + hub kategori | 112 + 8 | Mesin konten E-E-A-T, 8 kategori |
+| ─ Halaman Inggris (hreflang id/en) | 10 | `/en`, `/en/services`, `/en/packages`, … (next-intl) |
 | ─ Layanan / kota / paket / glosarium / maskapai / PPIU | 225 / 46 / 28 / 35 / 77 / 19 | Rute SEO statis |
-| Kartu OG dinamis 1200×630 | **13.831** | Image sitemap extensions |
+| Kartu OG dinamis 1200×630 | **14.500+** | Image sitemap extensions |
+| Tautan hreflang di sitemap | 60 | `id` / `en` / `x-default` per halaman berpadanan |
+| RSS feed | `/feed.xml` (50 terbaru) | `/api/rss` → redirect 308 |
+| Manifest llms.txt | `/llms.txt` | Penemuan LLM-crawler (konvensi llms.txt) |
 | Organisasi di database | **3.966** | 2.670 PPIU · 1.019 PIHK · 228 UTO · 47 USP · 2 BPW |
 | Organisasi terverifikasi | 3.619 | Status AKTIF/TERDAFTAR |
 | Lead capture | `ServiceLead` + ref `SH-LEAD-YYYY-XXXXX` | Rate limit, honeypot, atribusi pagePath |
 | Tipe JSON-LD | 12+ | Organization, Service+Offer, FAQPage, Article, ItemList, Dataset, HowTo… |
-| View UI | 25 | SPA hash-route tunggal + 30+ rute SEO App Router |
+| View UI | 25 | SPA hash-route tunggal + 40+ rute SEO App Router |
 
 ---
 
@@ -247,6 +256,9 @@ bun scripts/fetch-asia.ts          # Nusuk 47 provider + MORA Pakistan -> script
 | `/api/r3/ai/match` | GET / POST | Sesi AI terkini / profil → rekomendasi LLM live |
 | `/api/leads` | POST / GET | **Lead capture** — POST publik (rate limit, honeypot) / GET admin |
 | `/api/og` | GET | **Kartu OG dinamis** 1200×630 — param `t, chip, price, foot, k, rating, reviews, badge, sub` |
+| `/feed.xml` | GET | **RSS 2.0 kanonik** — 50 artikel terbaru (DB → fallback statis, tidak pernah 500) |
+| `/api/rss` | GET | Endpoint feed lama — **redirect 308** ke `/feed.xml` |
+| `/llms.txt` | GET | **Manifest penemuan LLM** (konvensi llms.txt) — peta situs terkurasi untuk AI crawler |
 
 Aturan aksi escrow ditegakkan server-side: rilis berurutan saja, tanpa rilis sebelum `FUNDED`,
 sengketa wajib catatan bukti ≥ 10 karakter, refund hanya dari sisa yang belum dirilis.
@@ -288,9 +300,10 @@ wajib memiliki versi. Praktik berstandar internasional:
 | [`VERSION`](VERSION) | Nomor versi kanonik (root, satu baris) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog 1.1.0 — setiap rilis, terkategori (Added/Changed/Fixed/Verified) |
 | [`WORKLOG.md`](WORKLOG.md) | Ledger task engineering — kronologis, setiap task distempel `[vX.Y.Z]` |
-| `src/lib/version.ts` | Sumber kebenaran runtime (diimpor API + footer — jangan hardcode versi di tempat lain) |
+| `src/lib/version.ts` | Sumber kebenaran runtime (diimpor API + footer + badge admin — jangan hardcode versi di tempat lain) |
 | `/api/version` | Identitas rilis live untuk verifikasi pasca-deploy |
 | Git tag `vX.Y.Z` | Snapshot rilis immutable |
+| **CI Release Gate** | `githooks/pre-commit` → `scripts/verify-version-sync.mjs` — **menolak commit** bila VERSION ≠ package.json ≠ version.ts ≠ CHANGELOG. Aktifkan di clone baru: `git config core.hooksPath githooks`. Cek manual: `bun run verify:version` |
 
 **Kebijakan Semantic Versioning:**
 
@@ -304,8 +317,9 @@ wajib memiliki versi. Praktik berstandar internasional:
 2. Sinkronkan `VERSION` (root) dan `"version"` di `package.json`.
 3. Tambah seksi baru di paling atas `CHANGELOG.md` (format Keep a Changelog).
 4. Tambahkan entri task ke `WORKLOG.md` distempel versi baru.
-5. Commit + `git tag -a vX.Y.Z -m "SolusiHajj vX.Y.Z — <kode rilis>"`.
-6. Verifikasi: `curl /api/version` mengembalikan versi baru; stempel footer ikut otomatis.
+5. Commit — **hook Release Gate** memblokir commit bila versi drift — lalu `git tag -a vX.Y.Z -m "SolusiHajj vX.Y.Z — <kode rilis>"`.
+6. Push kode + tag ke remote agar rilis immutable: `git push origin main --follow-tags` (remote: `github.com/prabudanling/solusihajj`).
+7. Verifikasi: `curl /api/version` mengembalikan versi baru; stempel footer + badge admin ikut otomatis.
 
 ---
 
@@ -318,28 +332,37 @@ WORKLOG.md                  # Ledger task engineering ber-versi
 src/
   app/
     page.tsx                # Shell SPA (hash-route, 25 view)
-    (seo)/                  # 30+ rute SEO App Router
+    (seo)/                  # 40+ rute SEO App Router
       layanan/[slug]/[kota] # Matriks 9.450 halaman layanan×kota (ISR)
       artikel/              # Hub 112 artikel + 8 rute kategori
+      katalog/              # Katalog berfaset 720 halaman (tipe × kota × provinsi)
+      bandingkan/           # Halaman bandingkan paket (picker klien + tabel SEO)
       kota/ paket/ glosarium/ maskapai/ ppiu/ direktori/ legal
+    (en)/en/                # 10 halaman Inggris — hreflang id/en (next-intl)
+    llms.txt/ feed.xml/     # Manifest LLM + RSS kanonik
     api/
       version/ health/      # Identitas rilis + healthcheck
-      leads/ og/            # Lead capture + kartu OG dinamis
+      leads/ og/ rss/       # Lead capture + kartu OG + redirect feed lama
       r2/                   # Direktori, maskapai, stats, sumber, sync
       r3/                   # Mesin state escrow + NurMatch AI
   components/
     solusihajj/             # View SPA + header/footer CHROME R2
-    seo/                    # JSON-LD, form lead, komponen silo
-    admin/ views/ ui/       # Dashboard admin, view, shadcn/ui
+    seo/                    # JSON-LD, form lead, komponen silo + compare-picker
+    admin/ views/ ui/       # Dashboard admin (badge rilis), view, shadcn/ui
   data/
     services/               # 210 layanan, 14 kategori
     article-engine/         # 108 artikel (6 batch) + index
     cities.ts               # 45 kota keberangkatan
+  i18n/                     # Routing + request config next-intl (id/en)
   lib/
     version.ts              # Identitas rilis runtime (sumber kebenaran)
+    i18n-routes.ts          # Peta rute hreflang id↔en
+    facets.ts               # Agregasi Prisma katalog berfaset
     og.ts solusihajj/       # Helper OG, router/seo/i18n/wa/compare
+messages/                   # Katalog pesan next-intl (id.json, en.json)
+githooks/pre-commit         # CI Release Gate (core.hooksPath → githooks)
 prisma/schema.prisma        # 13 model (termasuk ServiceLead)
-scripts/                    # Scraper, seeder, daemon, alat audit
+scripts/                    # Scraper, seeder, daemon, verify-version-sync.mjs
 docs/                       # Blueprint NEXUS PROTOCOL (39 dokumen)
 ```
 
@@ -369,7 +392,8 @@ docs/                       # Blueprint NEXUS PROTOCOL (39 dokumen)
 
 ## Peta Jalan
 
-- **v2.1 (Prioritas 5)** — `llms.txt`, aktivasi RSS, hreflang id/en (next-intl), halaman SEO `/bandingkan`, halaman katalog berfaset.
+- **v2.1 (Prioritas 5)** — ✅ **TERKIRIM di v2.1.0 "Sinyal Global"**: `llms.txt`, RSS kanonik, hreflang id/en (next-intl), halaman SEO `/bandingkan`, katalog berfaset (sitemap 13.984 → 14.714).
+- **Kandidat berikutnya** — upgrade schema artikel (VideoObject/Podcast), llms-full.txt, halaman detail Inggris, RSS per kategori.
 - **R4-Production (v3.x)** — integrasi VA bank (Bank Syariah), KYC operator, dashboard mandiri operator,
   e-signature kontrak, notifikasi milestone WebPush.
 - **Data** — rescrape inkremental malam hari, eservices Saudi MOHU saat terjangkau, register Asia lainnya
@@ -379,7 +403,7 @@ docs/                       # Blueprint NEXUS PROTOCOL (39 dokumen)
 ## Arsitektur Sistem & Dukungan
 
 SolusiHajj direkayasa di bawah disiplin **GUNARA MASTER SYSTEM v3.0**, rangkaian dokumen
-**NEXUS PROTOCOL v1.0**, dan **SolusiHajj Release System v2.0.0**. Arsitektur sistem, quality gate,
+**NEXUS PROTOCOL v1.0**, dan **SolusiHajj Release System v2.1.0**. Arsitektur sistem, quality gate,
 dan pipeline data didukung oleh:
 
 > **by Gugun Gunara — Muhammad Lutfi Azmi** (prabudanling · Santri Angon)
@@ -410,6 +434,6 @@ wireframe, skema database, spesifikasi API, protokol keamanan, runbook deploymen
 **SolusiHajj — Amanah Anda, Aman.**
 *Marketplace ibadah terbesar & teraman di Asia — dibangun dengan data resmi, escrow nyata, dan AI yang jujur.*
 
-**Rilis aktif: SolusiHajj v2.0.0 — "Nexus Governance"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
+**Rilis aktif: SolusiHajj v2.1.0 — "Sinyal Global"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
 
 </div>

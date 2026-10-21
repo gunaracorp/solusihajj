@@ -1,0 +1,60 @@
+{
+  "Common": {
+    "siteName": "SolusiHajj",
+    "tagline": "Amanah Anda, Aman.",
+    "taglineEn": "Your trust, secured.",
+    "verifiedBadge": "5-Layer Verified",
+    "escrowBadge": "Shariah Escrow 40/40/20",
+    "explorePackages": "Explore packages",
+    "browseDirectory": "Browse the directory",
+    "backToId": "Kembali ke versi Indonesia",
+    "inIndonesian": "This page in Indonesian"
+  },
+  "Home": {
+    "kicker": "Asia's Hajj & Umrah marketplace",
+    "title": "Every licensed operator. One trusted gateway.",
+    "sub": "Compare packages from verified PPIU, PIHK, BPW and KBIHU operators across Asia. Your money stays in shariah escrow until milestones are met — reviews come only from real pilgrims.",
+    "statsOrgs": "Organizations indexed",
+    "statsPackages": "Live packages",
+    "statsServices": "Bookable services",
+    "statsArticles": "Guides & articles"
+  },
+  "Services": {
+    "title": "Umrah & Hajj services",
+    "sub": "Land arrangement, visas, transport, hotels and more — {count} services across {categories} categories.",
+    "cta": "Request a quote"
+  },
+  "Packages": {
+    "title": "Umrah packages",
+    "sub": "{count} live packages with transparent pricing, hotel distance to the Haram, and verified pilgrim reviews."
+  },
+  "Directory": {
+    "title": "National operator directory",
+    "sub": "{count} organizations indexed from 9+ official government and association sources — every row has provenance.",
+    "byType": "By organization type"
+  },
+  "Cities": {
+    "title": "Departure cities",
+    "sub": "Umrah departures from {count} Indonesian cities — airports, flight times and direct charters."
+  },
+  "Articles": {
+    "title": "Guides & knowledge hub",
+    "sub": "{count} E-E-A-T articles covering rituals, visas, budgets, hotels and family travel."
+  },
+  "Glossary": {
+    "title": "Hajj & Umrah glossary",
+    "sub": "{count} essential terms, explained in plain language."
+  },
+  "Compare": {
+    "title": "Compare packages & operators",
+    "sub": "Side-by-side comparison of price, duration, hotel distance, ratings and escrow protection."
+  },
+  "Catalog": {
+    "title": "Faceted catalog",
+    "sub": "Browse {count} organizations by type, province and city."
+  },
+  "Faq": {
+    "title": "Frequently asked questions",
+    "sub": "Straight answers about licenses, escrow, verification and booking."
+  }
+}

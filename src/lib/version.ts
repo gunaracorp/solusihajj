@@ -7,21 +7,23 @@
  *   3. Sinkronkan: VERSION (root), package.json "version", CHANGELOG.md
  *      (entri baru, format Keep a Changelog), lalu commit + tag git `v<APP_VERSION>`.
  *   4. Verifikasi: `curl /api/version` harus mengembalikan versi baru.
+ *      Release Gate (githooks/pre-commit → scripts/verify-version-sync.mjs)
+ *      otomatis menolak commit bila ada sumber versi yang tidak sinkron.
  *
  * Jangan hardcode versi di tempat lain — selalu import dari file ini.
  * Label mengikuti nama situs resmi: solusihajj.web.id (SolusiHajj Release System).
  */
 
 /** Versi aplikasi aktif (SemVer 2.0.0). */
-export const APP_VERSION = "2.0.0";
+export const APP_VERSION = "2.1.0";
 
 /** Nama kode rilis aktif. */
-export const APP_CODENAME = "Nexus Governance";
+export const APP_CODENAME = "Sinyal Global";
 
 /** Tanggal build rilis aktif (Asia/Jakarta, format ISO ringkas). */
 export const APP_BUILD_DATE = "2026-10-22";
 
-/** Label rilis resmi, contoh: "SolusiHajj v2.0.0". */
+/** Label rilis resmi, contoh: "SolusiHajj v2.1.0". */
 export const RELEASE_LABEL = `SolusiHajj v${APP_VERSION}`;
 
 /** Baris rilis lengkap untuk stempel footer/dokumen. */

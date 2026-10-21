@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import SolusiHajjApp from "@/components/solusihajj/app";
 import { Analytics } from "@vercel/analytics/next";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 
 /* Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
    (prabudanling · Santri Angon) · PT Top Konsultan Internasional
@@ -45,8 +46,16 @@ export const metadata: Metadata = {
   other: {
     "system-architect": "Gugun Gunara (Muhammad Lutfi Azmi) — topkonsultan.web.id · digiman.id",
   },
-  metadataBase: new URL("https://solusihajj.com"),
-  alternates: { canonical: "/" },
+  metadataBase: new URL("https://solusihajj.web.id"),
+  alternates: {
+    canonical: "/",
+    ...languageAlternates("/"),
+    types: {
+      "application/rss+xml": [
+        { url: "/feed.xml", title: "SolusiHajj — Artikel & Panduan Umrah Haji (RSS)" },
+      ],
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico?v=8", sizes: "48x48", type: "image/x-icon" },
@@ -59,7 +68,7 @@ export const metadata: Metadata = {
     title: "SolusiHajj — Marketplace Umrah & Haji Terbesar Asia",
     description:
       "Bandingkan paket umrah, land arrangement, dan tiket charter grup dari 18 penyelenggara terverifikasi di 5 negara Asia. Dana dijaga escrow syariah, review dari jamaah nyata.",
-    url: "https://solusihajj.com",
+    url: "https://solusihajj.web.id",
     siteName: "SolusiHajj",
     locale: "id_ID",
     type: "website",

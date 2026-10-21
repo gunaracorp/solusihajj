@@ -4,6 +4,7 @@ import { articleList } from "@/data/articles";
 import { articleCategories } from "@/data/article-engine";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { PageHero, SectionHeading, MetaChip, formatTanggal } from "@/components/seo/pkg-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   title: "Artikel & Panduan Umrah Haji — Edukasi Bebas Penipuan",
   description:
     "Kumpulan panduan umrah terkurasi: cara cek izin PPIU, rincian biaya 2026, persiapan 30 hari sebelum berangkat, hingga kumpulan doa & ziarah. Ditulis tim edukasi dan direview berkala.",
-  alternates: { canonical: `${SITE}/artikel` },
+  alternates: { canonical: `${SITE}/artikel`, ...languageAlternates("/artikel") },
   openGraph: {
     title: "Artikel & Panduan Umrah Haji — Edukasi Bebas Penipuan",
     description:

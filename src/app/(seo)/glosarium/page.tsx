@@ -4,6 +4,7 @@ import { glossaryList, GLOSSARY_CATEGORIES } from "@/data/glossary";
 import { slugify } from "@/components/seo/pkg-ui";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { PageHero, MetaChip } from "@/components/seo/pkg-ui";
 import { BookMarked, Languages } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: "Glosarium Istilah Haji & Umrah A–Z (Arti + Penjelasan)",
   description:
     "Daftar istilah haji dan umrah beserta artinya: ihram, tawaf, sa'i, miqat, muthawif, PIHK, Nusuk, dan puluhan istilah lain. Jawaban ringkas untuk pencarian 'apa itu X'.",
-  alternates: { canonical: `${SITE}/glosarium` },
+  alternates: { canonical: `${SITE}/glosarium`, ...languageAlternates("/glosarium") },
   openGraph: {
     title: "Glosarium Istilah Haji & Umrah A–Z",
     description:

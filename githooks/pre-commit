@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# SolusiHajj Release Gate — pre-commit hook (v2.1.0).
+# Menolak commit bila VERSION ≠ package.json ≠ src/lib/version.ts ≠ CHANGELOG.
+# Aktif via: git config core.hooksPath githooks
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+if command -v bun >/dev/null 2>&1; then
+  bun scripts/verify-version-sync.mjs
+else
+  node scripts/verify-version-sync.mjs
+fi

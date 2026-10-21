@@ -4,6 +4,7 @@ import { getPpiu } from "@/data/ppiu";
 import { faqList } from "@/data/faq";
 import { JsonLd, SITE, breadcrumbJsonLd, faqJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { PageHero, MetaChip, SectionHeading, formatRupiah } from "@/components/seo/pkg-ui";
 import { Users, Plane, Building2, Wallet, ShieldCheck } from "lucide-react";
 import {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   title: "Katalog Paket Umrah 2026 — 27 Paket & Land Arrangement Terverifikasi",
   description:
     "Bandingkan 27 paket umrah reguler, Ramadhan, plus Turki/Dubai, dan land arrangement dari 10 penyelenggara terverifikasi. Harga transparan, jarak hotel nyata ke Haram, review jamaah asli.",
-  alternates: { canonical: `${SITE}/paket` },
+  alternates: { canonical: `${SITE}/paket`, ...languageAlternates("/paket") },
   openGraph: {
     title: "Katalog Paket Umrah 2026 — 27 Paket & Land Arrangement Terverifikasi",
     description:

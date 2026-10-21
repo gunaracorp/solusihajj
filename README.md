@@ -7,10 +7,10 @@
 **One gateway for every licensed Umrah & Hajj operator in Asia. Packages from real operators.
 Money guarded by escrow. Trust verified in five layers. AI that explains itself.**
 
-[![Release](https://img.shields.io/badge/Release-SolusiHajj_v2.0.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
-[![Codename](https://img.shields.io/badge/Codename-Nexus_Governance-C9A227?labelColor=07211a)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/Release-SolusiHajj_v2.1.0-0E6B4E?labelColor=07211a)](CHANGELOG.md)
+[![Codename](https://img.shields.io/badge/Codename-Sinyal_Global-C9A227?labelColor=07211a)](CHANGELOG.md)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-2D3748?labelColor=07211a)](https://semver.org)
-[![Pages indexed](https://img.shields.io/badge/Sitemap-13.984_URLs-0E6B4E?labelColor=07211a)](public/humans.txt)
+[![Pages indexed](https://img.shields.io/badge/Sitemap-14.714_URLs-0E6B4E?labelColor=07211a)](public/humans.txt)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Prisma 6 + SQLite](https://img.shields.io/badge/Prisma_6-SQLite-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io)
@@ -25,14 +25,19 @@ Money guarded by escrow. Trust verified in five layers. AI that explains itself.
 
 ---
 
-## ⚡ Release Snapshot — SolusiHajj v2.0.0 "Nexus Governance" (2026-10-22)
+## ⚡ Release Snapshot — SolusiHajj v2.1.0 "Sinyal Global" (2026-10-22)
 
-This release activates the **SolusiHajj Release System**: from now on, *every command and every
-change* in this repository must carry a version number (SemVer). The full engineering history is
-mapped retroactively — see [CHANGELOG.md](CHANGELOG.md) and [WORKLOG.md](WORKLOG.md).
+v2.1.0 ships **Prioritas 5 — the discovery & distribution engine**: `llms.txt` for LLM
+crawlers, canonical RSS, hreflang id/en via next-intl, the `/bandingkan` compare page,
+and a 720-page faceted catalog — pushing the sitemap to **14,714 URLs**. Governance is
+now enforced by a **CI Release Gate** (pre-commit hook rejects version drift).
+v2.0.0 activated the **SolusiHajj Release System**: every command and every change in
+this repository carries a version number (SemVer) — see [CHANGELOG.md](CHANGELOG.md)
+and [WORKLOG.md](WORKLOG.md).
 
 | Version | Codename | Headline |
 |---|---|---|
+| **v2.1.0** | Sinyal Global | `llms.txt` · canonical RSS `/feed.xml` · hreflang id/en (10 `/en` pages, next-intl) · `/bandingkan` compare page · 720-page faceted catalog `/katalog` · CI Release Gate · admin release badge · sitemap 13,984 → **14,714** |
 | **v2.0.0** | Nexus Governance | Release system activated — VERSION file, CHANGELOG, versioned WORKLOG, `/api/version`, footer release stamp, git tag |
 | **v1.5.0** | Kelas Dunia | Header & navigation redesigned to global consulting-firm standard (utility trust bar, mega menu, app-grade mobile drawer) |
 | **v1.4.0** | Mesin Konten | Article Content Engine 4 → **112 articles** (±90,000 words, 8 categories, 3-layer silo) + permanent hydration-mismatch fix |
@@ -45,7 +50,7 @@ Check the running release anytime:
 
 ```bash
 curl http://localhost:3000/api/version
-# { "version": "2.0.0", "label": "SolusiHajj v2.0.0", "codename": "Nexus Governance", ... }
+# { "version": "2.1.0", "label": "SolusiHajj v2.1.0", "codename": "Sinyal Global", ... }
 ```
 
 ---
@@ -76,17 +81,22 @@ packages. Operators supply the packages; SolusiHajj supplies **verification, esc
 
 | Metric | Value | Source |
 |---|---|---|
-| Sitemap URLs | **13,984** | Live `sitemap.xml` (1 file, < 50 MB) |
+| Sitemap URLs | **14,714** | Live `sitemap.xml` (1 file, < 50 MB) |
 | ─ Programmatic matrix (service × city) | 9,450 | `/layanan/[slug]/dari-[kota]`, ISR 24 h |
 | ─ Directory (DB-backed profiles) | 3,966 | Live SQLite, provenance-audited |
+| ─ Faceted catalog (v2.1.0) | 720 | `/katalog` — 5 types + 335 cities + 31 provinces + 53 prov×type + 293 city×type |
 | ─ Articles + category hubs | 112 + 8 | E-E-A-T content engine, 8 categories |
+| ─ English pages (hreflang id/en) | 10 | `/en`, `/en/services`, `/en/packages`, … (next-intl) |
 | ─ Services / cities / packages / glossary / airlines / PPIU | 225 / 46 / 28 / 35 / 77 / 19 | Static SEO routes |
-| OG image cards (1200×630, dynamic) | **13,831** | Image sitemap extensions |
+| OG image cards (1200×630, dynamic) | **14,500+** | Image sitemap extensions |
+| hreflang alternate links in sitemap | 60 | `id` / `en` / `x-default` per paired page |
+| RSS feed | `/feed.xml` (50 latest) | `/api/rss` → 308 redirect |
+| llms.txt manifest | `/llms.txt` | LLM-crawler discovery per llms.txt convention |
 | Organizations in database | **3,966** | 2,670 PPIU · 1,019 PIHK · 228 UTO · 47 USP · 2 BPW |
 | Verified organizations | 3,619 | Status AKTIF/TERDAFTAR |
 | Lead capture | `ServiceLead` + ref `SH-LEAD-YYYY-XXXXX` | Rate-limited, honeypot, page-path attribution |
 | JSON-LD types | 12+ | Organization, Service+Offer, FAQPage, Article, ItemList, Dataset, HowTo… |
-| UI views | 25 | Single hash-route SPA + 30+ App Router SEO routes |
+| UI views | 25 | Single hash-route SPA + 40+ App Router SEO routes |
 
 ---
 
@@ -246,6 +256,9 @@ bun scripts/fetch-asia.ts          # Nusuk 47 providers + MORA Pakistan -> scrip
 | `/api/r3/ai/match` | GET / POST | Recent AI sessions / profile → live LLM recommendation |
 | `/api/leads` | POST / GET | **Lead capture** — public POST (rate-limited, honeypot) / admin GET |
 | `/api/og` | GET | **Dynamic OG card** 1200×630 — params `t, chip, price, foot, k, rating, reviews, badge, sub` |
+| `/feed.xml` | GET | **Canonical RSS 2.0** — 50 latest articles (DB → static fallback, never 500s) |
+| `/api/rss` | GET | Legacy feed endpoint — **308 redirect** to `/feed.xml` |
+| `/llms.txt` | GET | **LLM discovery manifest** (llms.txt convention) — curated site map for AI crawlers |
 
 Escrow action rules enforced server-side: sequential releases only, no release before `FUNDED`,
 dispute requires ≥ 10-character evidence note, refund only of unreleased remainder.
@@ -287,9 +300,10 @@ must carry a version. International-standard practices:
 | [`VERSION`](VERSION) | Canonical version number (root, single line) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog 1.1.0 — every release, categorized (Added/Changed/Fixed/Verified) |
 | [`WORKLOG.md`](WORKLOG.md) | Engineering task ledger — chronological, every task stamped `[vX.Y.Z]` |
-| `src/lib/version.ts` | Runtime source of truth (imported by API + footer — never hardcode versions elsewhere) |
+| `src/lib/version.ts` | Runtime source of truth (imported by API + footer + admin badge — never hardcode versions elsewhere) |
 | `/api/version` | Live release identity for post-deploy verification |
 | Git tag `vX.Y.Z` | Immutable release snapshot |
+| **CI Release Gate** | `githooks/pre-commit` → `scripts/verify-version-sync.mjs` — **rejects the commit** when VERSION ≠ package.json ≠ version.ts ≠ CHANGELOG. Activate on a fresh clone: `git config core.hooksPath githooks`. Manual check: `bun run verify:version` |
 
 **Semantic Versioning policy:**
 
@@ -303,8 +317,9 @@ must carry a version. International-standard practices:
 2. Sync `VERSION` (root) and `package.json` `"version"`.
 3. Add a new section at the top of `CHANGELOG.md` (Keep a Changelog format).
 4. Append the task entry to `WORKLOG.md` stamped with the new version.
-5. Commit + `git tag -a vX.Y.Z -m "SolusiHajj vX.Y.Z — <codename>"`.
-6. Verify: `curl /api/version` returns the new version; footer stamp updates automatically.
+5. Commit — the **Release Gate hook** blocks the commit if the versions drift — then `git tag -a vX.Y.Z -m "SolusiHajj vX.Y.Z — <codename>"`.
+6. Push code + tag to the remote so the release is immutable: `git push origin main --follow-tags` (remote: `github.com/prabudanling/solusihajj`).
+7. Verify: `curl /api/version` returns the new version; footer stamp + admin badge update automatically.
 
 ---
 
@@ -317,28 +332,37 @@ WORKLOG.md                  # Versioned engineering task ledger
 src/
   app/
     page.tsx                # SPA shell (hash-route, 25 views)
-    (seo)/                  # 30+ SEO App Router routes
+    (seo)/                  # 40+ SEO App Router routes
       layanan/[slug]/[kota] # 9,450-page service×city matrix (ISR)
       artikel/              # 112-article hub + 8 category routes
+      katalog/              # 720-page faceted catalog (types × cities × provinces)
+      bandingkan/           # Package compare page (client picker + SEO table)
       kota/ paket/ glosarium/ maskapai/ ppiu/ direktori/ legal
+    (en)/en/                # 10 English pages — hreflang id/en (next-intl)
+    llms.txt/ feed.xml/     # LLM manifest + canonical RSS
     api/
       version/ health/      # Release identity + healthcheck
-      leads/ og/            # Lead capture + dynamic OG cards
+      leads/ og/ rss/       # Lead capture + OG cards + legacy feed redirect
       r2/                   # Directory, airlines, stats, sources, sync
       r3/                   # Escrow state machine + NurMatch AI
   components/
     solusihajj/             # SPA views + CHROME R2 header/footer
-    seo/                    # JSON-LD, lead form, silo components
-    admin/ views/ ui/       # Admin dashboard, views, shadcn/ui
+    seo/                    # JSON-LD, lead form, silo + compare-picker components
+    admin/ views/ ui/       # Admin dashboard (release badge), views, shadcn/ui
   data/
     services/               # 210 services, 14 categories
     article-engine/         # 108 articles (6 batches) + index
     cities.ts               # 45 departure cities
+  i18n/                     # next-intl routing + request config (id/en)
   lib/
     version.ts              # Runtime release identity (source of truth)
+    i18n-routes.ts          # hreflang id↔en route map
+    facets.ts               # Faceted-catalog Prisma aggregations
     og.ts solusihajj/       # OG helper, router/seo/i18n/wa/compare
+messages/                   # next-intl message catalogs (id.json, en.json)
+githooks/pre-commit         # CI Release Gate (core.hooksPath → githooks)
 prisma/schema.prisma        # 13 models (incl. ServiceLead)
-scripts/                    # Scrapers, seeders, daemon, audit tools
+scripts/                    # Scrapers, seeders, daemon, verify-version-sync.mjs
 docs/                       # NEXUS PROTOCOL blueprint (39 documents)
 ```
 
@@ -368,7 +392,8 @@ docs/                       # NEXUS PROTOCOL blueprint (39 documents)
 
 ## Roadmap
 
-- **v2.1 (Prioritas 5)** — `llms.txt`, RSS activation, hreflang id/en (next-intl), `/bandingkan` SEO page, faceted catalog pages.
+- **v2.1 (Prioritas 5)** — ✅ **SHIPPED in v2.1.0 "Sinyal Global"**: `llms.txt`, canonical RSS, hreflang id/en (next-intl), `/bandingkan` SEO page, faceted catalog (sitemap 13,984 → 14,714).
+- **Next candidates** — article schema upgrades (VideoObject/Podcast), llms-full.txt, English detail pages, RSS per category.
 - **R4-Production (v3.x)** — bank VA integration (Bank Syariah), KYC for operators, operator self-service dashboard,
   contract e-signature, WebPush milestone notifications.
 - **Data** — nightly incremental rescrapes, Saudi MOHU eservices when reachable, more Asian registries
@@ -378,7 +403,7 @@ docs/                       # NEXUS PROTOCOL blueprint (39 documents)
 ## Systems Architecture & Support
 
 SolusiHajj is engineered under the discipline of **GUNARA MASTER SYSTEM v3.0**, the **NEXUS PROTOCOL v1.0**
-document suite, and the **SolusiHajj Release System v2.0.0**. System architecture, quality gates,
+document suite, and the **SolusiHajj Release System v2.1.0**. System architecture, quality gates,
 and data pipelines are supported by:
 
 > **by Gugun Gunara — Muhammad Lutfi Azmi** (prabudanling · Santri Angon)
@@ -409,6 +434,6 @@ wireframes, database schema, API spec, security protocol, deployment runbook, an
 **SolusiHajj — Amanah Anda, Aman.**
 *Marketplace ibadah terbesar & teraman di Asia — dibangun dengan data resmi, escrow nyata, dan AI yang jujur.*
 
-**Rilis aktif: SolusiHajj v2.0.0 — "Nexus Governance"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
+**Rilis aktif: SolusiHajj v2.1.0 — "Sinyal Global"** · [Changelog](CHANGELOG.md) · [Worklog](WORKLOG.md)
 
 </div>

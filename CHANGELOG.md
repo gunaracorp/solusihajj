@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**SolusiHajj v2.0.0 — "Nexus Governance"**
+**SolusiHajj v2.1.0 — "Sinyal Global"**
 
 </div>
 
@@ -26,6 +26,62 @@ Tidak ada perubahan tanpa versi. Detail pekerjaan per task ada di `WORKLOG.md`; 
 
 ---
 
+## [2.1.0] — 2026-10-22 — "Sinyal Global"
+
+Prioritas 5: mesin penemuan (discovery) & distribusi data — situs kini bisa dibaca
+mesin pencari, LLM crawler, RSS reader, dan audiens bilingual, dengan tata kelola
+versi yang dikunci Release Gate.
+
+### Added
+- **`llms.txt`** (`/llms.txt`) — manifest LLM crawler per konvensi llms.txt: ringkasan
+  produk, 10 seksi tautan terkurasi (paket, direktori, matrix SEO, artikel, glosarium,
+  alat publik, seksi EN, endpoint data mesin, legal), versi rilis live dari `version.ts`.
+- **RSS feed kanonik `/feed.xml`** — RSS 2.0, 50 artikel terbaru (DB `PUBLISHED` →
+  fallback statis 112 artikel, tidak pernah 500), `atom:link self`, `language id-ID`,
+  Cache-Control 900s. Endpoint lama `/api/rss` kini **redirect 308** ke `/feed.xml`.
+- **Autodiscovery RSS di seluruh situs** — `<link rel="alternate" type="application/rss+xml">`
+  via metadata `alternates.types` layout root.
+- **hreflang id/en via next-intl** — 10 halaman Inggris statis: `/en`, `/en/services`,
+  `/en/packages`, `/en/directory`, `/en/cities`, `/en/articles`, `/en/glossary`,
+  `/en/compare`, `/en/faq`, `/en/catalog` (kopi asli EN, bukan terjemahan mesin).
+  Arsitektur: next-intl mode *without i18n routing* (`getTranslations({locale:"en"})`),
+  `src/i18n/{routing,request}.ts`, plugin `next.config.ts`, pesan `messages/{id,en}.json`,
+  peta rute `src/lib/i18n-routes.ts` — **tanpa middleware** sehingga 13.984 URL
+  Indonesia nol dampak. hreflang `id`/`en`/`x-default` di: metadata 11 halaman id +
+  10 halaman en + **setiap entri sitemap** yang punya padanan.
+- **Halaman SEO `/bandingkan`** — perbandingan paket berdampingan: `ComparePicker`
+  (klien, pilih 2–3 dari 27 paket; harga/per-hari/durasi/hotel+jarak Haram/Madinah/
+  rating/review, badge "Terhemat" & "Terdekat"), tabel SEO top-5 server-rendered,
+  JSON-LD Breadcrumb+FAQPage+ItemList, aksesibel (fieldset, `th scope`, aria-live).
+- **Katalog berfaset `/katalog`** — 720 halaman dari DB live (Prisma): indeks +
+  5 faset tipe (PPIU/PIHK/UTO/USP/BPW) + 335 kota + 31 provinsi + 53 provinsi×tipe +
+  293 kota×tipe (ambang ≥2 organisasi), modul `src/lib/facets.ts`, ISR 86400,
+  JSON-LD + OG dinamis per faset.
+- **CI Release Gate (anti-drift versi)** — `scripts/verify-version-sync.mjs` +
+  hook `githooks/pre-commit` (aktif via `git config core.hooksPath githooks`):
+  commit DITOLAK bila VERSION ≠ package.json ≠ `version.ts` ≠ entri CHANGELOG.
+  `bun run verify:version` untuk cek manual.
+- **Badge rilis live di header admin** — chip `SolusiHajj vX.Y.Z · build DATE` di topbar
+  dashboard + sidebar CMS (sumber: `src/lib/version.ts`), tooltip codename.
+
+### Changed
+- Domain kanonik disatukan ke **solusihajj.web.id**: `metadataBase` layout, BASE
+  sitemap, `.env` `NEXT_PUBLIC_SITE_URL` — seluruh canonical/hreflang/OG konsisten.
+- Sitemap **13.984 → ±14.7xx URL** (+720 faset, +10 EN, `/bandingkan` riil
+  menggantikan entri hash), entri ber-hreflang `alternates.languages`.
+
+### Fixed
+- Sisa label contoh "GUNARACORP" pada stempel footer CHANGELOG v2.0.0 dan komentar
+  `/api/version` dikoreksi → "SOLUSIHAJJ" (label rilis resmi mengikuti nama situs;
+  handle sosial @gunaracorp dipertahankan apa adanya).
+
+### Verified
+- Release Gate lolos (4 sumber sinkron); `/en` + 9 sub-halaman 200; `/bandingkan` 200
+  (3 JSON-LD); `/katalog` + faset 200 & negatif 404 benar; `/llms.txt` 200 (±6,5 KB);
+  `/feed.xml` 200 (50 item XML valid); `/api/rss` 308; lint 0 error.
+
+---
+
 ## [2.0.0] — 2026-10-22 — "Nexus Governance"
 
 Rilis tata kelola: **SolusiHajj Release System diaktifkan untuk seluruh proyek.**
@@ -38,7 +94,7 @@ pekerjaan dipetakan retroaktif ke SemVer (lihat riwayat di bawah).
 - **`WORKLOG.md`** — log kerja engineering distrukturkan ulang: 16 entri task diurutkan kronologis, setiap task diberi stempel versi `[vX.Y.Z]`, ditambah indeks rilis dan SOP rilis di kepala dokumen (nama lama `worklog.md` kini stub penunjuk).
 - **Endpoint `GET /api/version`** — identitas rilis runtime (version, label, codename, buildDate, authority) untuk verifikasi pasca-deploy.
 - **`GET /api/health`** kini membawa blok `version` (number, label, codename).
-- **Stempel versi di footer situs**: "RILIS GUNARACORP v2.0.0 · SEMVER 2.0.0" — versi terlihat langsung oleh publik.
+- **Stempel versi di footer situs**: "RILIS SOLUSIHAJJ v2.0.0 · SEMVER 2.0.0" — versi terlihat langsung oleh publik.
 - Git tag rilis **`v2.0.0`** sebagai snapshot resmi.
 
 ### Changed

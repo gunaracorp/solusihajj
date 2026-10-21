@@ -3,6 +3,7 @@ import Link from "next/link";
 import { faqList } from "@/data/faq";
 import { JsonLd, SITE, breadcrumbJsonLd, faqJsonLd, organizationJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { PageHero } from "@/components/seo/pkg-ui";
 import {
   Accordion,
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: "FAQ — Pertanyaan yang Sering Diajukan Jamaah",
   description:
     "Jawaban resmi SolusiHajj: apakah platform ini menyelenggarakan umrah, cara kerja escrow 40/40/20, verifikasi 5 lapis PPIU, review Saksi Jamaah, hingga pembatalan dan refund dana.",
-  alternates: { canonical: `${SITE}/faq` },
+  alternates: { canonical: `${SITE}/faq`, ...languageAlternates("/faq") },
   openGraph: {
     title: "FAQ — Pertanyaan yang Sering Diajukan Jamaah | SolusiHajj",
     description:

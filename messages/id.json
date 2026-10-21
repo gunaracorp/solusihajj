@@ -1,0 +1,60 @@
+{
+  "Common": {
+    "siteName": "SolusiHajj",
+    "tagline": "Amanah Anda, Aman.",
+    "taglineEn": "Kepercayaan Anda, terlindungi.",
+    "verifiedBadge": "Terverifikasi 5 Lapis",
+    "escrowBadge": "Escrow Syariah 40/40/20",
+    "explorePackages": "Jelajahi paket",
+    "browseDirectory": "Jelajahi direktori",
+    "backToId": "Kembali ke versi Indonesia",
+    "inIndonesian": "Halaman ini dalam Bahasa Indonesia"
+  },
+  "Home": {
+    "kicker": "Marketplace haji & umrah Asia",
+    "title": "Semua penyelenggara berizin. Satu gerbang terpercaya.",
+    "sub": "Bandingkan paket dari penyelenggara PPIU, PIHK, BPW, dan KBIHU terverifikasi di seluruh Asia. Dana dijaga escrow syariah hingga milestone terpenuhi — review hanya dari jamaah nyata.",
+    "statsOrgs": "Organisasi terdata",
+    "statsPackages": "Paket aktif",
+    "statsServices": "Layanan tersedia",
+    "statsArticles": "Panduan & artikel"
+  },
+  "Services": {
+    "title": "Layanan umrah & haji",
+    "sub": "Land arrangement, visa, transportasi, hotel, dan lainnya — {count} layanan dalam {categories} kategori.",
+    "cta": "Minta penawaran"
+  },
+  "Packages": {
+    "title": "Paket umrah",
+    "sub": "{count} paket aktif dengan harga transparan, jarak hotel ke Haram, dan review jamaah terverifikasi."
+  },
+  "Directory": {
+    "title": "Direktori penyelenggara nasional",
+    "sub": "{count} organisasi terindeks dari 9+ sumber resmi pemerintah & asosiasi — setiap baris punya provenance.",
+    "byType": "Berdasarkan tipe organisasi"
+  },
+  "Cities": {
+    "title": "Kota keberangkatan",
+    "sub": "Keberangkatan umrah dari {count} kota di Indonesia — bandara, waktu terbang, dan charter langsung."
+  },
+  "Articles": {
+    "title": "Panduan & pusat pengetahuan",
+    "sub": "{count} artikel E-E-A-T: manasik, visa, biaya, hotel, hingga perjalanan keluarga."
+  },
+  "Glossary": {
+    "title": "Glosarium haji & umrah",
+    "sub": "{count} istilah penting, dijelaskan dengan bahasa sederhana."
+  },
+  "Compare": {
+    "title": "Bandingkan paket & penyelenggara",
+    "sub": "Perbandingan berdampingan: harga, durasi, jarak hotel, rating, dan perlindungan escrow."
+  },
+  "Catalog": {
+    "title": "Katalog berfaset",
+    "sub": "Jelajahi {count} organisasi berdasarkan tipe, provinsi, dan kota."
+  },
+  "Faq": {
+    "title": "Pertanyaan yang sering diajukan",
+    "sub": "Jawaban lugas soal izin, escrow, verifikasi, dan pemesanan."
+  }
+}

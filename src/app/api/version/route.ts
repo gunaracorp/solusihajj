@@ -8,7 +8,7 @@ import {
 } from "@/lib/version";
 
 /**
- * GET /api/version — identitas rilis aktif (GunaraCorp Release System).
+ * GET /api/version — identitas rilis aktif (SolusiHajj Release System).
  * Dipakai untuk verifikasi pasca-deploy: versi yang berjalan di server
  * harus sama dengan VERSION di root repo & tag git rilis.
  */

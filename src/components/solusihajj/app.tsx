@@ -20,6 +20,8 @@ import KadoPage from "./pages/kado";
 import CicilanPage from "./pages/cicilan";
 import { getPackage } from "@/data/packages";
 import { getPpiu } from "@/data/ppiu";
+import { AdminView } from "@/components/admin/admin-view";
+import { LocaleProvider } from "@/lib/i18n";
 
 /**
  * SolusiHajj R1.5 — "Marketplace Asia Superapp"
@@ -61,6 +63,17 @@ export default function SolusiHajjApp() {
 
   const segs = path.split("/").filter(Boolean);
   let view: React.ReactNode;
+
+  /* Rute admin CMS (v2.1.0) — shell legacy AdminView kini terjangkau dari
+     SPA aktif; badge rilis live tampil di header dashboard admin.
+     LocaleProvider wajib: ThemeSwitcher dll memakai useT(). */
+  if (segs[0] === "admin") {
+    return (
+      <LocaleProvider initialLocale="id">
+        <AdminView />
+      </LocaleProvider>
+    );
+  }
 
   if (path === "/") {
     view = <HomePage />;

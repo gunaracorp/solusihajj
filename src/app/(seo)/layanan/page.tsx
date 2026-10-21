@@ -4,6 +4,7 @@ import { BadgeCheck, Layers, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { BreadcrumbTrail, CategoryIcon, FaqAccordion, ServiceCard } from "@/components/seo/silo-bits";
 import { serviceCategoryList, serviceList, servicesByCategory } from "@/data/services";
 
@@ -15,7 +16,7 @@ export function generateMetadata(): Metadata {
   return {
     title: { absolute: `${serviceList.length}+ Layanan Umrah & Haji Lengkap A–Z — SolusiHajj` },
     description,
-    alternates: { canonical: "/layanan" },
+    alternates: { canonical: "/layanan", ...languageAlternates("/layanan") },
     openGraph: {
       title: `${serviceList.length}+ Layanan Umrah & Haji Lengkap A–Z — SolusiHajj`,
       description,

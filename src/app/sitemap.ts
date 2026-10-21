@@ -2,15 +2,18 @@
  * SITEMAP MEGA — agregasi seluruh URL terindeks Google.
  *
  * Sumber URL:
- *  - Halaman inti (/, /layanan, /paket, /direktori, dst)
+ *  - Halaman inti (/, /layanan, /paket, /direktori, /bandingkan, dst)
  *  - 210 halaman layanan + 14 kategori layanan
  *  - 45 halaman kota keberangkatan
  *  - MATRIX programmatic SEO: 210 layanan × 45 kota = 9.450 halaman
  *    "/layanan/[slug]/dari-[kota]" (Prioritas 1 — God Mode Tier Max)
- *  - 27 paket + 4 artikel + 34 glosarium + 76 maskapai + 18 PPIU
+ *  - 27 paket + 112 artikel + 8 kategori artikel + 35 glosarium + 76 maskapai + 18 PPIU
  *  - Direktori nasional (DB): 3.966 profil perusahaan
+ *  - KATALOG BERFASET (v2.1.0): /katalog + 5 tipe + 335 kota + 31 provinsi
+ *    + 53 provinsi×tipe + 293 kota×tipe = 720 halaman faset
+ *  - Seksi EN (v2.1.0): 10 halaman /en/* dengan hreflang id↔en↔x-default
  *
- * Total ± 14.000 URL — masih di bawah batas 50.000 URL/sitemap.
+ * Total ± 15.000 URL — masih di bawah batas 50.000 URL/sitemap.
  */
 import type { MetadataRoute } from "next";
 import { PrismaClient } from "@prisma/client";
@@ -25,11 +28,20 @@ import { ORG_META } from "@/data/types";
 import { AIRLINES_ALL } from "@/lib/airlines";
 import { ogImageUrl } from "@/lib/og";
 import { formatRupiah } from "@/components/seo/pkg-ui";
+import {
+  getCityFacets,
+  getCityTypeCombos,
+  getProvinceFacets,
+  getProvinceTypeCombos,
+  getTypeCounts,
+  TYPE_META,
+} from "@/lib/facets";
+import { EN_ROUTES, languageAlternates } from "@/lib/i18n-routes";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 86400;
 
-const BASE = (process.env.NEXT_PUBLIC_SITE_URL || "https://solusihajj.com").replace(/\/+$/, "");
+const BASE = (process.env.NEXT_PUBLIC_SITE_URL || "https://solusihajj.web.id").replace(/\/+$/, "");
 
 /** slugify konsisten dengan kontrak /direktori/[slug] (slugify(name)--id). */
 function slugify(text: string): string {
@@ -46,6 +58,8 @@ function entry(
     freq?: "daily" | "weekly" | "monthly" | "yearly";
     lastmod?: Date;
     images?: string[];
+    /** hreflang alternates (v2.1.0) — dari languageAlternates() atau manual. */
+    alternates?: { languages: Record<string, string> };
   } = {}
 ): MetadataRoute.Sitemap[number] {
   return {
@@ -54,6 +68,7 @@ function entry(
     changeFrequency: opts.freq ?? "weekly",
     priority: opts.priority ?? 0.7,
     ...(opts.images?.length ? { images: opts.images } : {}),
+    ...(opts.alternates ? { alternates: opts.alternates } : {}),
   };
 }
 
@@ -74,29 +89,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           foot: "PPIU · PIHK · BPW · KBIHU di 5 negara",
         }),
       ],
+      alternates: languageAlternates("/"),
     }),
-    entry("/layanan", { priority: 0.95 }),
-    entry("/paket", { priority: 0.95 }),
-    entry("/direktori", { priority: 0.9 }),
-    entry("/kota", { priority: 0.9 }),
+    entry("/layanan", { priority: 0.95, alternates: languageAlternates("/layanan") }),
+    entry("/paket", { priority: 0.95, alternates: languageAlternates("/paket") }),
+    entry("/direktori", { priority: 0.9, alternates: languageAlternates("/direktori") }),
+    entry("/kota", { priority: 0.9, alternates: languageAlternates("/kota") }),
     entry("/maskapai", { priority: 0.8 }),
     entry("/ppiu", { priority: 0.85 }),
-    entry("/artikel", { priority: 0.85 }),
+    entry("/artikel", { priority: 0.85, alternates: languageAlternates("/artikel") }),
     // Kategori artikel (/artikel/kategori/[slug]) — Prioritas 4
     ...articleCategories(articleList).map((k) =>
       entry(`/artikel/kategori/${k.slug}`, { priority: 0.7, freq: "weekly" })
     ),
-    entry("/glosarium", { priority: 0.8 }),
-    entry("/faq", { priority: 0.7 }),
+    entry("/glosarium", { priority: 0.8, alternates: languageAlternates("/glosarium") }),
+    entry("/faq", { priority: 0.7, alternates: languageAlternates("/faq") }),
     entry("/kebijakan-privasi", { priority: 0.3, freq: "yearly" }),
     entry("/syarat-ketentuan", { priority: 0.3, freq: "yearly" }),
+    // Halaman SEO /bandingkan (v2.1.0) — menggantikan entri hash /#/bandingkan
+    entry("/bandingkan", { priority: 0.85, alternates: languageAlternates("/bandingkan") }),
     // View utama SPA hash-route (tetap terindeks sebagai satu URL root kanonik)
     entry("/#/pusat-data", { priority: 0.7 }),
     entry("/#/verifikasi/cek-izin-ppiu", { priority: 0.7 }),
     entry("/#/kalkulator-haji", { priority: 0.7 }),
     entry("/#/nurmatch", { priority: 0.7 }),
     entry("/#/escrow-aktif", { priority: 0.7 }),
-    entry("/#/bandingkan", { priority: 0.6 }),
     entry("/#/tiket-grup", { priority: 0.6 }),
     entry("/#/travel-kit", { priority: 0.6 }),
     entry("/#/partner", { priority: 0.6 }),
@@ -241,6 +258,62 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
   ];
 
+  // ---------- Katalog berfaset (v2.1.0 — 720 halaman dari DB) ----------
+  const katalogFaset: MetadataRoute.Sitemap = [];
+  try {
+    const [types, cities, provinces, cityTypeCombos, provTypeCombos] = await Promise.all([
+      getTypeCounts(),
+      getCityFacets(),
+      getProvinceFacets(),
+      getCityTypeCombos(),
+      getProvinceTypeCombos(),
+    ]);
+    // Indeks + 5 faset tipe
+    katalogFaset.push(entry("/katalog", { priority: 0.85, alternates: languageAlternates("/katalog") }));
+    for (const t of Object.values(TYPE_META)) {
+      const total = types.find((x) => x.orgType === t.orgType)?.total ?? 0;
+      if (total > 0) katalogFaset.push(entry(`/katalog/${t.slug}`, { priority: 0.75, freq: "weekly" }));
+    }
+    // Indeks kota & provinsi
+    katalogFaset.push(entry("/katalog/kota", { priority: 0.7 }));
+    katalogFaset.push(entry("/katalog/provinsi", { priority: 0.7 }));
+    // 335 faset kota
+    for (const c of cities) {
+      katalogFaset.push(entry(`/katalog/kota/${c.slug}`, { priority: 0.65, freq: "weekly" }));
+    }
+    // 31 faset provinsi
+    for (const p of provinces) {
+      katalogFaset.push(entry(`/katalog/provinsi/${p.slug}`, { priority: 0.65, freq: "weekly" }));
+    }
+    // 53 provinsi×tipe (≥2 organisasi)
+    for (const pt of provTypeCombos) {
+      const t = Object.values(TYPE_META).find((m) => m.orgType === pt.orgType);
+      if (t) katalogFaset.push(entry(`/katalog/provinsi/${pt.provinceSlug}/${t.slug}`, { priority: 0.6 }));
+    }
+    // 293 kota×tipe (≥2 organisasi)
+    for (const ct of cityTypeCombos) {
+      const t = Object.values(TYPE_META).find((m) => m.orgType === ct.orgType);
+      if (t) katalogFaset.push(entry(`/katalog/${t.slug}/${ct.citySlug}`, { priority: 0.65 }));
+    }
+  } catch {
+    // Bila DB tidak tersedia, sitemap tetap memuat URL non-DB.
+  }
+
+  // ---------- Seksi EN (v2.1.0 — 10 halaman, hreflang id↔en↔x-default) ----------
+  const enPages: MetadataRoute.Sitemap = EN_ROUTES.map(({ path, idPath }) =>
+    entry(path, {
+      priority: path === "/en" ? 0.9 : 0.75,
+      freq: "weekly",
+      alternates: {
+        languages: {
+          id: `${BASE}${idPath === "/" ? "/" : idPath}`,
+          en: `${BASE}${path}`,
+          "x-default": `${BASE}${idPath === "/" ? "/" : idPath}`,
+        },
+      },
+    })
+  );
+
   // ---------- Direktori nasional dari DB (± 3.966 profil) ----------
   const direktori: MetadataRoute.Sitemap = [];
   try {
@@ -280,5 +353,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Bila DB tidak tersedia, sitemap tetap memuat URL non-DB.
   }
 
-  return [...core, ...layanan, ...kota, ...matrix, ...katalog, ...direktori];
+  return [
+    ...core,
+    ...layanan,
+    ...kota,
+    ...matrix,
+    ...katalog,
+    ...katalogFaset,
+    ...enPages,
+    ...direktori,
+  ];
 }

@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+/* SolusiHajj v2.1.0 "Sinyal Global" — next-intl (hreflang id/en, localePrefix as-needed:
+   URL Indonesia tanpa prefiks, URL Inggris berprefiks /en). */
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -30,4 +35,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

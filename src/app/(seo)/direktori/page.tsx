@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
+import { languageAlternates } from "@/lib/i18n-routes";
 import {
   PageHero,
   SectionHeading,
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: "Direktori Penyelenggara Umrah & Haji Nasional (3.966+ Organisasi)",
   description:
     "Database nasional PPIU, PIHK, BPW & UTO berizin: 3.966 organisasi dari data resmi Kemenag, Kemenhaj & SISKOPATUH. Cek izin, alamat, dan sumber data tiap penyelenggara.",
-  alternates: { canonical: `${SITE}/direktori` },
+  alternates: { canonical: `${SITE}/direktori`, ...languageAlternates("/direktori") },
   openGraph: {
     title: "Direktori Penyelenggara Umrah & Haji Nasional",
     description:

@@ -33,6 +33,9 @@ import { AdminAiStudio } from "@/components/admin/admin-ai-studio";
 import { visibleSections, ROLE_LABELS } from "@/lib/roles";
 import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
+// SolusiHajj Release System — badge rilis live (sumber: src/lib/version.ts / VERSION).
+import { APP_BUILD_DATE, APP_CODENAME, RELEASE_LABEL } from "@/lib/version";
+import { GitBranch } from "lucide-react";
 
 const MENU = [
   { id: "dashboard", label: "Dashboard", icon: "layout-dashboard" },
@@ -112,6 +115,15 @@ export function AdminView() {
         <p className="text-[10px] text-muted-foreground mt-1.5 uppercase tracking-wider font-semibold">
           CMS Admin Panel
         </p>
+        {/* Badge rilis live — tim selalu tahu persis rilis yang berjalan. */}
+        <p
+          className="mt-2 inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary"
+          title={`Codename "${APP_CODENAME}" · SolusiHajj Release System`}
+        >
+          <GitBranch className="h-3 w-3" aria-hidden="true" />
+          {RELEASE_LABEL}
+        </p>
+        <p className="text-[9px] text-muted-foreground mt-0.5">build {APP_BUILD_DATE} · {APP_CODENAME}</p>
       </div>
       <nav className="flex-1 overflow-y-auto scrollbar-thin p-3 space-y-0.5" aria-label="Menu admin">
         {menu.map((m) => (
@@ -178,6 +190,14 @@ export function AdminView() {
             <div className="flex items-center gap-2.5 min-w-0">
               <Icon name={current?.icon || "layout-dashboard"} className="h-5 w-5 text-primary shrink-0" />
               <h1 className="font-extrabold text-lg truncate">{current?.label || "Dashboard"}</h1>
+              {/* SolusiHajj Release System — badge versi + build date (md+). */}
+              <span
+                className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
+                title={`Codename "${APP_CODENAME}" · build ${APP_BUILD_DATE} · sumber: /api/version`}
+              >
+                <GitBranch className="h-3 w-3" aria-hidden="true" />
+                {RELEASE_LABEL} · build {APP_BUILD_DATE}
+              </span>
             </div>
             <div className="ml-auto flex items-center gap-2">
               <AdminBell onSection={setSection} />

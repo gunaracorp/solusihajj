@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import { languageAlternates } from "@/lib/i18n-routes";
 import { ogImage } from "@/lib/og";
 import { BreadcrumbTrail, CityCard } from "@/components/seo/silo-bits";
 import { citiesByIsland, cityList, type CityPage } from "@/data/cities";
@@ -13,7 +14,7 @@ export function generateMetadata(): Metadata {
   return {
     title: `Umrah dari ${cityList.length} Kota Indonesia — Paket & Jadwal per Kota`,
     description,
-    alternates: { canonical: "/kota" },
+    alternates: { canonical: "/kota", ...languageAlternates("/kota") },
     openGraph: {
       title: `Umrah dari ${cityList.length} Kota Indonesia — Paket & Jadwal per Kota`,
       description,
