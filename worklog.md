@@ -112,3 +112,27 @@ Stage Summary:
 - PROYEK SELESAI: 4.418 URL terindeks di sitemap (3.967 direktori + 225 layanan + 46 kota + 77 maskapai + 35 glosarium + 28 paket + 19 ppiu + 5 artikel + 12 SPA + legal)
 - SEO stack penuh: generateMetadata + canonical + OG per halaman, JSON-LD (Service, Product+Offer+Rating, FAQPage, BreadcrumbList, TravelAgency, DefinedTerm, Article, Organization, ItemList, SearchAction), sitemap mega, robots, internal linking silo
 - Browser-verified: interaktif, data hidup, mobile-safe, footer sticky
+
+---
+Task ID: 5
+Agent: main (Z.ai Code)
+Task: Prioritas 1 God Mode — Matrix Kota×Layanan (9.450 halaman programmatic SEO) + Dynamic OG Image + Lead Capture
+
+Work Log:
+- Prisma: tambah model ServiceLead (ref unik SH-LEAD-YYYY-XXXXX, snapshot serviceName/cityName, pagePath atribusi, status pipeline) + bun run db:push
+- API POST /api/leads (publik: rate limit 5/menit/IP via lib/ratelimit, honeypot "website", validasi phone regex +62/08, slug service & kota divalidasi terhadap data; GET: guardRole ADMIN) — ref berurutan dengan 3× retry anti-tabrakan
+- Komponen client src/components/seo/lead-form.tsx: props citySlug/cityName opsional — terkunci di halaman matrix, dropdown 45 kota (shadcn Select) di halaman /layanan/[slug] & /kota/[slug]; validasi klien + honeypot + kartu sukses dengan nomor referensi
+- Rute matrix src/app/(seo)/layanan/[slug]/[kota]/page.tsx: URL /layanan/[slug]/dari-[kota], generateStaticParams 210×45=9.450, revalidate 86400 (ISR); konten unik per kombinasi (intro 3 paragraf templated service×kota, info bandara/charter, features, proses, FAQ gabungan ≤8, silo 2 arah: layanan lain se-kota + 12 kota lain se-layanan); JSON-LD Service(areaServed City)+Offer+FAQPage+BreadcrumbList+Organization; generateMetadata unik (title/desc/keywords/canonical/OG)
+- json-ld.tsx: serviceJsonLd diperluas opsi areaCity (backwards-compatible)
+- Sitemap: +9.450 URL matrix → total 13.868 URL (terverifikasi grep), masih 1 file (<50K)
+- Internal linking: /layanan/[slug] dapat section "dari kota keberangkatan" (12 chip kota) + LeadForm dropdown; /kota/[slug] dapat "Layanan populer dari {kota}" (10 chip) + LeadForm terkunci kota
+- Dynamic OG Image: file-convention opengraph-image.tsx TERTELAN segmen dinamis [kota] (Turbopack shadowing — fungsi tak pernah dieksekusi, 404). SOLUSI: API route /api/og (ImageResponse 1200×630, query t/chip/price/foot) + openGraph.images absolut di generateMetadata matrix & layanan — fleksibel untuk semua halaman
+- Debug journey: dev server mati antar-panggilan Bash (proses background direap) → gunakan scripts/daemon-next-dev.py (double-fork) — bertahan lintas pemanggilan
+- Uji: 13 URL sweep → 200; 4 uji negatif (kota palsu/service palsu/tanpa prefix dari-/prefix kosong) → 404 benar; /api/og → 200 image/png 113KB; og:image meta terverifikasi di HTML; lead POST valid → 201 SH-LEAD-2026-00001, phone invalid → 400, honeypot → 201 fake SH-LEAD-OK (tanpa simpan); DB terverifikasi 2 lead
+- Browser E2E (agent-browser): matrix /dari-jakarta render + FAQ gabungan tampil; submit form lead (semantic locator) → kartu sukses + DB bertambah; mobile 390px /dari-jayapura render akurat (DJJ, ±14 jam, Via Transit); /kota/jakarta silo chip aktif; 0 console error; lint (seo)+(api/leads)+(api/og)+sitemap → 0 error
+
+Stage Summary:
+- TOTAL URL SITEMAP: 4.418 → 13.868 (+9.450 matrix programmatic SEO long-tail "{layanan} dari {kota}")
+- Mesin lead capture hidup: SEO traffic → form → ServiceLead (DB) dengan atribusi pagePath + snapshot konten
+- OG image dinamis via /api/og siap dipakai seluruh halaman (pola API route, bebas konflik konvensi)
+- Infrastruktur: daemon-next-dev.py wajib dipakai untuk restart dev server (proses background antar-panggilan Bash tidak stabil)

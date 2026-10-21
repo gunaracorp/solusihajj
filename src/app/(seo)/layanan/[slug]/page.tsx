@@ -23,6 +23,8 @@ import {
   ServiceCard,
 } from "@/components/seo/silo-bits";
 import { getService, getServiceCategory, relatedServices, serviceList } from "@/data/services";
+import { cityList } from "@/data/cities";
+import { LeadForm } from "@/components/seo/lead-form";
 
 /* Detail layanan — inti ratusan halaman SEO /layanan/[slug]. */
 
@@ -41,6 +43,11 @@ export async function generateMetadata({
 
   const title = `${service.name} — Panduan & Harga 2026`;
   const url = `/layanan/${service.slug}`;
+  const category = getServiceCategory(service.categorySlug);
+  const ogParams = new URLSearchParams({ t: service.name, chip: category?.name ?? "Layanan Terverifikasi" });
+  if (typeof service.priceFrom === "number" && service.priceFrom > 0) {
+    ogParams.set("price", `Mulai ${formatRupiah(service.priceFrom)}`);
+  }
   return {
     title,
     description: service.shortDesc,
@@ -52,6 +59,7 @@ export async function generateMetadata({
       url: `${SITE}${url}`,
       type: "website",
       siteName: "SolusiHajj",
+      images: [{ url: `${SITE}/api/og?${ogParams.toString()}`, width: 1200, height: 630, alt: title }],
     },
   };
 }
@@ -191,6 +199,33 @@ export default async function ServiceDetailPage({
                 <FaqAccordion faqs={service.faqs} />
               </section>
             ) : null}
+
+            {/* Silo kota keberangkatan — matrix /layanan/[slug]/dari-[kota] */}
+            <section aria-labelledby="kota-layanan" className="rounded-2xl border border-line-warm bg-brand-soft p-6">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <h2 id="kota-layanan" className="text-xl font-extrabold tracking-tight text-brand-deep">
+                  {service.name} dari kota keberangkatan
+                </h2>
+                <Link href="/kota" className="text-sm font-bold text-brand underline-offset-4 hover:underline">
+                  Semua 45 kota →
+                </Link>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                Layanan ini tersedia untuk jamaah dari 45 kota di seluruh Indonesia — pilih kota Anda untuk panduan
+                spesifik (bandara, waktu terbang, charter):
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {cityList.slice(0, 12).map((c) => (
+                  <Link
+                    key={c.slug}
+                    href={`/layanan/${service.slug}/dari-${c.slug}`}
+                    className="rounded-full border border-line-warm bg-white px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-brand/40 hover:text-brand"
+                  >
+                    {c.name}
+                  </Link>
+                ))}
+              </div>
+            </section>
           </article>
 
           {/* Sidebar harga & CTA */}
@@ -210,24 +245,18 @@ export default async function ServiceDetailPage({
               <CardContent className="space-y-4">
                 <p className="text-sm leading-relaxed text-ink-muted">{service.priceNote}</p>
                 <Separator className="bg-line-warm" />
-                <div className="space-y-2.5">
-                  <Button asChild className="w-full bg-brand text-white hover:bg-brand-deep">
-                    <Link href="/#/kontak">
-                      <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                      Konsultasi via WhatsApp
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full border-brand bg-transparent text-brand hover:bg-brand-soft hover:text-brand-deep"
-                  >
-                    <Link href="/#/paket">
-                      Lihat Paket Umrah
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  </Button>
-                </div>
+                <LeadForm
+                  serviceSlug={service.slug}
+                  serviceName={service.name}
+                  pagePath={url}
+                  compact
+                />
+                <Button asChild className="w-full bg-brand text-white hover:bg-brand-deep">
+                  <Link href="/#/kontak">
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                    Konsultasi via WhatsApp
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
 

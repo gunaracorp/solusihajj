@@ -43,6 +43,8 @@ export function serviceJsonLd(opts: {
   url: string;
   category?: string;
   priceFrom?: number;
+  /** Nama kota keberangkatan — menghasilkan areaServed City (halaman matrix /layanan/[slug]/dari-[kota]). */
+  areaCity?: string;
 }) {
   const offers =
     typeof opts.priceFrom === "number" && opts.priceFrom > 0
@@ -54,6 +56,19 @@ export function serviceJsonLd(opts: {
           availability: "https://schema.org/InStock",
         }
       : undefined;
+  const areaServed: Array<Record<string, unknown>> = [
+    ...(opts.areaCity
+      ? [
+          {
+            "@type": "City",
+            name: opts.areaCity,
+            containedInPlace: { "@type": "Country", name: "Indonesia" },
+          },
+        ]
+      : []),
+    { "@type": "Country", name: "Indonesia" },
+    { "@type": "Country", name: "Saudi Arabia" },
+  ];
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -62,10 +77,7 @@ export function serviceJsonLd(opts: {
     serviceType: opts.category,
     url: opts.url.startsWith("http") ? opts.url : `${SITE}${opts.url}`,
     provider: { "@id": `${SITE}/#organization` },
-    areaServed: [
-      { "@type": "Country", name: "Indonesia" },
-      { "@type": "Country", name: "Saudi Arabia" },
-    ],
+    areaServed,
     ...(offers ? { offers } : {}),
   };
 }

@@ -17,6 +17,8 @@ import {
 } from "@/components/seo/silo-bits";
 import { citiesByIsland, cityList, getCity } from "@/data/cities";
 import { packageList } from "@/data/packages";
+import { serviceList } from "@/data/services";
+import { LeadForm } from "@/components/seo/lead-form";
 
 /* Landing kota keberangkatan — 45 halaman "Umrah dari {kota}". */
 
@@ -221,6 +223,33 @@ export default async function CityDetailPage({
                 <FaqAccordion faqs={city.faqs} />
               </section>
             ) : null}
+
+            {/* Silo layanan × kota — matrix /layanan/[slug]/dari-[kota] */}
+            <section aria-labelledby="layanan-kota" className="rounded-2xl border border-line-warm bg-brand-soft p-6">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <h2 id="layanan-kota" className="text-xl font-extrabold tracking-tight text-brand-deep">
+                  Layanan populer dari {city.name}
+                </h2>
+                <Link href="/layanan" className="text-sm font-bold text-brand underline-offset-4 hover:underline">
+                  Semua 210 layanan →
+                </Link>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                Setiap layanan tersedia untuk jamaah {city.name} — klik untuk panduan harga &amp; cara order spesifik
+                keberangkatan {city.airportCode}:
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {serviceList.slice(0, 10).map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/layanan/${s.slug}/dari-${city.slug}`}
+                    className="rounded-full border border-line-warm bg-white px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-brand/40 hover:text-brand"
+                  >
+                    {s.name}
+                  </Link>
+                ))}
+              </div>
+            </section>
           </div>
 
           {/* Sidebar */}
@@ -256,6 +285,15 @@ export default async function CityDetailPage({
                 </Button>
               </CardContent>
             </Card>
+
+            <LeadForm
+              serviceSlug={serviceList[0]?.slug ?? "pengurusan-visa-umrah"}
+              serviceName="Umrah & layanan perjalanan"
+              citySlug={city.slug}
+              cityName={city.name}
+              pagePath={url}
+              compact
+            />
           </aside>
         </div>
       </div>

@@ -307,3 +307,25 @@ model FinancingPartner {
   note       String?
   active     Boolean @default(true)
 }
+
+/// Lead penawaran layanan dari halaman SEO matrix layanan×kota (Prioritas 1 — God Mode)
+/// Form "Minta Penawaran" di /layanan/[slug]/dari-[kota] → disimpan di sini.
+model ServiceLead {
+  id          String   @id @default(cuid())
+  ref         String   @unique // "SH-LEAD-2026-00001" — dikutip ke jamaah
+  fullName    String
+  phone       String // nomor WhatsApp jamaah
+  citySlug    String // slug kota keberangkatan (src/data/cities.ts)
+  cityName    String // snapshot nama kota (tahan perubahan data)
+  serviceSlug String // slug layanan (src/data/services/)
+  serviceName String // snapshot nama layanan
+  pagePath    String // path halaman asal lead (atribusi SEO)
+  note        String?
+  status      String   @default("BARU") // BARU | DIKONTAK | PENAWARAN | SELESAI | DIBATALKAN
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@index([serviceSlug, citySlug])
+  @@index([createdAt])
+}

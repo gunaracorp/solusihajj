@@ -5,10 +5,12 @@
  *  - Halaman inti (/, /layanan, /paket, /direktori, dst)
  *  - 210 halaman layanan + 14 kategori layanan
  *  - 45 halaman kota keberangkatan
+ *  - MATRIX programmatic SEO: 210 layanan × 45 kota = 9.450 halaman
+ *    "/layanan/[slug]/dari-[kota]" (Prioritas 1 — God Mode Tier Max)
  *  - 27 paket + 4 artikel + 34 glosarium + 76 maskapai + 18 PPIU
  *  - Direktori nasional (DB): 3.966 profil perusahaan
  *
- * Total ± 4.500 URL — masih di bawah batas 50.000 URL/sitemap.
+ * Total ± 14.000 URL — masih di bawah batas 50.000 URL/sitemap.
  */
 import type { MetadataRoute } from "next";
 import { PrismaClient } from "@prisma/client";
@@ -88,6 +90,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry(`/kota/${c.slug}`, { priority: 0.8, freq: "monthly" })
   );
 
+  // ---------- Matrix layanan × kota (210 × 45 = 9.450 halaman) ----------
+  const matrix: MetadataRoute.Sitemap = [];
+  for (const s of serviceList) {
+    for (const c of cityList) {
+      matrix.push(entry(`/layanan/${s.slug}/dari-${c.slug}`, { priority: 0.7, freq: "monthly" }));
+    }
+  }
+
   // ---------- Paket / Artikel / Glosarium / PPIU / Maskapai ----------
   const katalog: MetadataRoute.Sitemap = [
     ...packageList.map((p) => entry(`/paket/${p.slug}`, { priority: 0.85, freq: "weekly" })),
@@ -115,5 +125,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Bila DB tidak tersedia, sitemap tetap memuat URL non-DB.
   }
 
-  return [...core, ...layanan, ...kota, ...katalog, ...direktori];
+  return [...core, ...layanan, ...kota, ...matrix, ...katalog, ...direktori];
 }
