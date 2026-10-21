@@ -159,3 +159,146 @@ Stage Summary:
 - Arsitektur: 1 API route + 1 helper terpusat + metadata wiring = nol file gambar statis; konsisten brand (hijau-emas, monogram SH)
 - Sitemap kini membawa image sitemap extensions (bonus indexasi Google Images)
 - Infra: SITE dipindah ke lib/og.ts (env-aware), json-ld re-export; twitter.images root dihapus agar fallback og:image per halaman bekerja
+---
+Task ID: 4-c
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-c (15 artikel Visa & Dokumen + 3 Keamanan & Verifikasi)
+
+Work Log:
+- Baca worklog.md (Task 1–6) + src/data/types.ts (tipe Article/ArticleBlock) + src/data/articles.ts (4 artikel seed) untuk kalibrasi gaya, fakta wajib, dan slug related
+- Buat src/data/article-engine/batch-3.ts (file BARU, satu-satunya yang disentuh) mengikuti pola wajib Write→Edit: "import type { Article } from \"@/data/types\";" + "export const batch3: Article[] = [" + artikel 1–5 + "// APPEND-SLOT" + "];"
+- Edit #1: ganti slot dengan artikel 6–10 (dokumen-umrah-anak, ketentuan-mahram-jamaah-wanita, foto-visa-umrah-standar, visa-umrah-ditolak-solusi, asuransi-perjalanan-umrah) + slot baru
+- Edit #2: ganti slot dengan artikel 11–15 (paspor-hilang-di-saudi, masa-berlaku-visa-umrah, aturan-pma-21-2020-jamaah, siskopatuh-data-jamaah, cara-memilih-ppiu-selidik) + slot baru
+- Edit #3: ganti slot dengan artikel 16–18 category "Keamanan & Verifikasi" (tanda-travel-umrah-nakal, modus-penipuan-umrah-2026, rekening-aman-transfer-dp) tanpa placeholder — array tertutup "];"
+- Fix kosmetik: hapus spasi sebelum koma pada 1 baris callout (artikel vaksin)
+- Verifikasi baca-ulang + grep seluruh file: 18 slug unik & urut sesuai brief (artikel 16 persis "tanda-travel-umrah-nakal" yang dirujuk related seed "cara-cek-izin-ppiu-umrah"), 15× category PERSIS "Visa & Dokumen" + 3× PERSIS "Keamanan & Verifikasi", author PERSIS "Tim Edukasi SolusiHajj", readMinutes 6–9, publishedAt menyebar 2026-02-08 s.d. 2026-03-10, lastReviewed = publishedAt + 5–20 hari maks 2026-03-25, excerpt 140–160 karakter, 0 sisa "APPEND-SLOT", ctaTo hanya dari whitelist (/paket, /verifikasi/cek-izin-ppiu, /kalkulator-haji, /escrow, /travel-kit), related = 2 slug per artikel dari set yang diizinkan (seed 4 + slug batch sendiri)
+- Fakta wajib dijaga konsisten di seluruh batch: PMA No. 21 Tahun 2020; cek izin via SIMPU/SISKOPATUH (simpu.kemenag.go.id) atau telepon Kanwil Kemenag; NIB/domisili BUKAN izin umrah; visa diajukan PPIU via Nusuk (Kementerian Haji & Umrah Saudi); paspor minimal 7 bulan (rekomendasi aman); vaksin meningitis ACYW135 wajib + ICV kartu kuning; foto latar putih; nama sama persis akta lahir; visa umrah umumnya berlaku 30 hari sejak terbit dengan masa tinggal terpisah; Raudhah via slot Nusuk; red flag (rekening pribadi, DP >30% tanpa kontrak, umrah 9 hari Rp 18 jt saat wajar Rp 28–38 jt, klaim "tanpa antre visa", kantor tak jelas); biaya visa-administrasi Rp 1,5–2,5 jt dalam paket; escrow syariah 40/40/20, review Saksi Jamaah, verifikasi 5 lapis, tool Cek Izin PPIU, Kalkulator Simpanan Haji, 27 paket / 3.966 organisasi / 18 PPIU terverifikasi
+- Struktur kualitas per artikel: pembuka menjawab inti ("Jawaban singkatnya:…"), ≥6 h2, ul/ol di setiap artikel, 1 tabel pada SEMUA 18 artikel (melebihi syarat mayoritas), 1–2 callout, h2 penutup; panjang ±700–900 kata bahasa Indonesia
+- Lint/build/dev server TIDAK dijalankan dan tidak ada file lain yang disentuh, sesuai protokol
+
+Stage Summary:
+- 18 artikel baru selesai di src/data/article-engine/batch-3.ts (899 baris, TypeScript valid terhadap tipe Article): 15 Visa & Dokumen + 3 Keamanan & Verifikasi, semua metadata/fakta konsisten dengan portal SolusiHajj
+- Slug "tanda-travel-umrah-nakal" kini tersedia persis — related pada artikel seed "cara-cek-izin-ppiu-umrah" tidak lagi menunjuk slug hantu
+- Next action (task terpisah): agregasi batch-3.ts ke indeks artikel utama + regenerasi sitemap + uji rute /artikel/[slug]
+
+---
+Task ID: 4-f
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-f (10 artikel Keluarga & Lansia + 8 artikel Musim & Waktu Keberangkatan)
+
+Work Log:
+- Baca worklog (Task 1–6) + src/data/types.ts (skema Article/ArticleBlock) + src/data/articles.ts sebagai referensi gaya; folder src/data/article-engine belum ada → dibuat
+- Tulis src/data/article-engine/batch-6.ts sesuai protokol: Write (import + artikel 1–5 + // APPEND-SLOT + ];) lalu Edit berulang mengganti slot (artikel 6–10, 11–14, 15–17), diakhiri artikel 18 tanpa slot
+- 18 artikel lengkap: 10 × category "Keluarga & Lansia" (balita, 70+, kursi roda Haram, cek kesehatan senior, bersama orang tua, wanita tanpa mahram (netral + disclaimer aturan dapat berubah), hamil, diabetes, obat pribadi, keamanan anak) + 8 × "Musim & Waktu Keberangkatan" (waktu terbaik, Ramadhan, Desember, off-peak Feb–Apr, kalender hijriah, musim panas, musim haji, umrah badal)
+- Fakta wajib dikunci konsisten: reguler 9 hari quad Rp 28–38 jt, Ramadhan Rp 45–65 jt (malam ganjil ~1,8×), Desember +10–20%, off-peak termurah Feb–Apr, jalan 5–10 km/hari, cek kesehatan 60+/hipertensi/diabetes, obat kemasan asli + surat dokter bila jarum, kursi roda tersedia (jam sibuk ramai), panas >40°C, anak belum baligh sah (bukan menggugurkan), badal umrah saja (bukan haji Islam), takwim hijriah lebih akurat
+- Fix kecil hasil self-review: "layak terjang"→"layak terbang", "konsul"→"konsulat"; 4 judul yang <45 char dipanjangkan minimal (keamanan anak→"...Masjidil Haram", hijriah→+"2026", musim panas→+"Ibadah", musim haji→"Rencana Umrah Anda") agar patuh 45–65 char
+- Validasi otomatis via script Node sementara (parse JS setelah strip anotasi TS): 18/18 lolos semua batas — title 45–65, excerpt 140–160, readMinutes 6–11, publishedAt 2026-02-08..2026-03-10, lastReviewed = publishedAt+5..20 hari (maks 2026-03-25), author PERSIS, ≥5 h2, ul/ol ada, 1 tabel/artikel, 1–2 callout dengan ctaTo dari whitelist, related 2 slug dari daftar wajib/batch sendiri, jumlah kata 700–786 per artikel; script dihapus setelah verifikasi
+
+Stage Summary:
+- File BARU src/data/article-engine/batch-6.ts selesai: export const batch6: Article[] berisi 18 artikel (~13.6k kata konten) siap diagregasi oleh artikel-engine, TypeScript valid, tidak ada file lain yang disentuh, lint/build/dev server tidak dijalankan
+- Kontrol kualitas: pembuka menjawab inti (jawaban singkat di paragraf 1), ≥5 h2 per artikel, 18 tabel + 1–2 callout per artikel dengan CTA menuju /paket, /travel-kit, /cicilan-syariah, /escrow, /edukasi/panduan-umrah-pemula-30-hari, /edukasi/biaya-umrah-2026-rincian-lengkap
+- Catatan untuk agent berikutnya: batch lain bisa memakai pattern yang sama (Write slot + Edit); agregasi batch ke index article-engine + rute /artikel/[slug] dinamis belum dilakukan (di luar scope 4-f)
+
+---
+Task ID: 4-e
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-e (18 artikel kategori Biaya & Keuangan)
+
+Work Log:
+- Baca worklog (Task 1–6) + tipe Article/ArticleBlock di src/data/types.ts + gaya artikel lama di src/data/articles.ts untuk kalibrasi tone & format
+- Buat src/data/article-engine/batch-5.ts (file BARU, 903 baris) sesuai pola: Write artikel 1–5 + // APPEND-SLOT, lalu Edit berulang mengganti slot (6–9, 10–13, 14–17, 18 tanpa slot)
+- 18 artikel kategori PERSIS "Biaya & Keuangan", author "Tim Edukasi SolusiHajj": biaya-umrah-dari-jakarta-2026, biaya-umrah-dari-surabaya-2026, biaya-umrah-dari-bandung-2026, kenapa-harga-umrah-naik, cicilan-umrah-syariah-0, escrow-umrah-cara-kerja, menyusun-simpanan-umrah, dp-pelunasan-umrah, makan-selama-umrah, biaya-tersembunyi-umrah, pembatalan-paket-umrah, umrah-ramadhan-vs-reguler, tips-hemat-biaya-umrah, margin-wajar-ppiu, tukar-uang-riyal-umrah, asuransi-dana-hangus-umrah, bandingkan-paket-5-kriteria, rincian-biaya-visa-umrah
+- Semua artikel: pembuka menjawab inti dengan angka di paragraf 1, ≥5 h2, ≥1 tabel angka, 1–2 callout (ctaTo hanya dari whitelist: /paket, /kalkulator-haji, /cicilan-syariah, /escrow, /verifikasi/cek-izin-ppiu, /edukasi/biaya-umrah-2026-rincian-lengkap), related 2 slug dari whitelist/batch sendiri
+- Fakta angka dikunci konsisten dengan brief: reguler Rp 28–38 jt (quad), Ramadhan Rp 45–65 jt (malam ganjil 1,8×), Plus Turki/Dubai Rp 39–50 jt, LA < Rp 20 jt, Desember +10–20%, off-peak Feb–April, komponen 8 pos (visa Rp 1,5–2,5 jt, tiket Rp 8–12 jt, hotel Makkah Rp 6–11 jt, Madinah Rp 3–6 jt, makan Rp 2–3,5 jt, bus/mutawif/handling/ziarah Rp 3–4,5 jt, perlengkapan Rp 0,5–1 jt, margin 8–15%), keluarga 2 orang ± Rp 72–77 jt, red flag Rp 18–20 jt, escrow 40/40/20, cicilan syariah 0% tanpa bunga, kamar triple +Rp 1–2 jt / double +Rp 2,5–4 jt
+- Ekspansi konten: 17 artikel awal di bawah 700 kata → ditambah blok p/h2 tambahan via 6 ronde MultiEdit sampai semua masuk rentang
+- Verifikasi otomatis (script node ad-hoc, bukan lint/build): 18/18 OK — kata 700–750 (rentang target 700–1100), title 45–54 kar, excerpt 140–156 kar, readMinutes 6–9, publishedAt 2026-02-08 s.d. 2026-03-10 terurut, lastReviewed = publishedAt +10–18 hari (maks 2026-03-25), 0 duplikat slug, ctaTo & related semua valid; node --check pada file hasil strip type → SYNTAX OK
+- Perbaikan 3 typo editorial yang tertangkap saat review (callout title "Rincian Komponen", item "money changer tidak resmi", frasa menebak di biaya-tersembunyi)
+- Tidak menyentuh file lain, tidak menjalankan lint/build/dev server
+
+Stage Summary:
+- batch-5.ts selesai: 18 artikel "Biaya & Keuangan" (~13.200 kata total) siap diagregasi oleh agent index artikel-engine (target artikel engine total 4+18 = 22)
+- Semua constraint kualitas lolos verifikasi terprogram; angka kunci 2026 konsisten dengan batch lain (brief fakta wajib)
+- Catatan untuk agent lanjutan: import path dipakai "@/data/types" sesuai skema tugas; agregator cukup mengimpor { batch5 }
+
+---
+Task ID: 4-a
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-a (18 artikel kategori Panduan Umrah)
+
+Work Log:
+- Baca worklog (Task 1–6) + tipe Article/ArticleBlock di src/data/types.ts + artikel eksisting src/data/articles.ts untuk cocokkan skema, nada, dan 4 slug related wajib
+- Buat src/data/article-engine/batch-1.ts (file BARU, satu-satunya file yang disentuh) mengikuti pola penulisan aman: Write (import + artikel 1–5 + // APPEND-SLOT + ];), lalu Edit bertahap mengganti slot untuk artikel 6–17, dan artikel 18 menutup file tanpa slot
+- 18 artikel sesuai daftar wajib, semua category "Panduan Umrah", author "Tim Edukasi SolusiHajj", publishedAt 2026-02-08 → 2026-03-10, lastReviewed = publishedAt + 8–14 hari (maks 2026-03-24)
+- Tiap artikel: paragraf pembuka langsung menjawab inti pertanyaan, 5–7 h2, ul/ol, 1–3 tabel, 1–2 callout dengan ctaTo dari daftar wajib (/paket, /escrow, /tiket-grup, /travel-kit, /cicilan-syariah, /kalkulator-haji, /verifikasi/cek-izin-ppiu, /edukasi/doa-ziarah-makkah-madinah, /edukasi/biaya-umrah-2026-rincian-lengkap)
+- Angle unik per artikel: tabel perbandingan rukun/waktu/biaya umrah vs haji, program latihan jalan 4 minggu bertahap, tabel denominasi SAR + alokasi uang saku, timeline jam-demi-jam di bandara, tabel miqat 5 rute + larangan ihram pria/wanita + solusi dam, tabel waktu datang per shalat di Masjidil Haram, tabel aturan berat kabin 7 kg/checked 23–30 kg, tabel frasa Arab (Arab+transliterasi+arti) + frasa jalan darurat, tabel boleh/hindari ponsel di Haram, tabel jadwal harian + ziarah Makkah, checklist bawa vs beli di Makkah
+- Fakta konsisten dipatuhi: harga reguler 9 hari quad Rp 28–38 jt (Ramadhan 45–65, plus 39–50, LA < 20, termurah Feb–April), rincian komponen biaya (visa 1,5–2,5 jt, tiket 8–12 jt, hotel Makkah 6–11 jt, Madinah 3–6 jt, makan 2–3,5 jt, bus/mutawif 3–4,5 jt, perlengkapan 0,5–1 jt, margin 8–15%), PMA 21/2020, SIMPU/SISKOPATUH, Nusuk untuk visa & slot Raudhah, vaksin meningitis + ICV, paspor 7 bulan, escrow 40/40/20, jarak hotel dalam meter
+- Iterasi kualitas: validasi otomatis via skrip parse vm (bukan lint/build project) menemukan 17 artikel di bawah 700 kata + 1 artikel hanya 4 h2; dilakukan 3 ronde ekspansi konten (paragraf lanjutan, item list, 1 tabel frasa jalan darurat baru) hingga semua lolos
+- Verifikasi akhir: parse TS OK, 18 slug unik, title 45–65 char, excerpt 140–160 char, readMinutes 6–11, ≥5 h2, ≥1 tabel, 1–2 callout, 700–793 kata/artikel, related = 2 slug dari daftar wajib, ctaTo semua valid, tak ada string bertanda kutip ganda di dalam teks, file berakhir "];"
+
+Stage Summary:
+- batch-1.ts selesai: 18 artikel "Panduan Umrah" (~12,8 ribu kata total, 701–793 kata per artikel), siap dipakai mesin artikel (renderer ArticleBlock p/h2/h3/ul/ol/callout/table sudah didukung /artikel/[slug])
+- Tidak ada file lain yang disentuh; tidak menjalankan lint/build/dev server sesuai instruksi
+- Next: batch berikutnya (kategori lain) dapat menyalin pola penulisan APPEND-SLOT + skrip validasi vm yang sama
+
+---
+Task ID: 4-d
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-d (18 artikel kategori Hotel & Transportasi)
+
+Work Log:
+- Baca worklog (Task 1–6 + batch paralel 4-a/4-c/4-e/4-f) + skema Article/ArticleBlock di src/data/types.ts + gaya artikel seed di src/data/articles.ts untuk kalibrasi tone, fakta, dan whitelist
+- Buat SATU file baru src/data/article-engine/batch-4.ts sesuai protokol: Write (import + artikel 1–5 + // APPEND-SLOT + ];) → MultiEdit bertahap (artikel 6–9, 10–13, 14–17) → Edit final artikel 18 tanpa slot → baca ulang file cek sintaks (843 baris)
+- 18 slug sesuai daftar & urutan brief: hotel-makkah-jarak-haram, area-hotel-madinah-strategis, tipe-kamar-quad-triple-double, tiket-charter-grup-umrah, maskapai-penerbangan-umrah, mendarat-jeddah-atau-madinah, bus-grup-tanah-suci, terminal-umrah-soetta, handling-bandara-jeddah, kereta-haramain-makkah-madinah, umrah-plus-turki-itinerary, umrah-plus-dubai-jebakan, koper-hilang-bandara-umrah, jetlag-hari-pertama-makkah, land-arrangement-untuk-siapa, upgrade-hotel-saat-tiba, internet-sim-card-saudi, cuaca-tanah-suci-jadwal-ibadah
+- Semua category PERSIS "Hotel & Transportasi", author PERSIS "Tim Edukasi SolusiHajj"; publishedAt menyebar 2026-02-08 s.d. 2026-03-10; lastReviewed = publishedAt +7–16 hari (maks 2026-03-25); readMinutes 7–8; callout.ctaTo hanya dari whitelist wajib (terpakai: /paket, /tiket-grup, /travel-kit, /kalkulator-haji, /escrow, /edukasi/panduan-umrah-pemula-30-hari); related = 2 slug dari 4 slug wajib + slug batch ini
+- Fakta wajib dijaga konsisten: reguler 9 hari quad Rp 28–38 jt, Ramadhan Rp 45–65 jt, plus Turki/Dubai Rp 39–50 jt, LA < Rp 20 jt; tiket PP Rp 8–12 jt; hotel Makkah 4–5 mlm Rp 6–11 jt; Madinah Rp 3–6 jt; selisih hotel 100 m vs 800 m Rp 4–6 jt; triple +Rp 1–2 jt, double +Rp 2,5–4 jt; charter grup vs komersial; Jeddah (mulai Makkah) vs Madinah (ziarah dulu, ritme santai); kereta Haramain ±2 jam; handling Jeddah 2–6 jam; jarak hotel selalu dalam METER; anti-jebakan harga murah; escrow 40/40/20, Saksi Jamaah, verifikasi 5 lapis, Cek Izin PPIU, Kalkulator Simpanan Haji, 45 kota, 76 maskapai
+- Validasi otomatis via skrip bun sementara di luar project (helper dihapus setelah pakai; lint/build/dev server TIDAK dijalankan, tidak ada file project lain yang disentuh): 18 slug urut & unik, title 45–65, excerpt 140–160, ≥5 h2, ul/ol, ≥1 tabel (18/18 punya tabel; tipe-kamar 2 tabel), 1–2 callout, jumlah kata 700–1100, ctaTo & related sah, tanggal valid
+- Iterasi kualitas: excerpt #2 dipangkas 163→152; 16 artikel di bawah 700 kata diperkaya (2 ronde MultiEdit: +paragraf pendalam +kalimat penutup) hingga 702–754 kata per artikel; 4 judul yang <45 char dari daftar brief dipanjangkan minimal dengan prefiks judul asli utuh ("...di 2026", "...di Balik Layar", "...±2 Jam untuk Lansia", "...: Panduan 48 Jam") agar patuh 45–65 char sekaligus menjaga keyword asli (mengikuti praktik batch 4-f)
+
+Stage Summary:
+- batch-4.ts selesai: export const batch4: Article[] berisi 18 artikel "Hotel & Transportasi" (±12.900 kata), semua lolos validasi terprogram 18/18, TypeScript valid terhadap tipe Article, file berakhir "];" tanpa sisa slot
+- Konsisten dengan batch paralel: tidak ada bentrokan slug; angka fakta 2026 identik dengan brief lintas batch; callout mengarah ke vertikal portal nyata
+- Next action (task terpisah): agregasi batch1..batchN ke indeks artikel-engine + rute /artikel/[slug] dinamis + regenerasi sitemap
+
+---
+Task ID: 4-b
+Agent: general-purpose
+Task: Prioritas 4 — batch artikel 4-b (18 artikel kategori Manasik & Doa)
+
+Work Log:
+- Baca worklog.md (konteks Task 1–6), src/data/types.ts (kontrak Article/ArticleBlock), dan src/data/articles.ts (4 artikel eksisting) sebagai referensi gaya & konsistensi fakta
+- Buat file BARU src/data/article-engine/batch-2.ts via pola wajib: Write (artikel 1–5 + slot `// APPEND-SLOT` + `];`) lalu Edit berulang (6–8, 9–12, 13–15, 16–17) dan artikel 18 menutup slot tanpa slot tersisa
+- 18 artikel sesuai daftar tugas, semua category "Manasik & Doa", author "Tim Edukasi SolusiHajj": tata-cara-tawaf-7-putaran, tata-cara-sai-safa-marwah, doa-tawaf-siap-cetak, tahallul-cukur-rambut, miqat-umrah-batas-niat, doa-masuk-masjidil-haram, raudhah-nusuk-booking, ziarah-madinah-uhud-quba, mengikuti-imam-shalat-haram, air-zamzam-adab-doa, manasik-ringkas-lansia, umrah-anak-anak-fikih, umrah-saat-haid-fikih, doa-safar-perjalanan, rukun-wajib-umrah-bedanya, doa-multazam-hijir-ismail, shalat-jamak-qashar-umrah, adab-ziarah-tanah-suci
+- Blok arabic hanya doa sahih/mashhur: niat umrah, talbiyah, Rabbana atina (QS 2:201), doa zamzam, dzikir Safa (Muslim), salam syuhada Uhud (Muslim), doa masuk/keluar masjid (Muslim), doa keluar rumah (Tirmidzi), doa safar (Muslim), doa minal-hamm wal-hazan (Bukhari), doa a'inni 'ala dzikrik (Abu Dawud) — semuanya dengan latin + arti
+- Fikih netral & singkat pada titik khilaf: wudhu saat tawaf, status musafir makmum imam muqim, klasifikasi rukun/wajib antar madzhab, masuk masjid saat haid, mengulang umrah anak, batas jarak safar, minimal taqsir pria
+- Konsistensi fakta portal: miqat + Masjid Aisyah (At-Tan'im) sebagai miqat terdekat, Raudhah via slot Nusuk (area antara makam & mimbar, bukan seluruh ruang hijau), Quba 2 rakaat bernilai umrah sunnah (niat ihram tetap dari Bir Ali), paspor 7 bulan + vaksin meningitis/ICV, vise via Nusuk, zamzam 5 liter kemasan resmi bandara, CTA ke fitur inti (escrow, verifikasi, kalkulator)
+- Callout 1–2 per artikel, ctaTo hanya dari daftar wajib (/paket, /kalkulator-haji, /verifikasi/cek-izin-ppiu, /travel-kit, /edukasi/doa-ziarah-makkah-madinah, /edukasi/panduan-umrah-pemula-30-hari); related tepat 2 slug dari 4 slug kanonik + slug batch sendiri; 6 artikel memakai tabel, semua ≥5 h2, ul/ol di semua artikel
+- publishedAt tersebar 2026-02-08 s.d. 2026-03-10; lastReviewed = publishedAt +12–16 hari (maks 2026-03-24); readMinutes 6–9; excerpt 144–158 karakter; judul 46–53 karakter
+- Pasca-ekspansi 2 putaran (target 700–1100 kata): tambah section substantif per artikel (Makna Sa'i, Kerangka Doa Indonesia, Kesalahan Tahallul, Tanya Jawab Miqat/Masuk Haram/Raudhah/Zamzam/Anak/Titik Doa, Manfaat Berjamaah, Ritme Lansia, Doa Cemas + Istilah Tebusan, Etika Rukhsah, Sikap pada Kesalahan Jamaah) — validasi node skrip data (bukan lint/build/dev): 18/18 lolos 700–1100 kata (total 12.765 kata), excerpt/title/readMinutes/date/related/ctaTo semua lolos, 0 baris kutip ganjil, file evaluasi sukses setelah strip tipe
+- Read ulang file (awal/tengah/ekor): import & export `batch2: Article[]` benar, diakhiri `];`, tanpa `// APPEND-SLOT` tersisa; tidak menyentuh file lain; lint/build/dev server tidak dijalankan
+
+Stage Summary:
+- batch-2.ts selesai: 18 artikel kategori "Manasik & Doa" (~12.8 ribu kata) siap diagregasi oleh article-engine, semuanya lolos skema Article + seluruh aturan konten (word count, excerpt 140–160, title 45–65, ≥5 h2, callout 1–2 dengan ctaTo wajib, related 2 slug valid, tanggal 2026-02-08…2026-03-10 + review ≤2026-03-25)
+- 9 blok arabic doa sahih-mashhur dengan latin + arti; 6 tabel ringkas (perhitungan sa'i, peta putaran tawaf, 5 miqat, kewajiban lansia, tahallul pria/wanita, rukun umrah, jumlah qashar) memperkuat featured snippet SEO
+- Internal linking silo kuat: related antar-artikel batch + ke 4 artikel kanonik eksisting; callout mengarahkan ke /paket, /verifikasi/cek-izin-ppiu, /travel-kit, /kalkulator-haji, dan 2 halaman edukasi
+- File tunggal baru: /home/z/my-project/src/data/article-engine/batch-2.ts — siap di-wire ke index article-engine oleh agent berikutnya (di luar lingkup task ini)
+
+---
+Task ID: 7
+Agent: main (Z.ai Code)
+Task: Prioritas 4 God Mode — Article Content Engine (4 → 112 artikel SEO) + fix hydration mismatch beranda
+
+Work Log:
+- Fix hydration mismatch (console error radix accordion ID di beranda): ganti Accordion shadcn di S11 FAQ home.tsx dengan native <details>/<summary> (name="faq-beranda") — tanpa useId, konten selalu di DOM (SEO-safe), tanpa JS, chevron rotate via group-open. Browser-verified: toggle berfungsi, 0 hydration warning, 0 console error
+- Article Content Engine: 6 agent paralel (Task 4-a..4-f) menulis src/data/article-engine/batch-1..6.ts — 108 artikel baru (18×6), 700–1100 kata/artikel (±90.000 kata total), 8 kategori terpadu, fakta konsisten lintas batch (harga wajar 2026 Rp 28–38 jt reguler, escrow 40/40/20, PMA 21/2020, Nusuk, ICV, paspor 7 bulan)
+- Validasi mesin: 108 slug unik antar-batch, 0 broken related link, 0 sisa APPEND-SLOT, TypeScript parse OK (bun import test)
+- Agregasi: src/data/article-engine/index.ts (engineArticles + categorySlug + articleCategories); articles.ts = 4 seed + 108 engine = 112; seed di-remap ke taksonomi 8 kategori (Perencanaan&B>Panduan Umrah dst) — semua konsumen otomatis ikut: /artikel, /artikel/[slug], /artikel/kategori, sitemap, SPA /#/edukasi (112 kartu), ItemList JSON-LD homepage
+- Rute baru /artikel/kategori/[kategori]: generateStaticParams 8 kategori, generateMetadata + OG card dinamis, JSON-LD CollectionPage+ItemList+BreadcrumbList, silo antar kategori + CTA /paket
+- Upgrade /artikel indeks: chips kategori ber-jumlah (anchor jump), preview 6 artikel/kategori + "Lihat semua N" → halaman kategori
+- Upgrade /artikel/[slug]: calloutHref whitelist 11 prefix rute SEO (tak lagi jadi /# salah arah), related fallback se-kategori, breadcrumb + badge kategori jadi tautan /artikel/kategori/...
+- Sitemap: 13.868 → 13.984 URL (+112 artikel, +8 kategori)
+- Verifikasi: lint 0 error (1 warning pre-existing); curl sweep 12 URL (indeks, 3 artikel batch berbeda, 3 kategori, seed, OG, health, 404 negatif ×2) semua sesuai kontrak; browser E2E: indeks 112/8 chips, kategori 19 artikel + 7 silo, detail (breadcrumb kategori, callout /#/escrow + /paket benar, related 2 valid, tabel + arabic render), beranda FAQ native toggle OK, mobile 390px tanpa overflow, SPA /#/edukasi 112 kartu; dev.log 0 ⨯
+
+Stage Summary:
+- PORTAL KINI 13.984 URL DI SITEMAP; pusat konten 112 artikel E-E-A-T (byline + terbit + review terakhir + kategori) dalam 8 kategori dengan silo 3 lapis: indeks → kategori → detail → (related se-kategori + callout CTA ke /paket & tool SPA)
+- Hydration mismatch kelas radix-useId di beranda dihapus permanen (native details)
+- Mesin konten siap dikembangkan: tambah artikel = tambah entry batch file; sitemap/JSON-LD/indeks/kategori otomatis

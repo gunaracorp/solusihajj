@@ -18,6 +18,7 @@ import { serviceList, serviceCategoryList } from "@/data/services";
 import { cityList } from "@/data/cities";
 import { packageList } from "@/data/packages";
 import { articleList } from "@/data/articles";
+import { articleCategories } from "@/data/article-engine";
 import { glossaryList } from "@/data/glossary";
 import { ppiuList, orgOf } from "@/data/ppiu";
 import { ORG_META } from "@/data/types";
@@ -81,6 +82,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry("/maskapai", { priority: 0.8 }),
     entry("/ppiu", { priority: 0.85 }),
     entry("/artikel", { priority: 0.85 }),
+    // Kategori artikel (/artikel/kategori/[slug]) — Prioritas 4
+    ...articleCategories(articleList).map((k) =>
+      entry(`/artikel/kategori/${k.slug}`, { priority: 0.7, freq: "weekly" })
+    ),
     entry("/glosarium", { priority: 0.8 }),
     entry("/faq", { priority: 0.7 }),
     entry("/kebijakan-privasi", { priority: 0.3, freq: "yearly" }),

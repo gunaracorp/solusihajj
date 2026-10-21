@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { articleList } from "@/data/articles";
+import { articleCategories } from "@/data/article-engine";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
 import { PageHero, SectionHeading, MetaChip, formatTanggal } from "@/components/seo/pkg-ui";
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export default function ArtikelIndexPage() {
-  const kategori = [...new Set(articleList.map((a) => a.category))];
+  const kategori = articleCategories(articleList);
 
   const blogJsonLd = {
     "@context": "https://schema.org",
@@ -96,16 +97,40 @@ export default function ArtikelIndexPage() {
             {kategori.length} kategori
           </MetaChip>
         </div>
+        {/* Chips kategori — anchor jump ke tiap section (silo internal) */}
+        <nav aria-label="Kategori artikel" className="mt-5 flex flex-wrap gap-2">
+          {kategori.map((k) => (
+            <a
+              key={k.slug}
+              href={`#kat-${k.slug}`}
+              className="inline-flex min-h-10 items-center rounded-full border border-white/25 bg-white/10 px-4 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+            >
+              {k.name}
+              <span className="ml-1.5 rounded-full bg-gold px-2 text-xs font-extrabold text-ink">{k.count}</span>
+            </a>
+          ))}
+        </nav>
       </PageHero>
 
       <div className="mx-auto max-w-6xl space-y-12 px-4 py-10 md:py-14">
-        {kategori.map((kat) => {
-          const daftar = articleList.filter((a) => a.category === kat);
+        {kategori.map((k) => {
+          const daftar = articleList.filter((a) => a.category === k.name);
+          const pratinjau = daftar.slice(0, 6);
           return (
-            <section key={kat} aria-labelledby={`kat-${kat.replace(/\W+/g, "-")}`}>
-              <SectionHeading id={`kat-${kat.replace(/\W+/g, "-")}`} title={kat} />
-              <ul className="grid gap-5 md:grid-cols-2">
-                {daftar.map((a) => (
+            <section key={k.slug} aria-labelledby={`kat-${k.slug}`} className="scroll-mt-24">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <SectionHeading id={`kat-${k.slug}`} title={k.name} />
+                {daftar.length > 6 && (
+                  <Link
+                    href={`/artikel/kategori/${k.slug}`}
+                    className="inline-flex min-h-10 items-center rounded-xl border border-brand px-4 text-sm font-bold text-brand transition-colors hover:bg-brand-soft"
+                  >
+                    Lihat semua {daftar.length} artikel →
+                  </Link>
+                )}
+              </div>
+              <ul className="mt-5 grid gap-5 md:grid-cols-2">
+                {pratinjau.map((a) => (
                   <li key={a.slug}>
                     <Card className="h-full gap-3 border-line-warm transition-shadow hover:shadow-md">
                       <CardHeader className="px-5 pt-5">

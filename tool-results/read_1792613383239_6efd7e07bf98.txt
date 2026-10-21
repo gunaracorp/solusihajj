@@ -1,0 +1,594 @@
+     1→"use client";
+     2→
+     3→/**
+     4→ * CHROME R1.5 — Header (3 dropdown + kontrol tema/lansia/bahasa), Footer,
+     5→ * WaFloat, Breadcrumb. Palet & komponen tetap Design System "Amanah" (dok 14).
+     6→ *
+     7→ * Dukungan arsitektur & sistem: by Gugun Gunara — Muhammad Lutfi Azmi
+     8→ * (prabudanling · Santri Angon) · PT Top Konsultan Internasional
+     9→ * (topkonsultan.web.id) · PT Digital Bisnis Manajemen (digiman.id)
+    10→ */
+    11→
+    12→import { useEffect, useState, useSyncExternalStore } from "react";
+    13→import { ChevronDown, Menu, X, MessageCircle, ShieldCheck, Moon, Sun, Type, Globe, Sparkles, GitCompareArrows, Database, Lightbulb, Gift, HandCoins } from "lucide-react";
+    14→import { Link, useHashRoute, scrollToId } from "@/lib/solusihajj/router";
+    15→import { waLink, waMessages } from "@/lib/solusihajj/wa";
+    16→import { I18nProvider, useI18n, type Lang } from "@/lib/solusihajj/i18n";
+    17→import { cn } from "@/lib/utils";
+    18→
+    19→/* ================= UI PREFS — dark mode & mode lansia (persist, hydration-safe) ================= */
+    20→type Prefs = { dark: boolean; elder: boolean };
+    21→
+    22→const PREFS_EVT = "shj-prefs";
+    23→let prefsCache = "{}";
+    24→
+    25→function prefsSubscribe(cb: () => void): () => void {
+    26→  window.addEventListener(PREFS_EVT, cb);
+    27→  window.addEventListener("storage", cb);
+    28→  return () => {
+    29→    window.removeEventListener(PREFS_EVT, cb);
+    30→    window.removeEventListener("storage", cb);
+    31→  };
+    32→}
+    33→
+    34→function prefsSnapshot(): string {
+    35→  const raw = window.localStorage.getItem("shj_prefs") ?? "{}";
+    36→  if (raw !== prefsCache) prefsCache = raw;
+    37→  return prefsCache;
+    38→}
+    39→
+    40→const prefsServerSnapshot = "{}";
+    41→
+    42→function parsePrefs(json: string): Prefs {
+    43→  try {
+    44→    const p = JSON.parse(json) as Partial<Prefs>;
+    45→    return { dark: !!p.dark, elder: !!p.elder };
+    46→  } catch {
+    47→    return { dark: false, elder: false };
+    48→  }
+    49→}
+    50→
+    51→function usePrefs(): [Prefs, (p: Prefs) => void] {
+    52→  const json = useSyncExternalStore(prefsSubscribe, prefsSnapshot, () => prefsServerSnapshot);
+    53→  const prefs = parsePrefs(json);
+    54→  // Sinkronkan class ke <html> setiap kali prefs berubah (eksternal: DOM)
+    55→  useEffect(() => {
+    56→    document.documentElement.classList.toggle("dark", prefs.dark);
+    57→    document.documentElement.classList.toggle("elder", prefs.elder);
+    58→  }, [prefs.dark, prefs.elder]);
+    59→  const set = (p: Prefs) => {
+    60→    try {
+    61→      window.localStorage.setItem("shj_prefs", JSON.stringify(p));
+    62→    } catch {
+    63→      /* noop */
+    64→    }
+    65→    prefsCache = JSON.stringify(p);
+    66→    window.dispatchEvent(new Event(PREFS_EVT));
+    67→  };
+    68→  return [prefs, set];
+    69→}
+    70→
+    71→/* ================= LOGO ================= */
+    72→export function Logo({ compact = false, light = false }: { compact?: boolean; light?: boolean }) {
+    73→  return (
+    74→    <Link to="/" className="inline-flex items-center gap-2.5" ariaLabel="SolusiHajj — Beranda">
+    75→      <img src="/logo-gerbang-nur.svg?v=8" alt="Logo SolusiHajj — Gerbang Nur" className="h-9 w-9" />
+    76→      {!compact && (
+    77→        <span
+    78→          className={cn(
+    79→            "text-xl font-extrabold tracking-tight",
+    80→            light ? "text-ivory" : "text-brand-deep dark:text-ivory"
+    81→          )}
+    82→        >
+    83→          SolusiHajj<span className="text-gold">.</span>
+    84→        </span>
+    85→      )}
+    86→    </Link>
+    87→  );
+    88→}
+    89→
+    90→/* ================= NAV DATA ================= */
+    91→function useNavData() {
+    92→  const { t } = useI18n();
+    93→  return {
+    94→    cariPaketItems: [
+    95→      { to: "/paket?produk=full", label: t("nav.full") },
+    96→      { to: "/paket?produk=land", label: t("nav.land") },
+    97→      { to: "/tiket-grup", label: t("nav.flights") },
+    98→      { to: "/maskapai", label: t("nav.airlines") },
+    99→      { to: "/nurmatch", label: t("nav.nurmatch"), icon: Sparkles },
+   100→      { to: "/nurmatch-ai", label: t("nav.nurmatchAi"), icon: Sparkles, highlight: true },
+   101→      { to: "/bandingkan", label: "Bandingkan Paket", icon: GitCompareArrows },
+   102→      { to: "/kado-umrah", label: t("nav.kado"), icon: Gift, highlight: true },
+   103→      { to: "/cicilan-syariah", label: t("nav.cicilan"), icon: HandCoins, highlight: true },
+   104→    ],
+   105→    direktoriItems: [
+   106→      { to: "/ppiu", label: t("nav.providers") },
+   107→      { to: "/pusat-data", label: t("nav.data"), icon: Database, highlight: true },
+   108→      { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU ⭐", highlight: true },
+   109→      { to: "/verifikasi", label: t("nav.verify") },
+   110→      { to: "/escrow", label: t("nav.escrow") },
+   111→      { to: "/escrow-aktif", label: t("nav.escrowAktif"), icon: Database, highlight: true },
+   112→    ],
+   113→    panduanItems: [
+   114→      { to: "/benchmark", label: t("nav.benchmark"), icon: Lightbulb, highlight: true },
+   115→      { to: "/edukasi", label: t("nav.education") },
+   116→      { to: "/glosarium", label: t("nav.glossary") },
+   117→      { to: "/travel-kit", label: t("nav.kit") },
+   118→      { to: "/kalkulator-haji", label: "Kalkulator Simpanan Haji" },
+   119→      { to: "/faq", label: "FAQ" },
+   120→    ],
+   121→    directItems: [
+   122→      { to: "/partner", label: t("nav.partner") },
+   123→      { to: "/tentang", label: t("nav.about") },
+   124→    ],
+   125→  };
+   126→}
+   127→
+   128→/* ================= DROPDOWN NAV ================= */
+   129→function NavDropdown({ label, items, active }: { label: string; items: { to: string; label: string; highlight?: boolean; icon?: React.ElementType }[]; active: boolean }) {
+   130→  return (
+   131→    <div className="group relative">
+   132→      <button
+   133→        className={cn(
+   134→          "inline-flex h-11 items-center gap-1 rounded-xl px-4 text-[15px] font-semibold text-ink transition-colors hover:bg-brand-soft dark:text-ivory dark:hover:bg-white/10",
+   135→          active && "text-brand dark:text-gold"
+   136→        )}
+   137→        aria-haspopup="true"
+   138→      >
+   139→        {label} <ChevronDown size={15} className="transition-transform group-hover:rotate-180" />
+   140→      </button>
+   141→      <div className="invisible absolute left-0 top-full w-72 translate-y-1 rounded-2xl border border-line-warm bg-card p-2 opacity-0 shadow-warm transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 dark:border-white/10 dark:bg-[#12332a]">
+   142→        {items.map((item) => (
+   143→          <Link
+   144→            key={item.to}
+   145→            to={item.to}
+   146→            className={cn(
+   147→              "flex min-h-11 items-center rounded-xl px-4 py-2.5 text-[15px] text-ink transition-colors hover:bg-brand-soft dark:text-ivory dark:hover:bg-white/10",
+   148→              item.highlight && "font-bold text-brand dark:text-gold"
+   149→            )}
+   150→          >
+   151→            {item.icon && <item.icon size={15} className="mr-2 text-gold-deep dark:text-gold" />}
+   152→            {item.highlight && !item.icon && <ShieldCheck size={16} className="mr-2 text-gold" />}
+   153→            {item.label}
+   154→          </Link>
+   155→        ))}
+   156→      </div>
+   157→    </div>
+   158→  );
+   159→}
+   160→
+   161→/* ================= HEADER ================= */
+   162→export function Header() {
+   163→  const { path } = useHashRoute();
+   164→  const [open, setOpen] = useState(false);
+   165→  const [scrolled, setScrolled] = useState(false);
+   166→  const [prefs, setPrefs] = usePrefs();
+   167→  const { lang, setLang, t } = useI18n();
+   168→
+   169→  useEffect(() => {
+   170→    const onScroll = () => setScrolled(window.scrollY > 8);
+   171→    window.addEventListener("scroll", onScroll, { passive: true });
+   172→    return () => window.removeEventListener("scroll", onScroll);
+   173→  }, []);
+   174→
+   175→  // Tutup drawer saat berpindah halaman — pola "adjust state during render"
+   176→  const [prevPath, setPrevPath] = useState(path);
+   177→  if (prevPath !== path) {
+   178→    setPrevPath(path);
+   179→    if (open) setOpen(false);
+   180→  }
+   181→
+   182→  const nav = useNavData();
+   183→  const isActive = (p: string) => path === p || path.startsWith(p + "/");
+   184→
+   185→  const langs: { v: Lang; l: string }[] = [
+   186→    { v: "id", l: "ID" },
+   187→    { v: "en", l: "EN" },
+   188→    { v: "ar", l: "ع" },
+   189→  ];
+   190→
+   191→  return (
+   192→    <header
+   193→      className={cn(
+   194→        "sticky top-0 z-50 w-full border-b bg-ivory/95 backdrop-blur transition-shadow dark:bg-[#0d2b23]/95",
+   195→        scrolled ? "border-line-warm shadow-card dark:border-white/10" : "border-transparent"
+   196→      )}
+   197→    >
+   198→      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:h-[72px] md:px-8">
+   199→        <Logo />
+   200→
+   201→        {/* Desktop nav */}
+   202→        <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigasi utama">
+   203→          <NavDropdown label={t("nav.packages")} items={nav.cariPaketItems} active={isActive("/paket") || isActive("/tiket-grup") || isActive("/nurmatch")} />
+   204→          <NavDropdown label={t("nav.directory")} items={nav.direktoriItems} active={isActive("/ppiu") || isActive("/verifikasi") || isActive("/escrow")} />
+   205→          <NavDropdown label={t("nav.guide")} items={nav.panduanItems} active={isActive("/edukasi") || isActive("/glosarium") || isActive("/travel-kit")} />
+   206→          {nav.directItems.map((item) => (
+   207→            <Link
+   208→              key={item.to}
+   209→              to={item.to}
+   210→              className={cn(
+   211→                "inline-flex h-11 items-center rounded-xl px-4 text-[15px] font-semibold text-ink transition-colors hover:bg-brand-soft dark:text-ivory dark:hover:bg-white/10",
+   212→                isActive(item.to) && "text-brand dark:text-gold"
+   213→              )}
+   214→            >
+   215→              {item.label}
+   216→            </Link>
+   217→          ))}
+   218→        </nav>
+   219→
+   220→        <div className="flex items-center gap-1.5">
+   221→          {/* Bahasa */}
+   222→          <div className="hidden items-center rounded-xl border border-line-warm p-0.5 sm:flex dark:border-white/15" role="group" aria-label="Pilih bahasa (demo)">
+   223→            {langs.map((l) => (
+   224→              <button
+   225→                key={l.v}
+   226→                onClick={() => setLang(l.v)}
+   227→                className={cn(
+   228→                  "min-h-9 rounded-lg px-2 text-xs font-extrabold transition-colors",
+   229→                  lang === l.v ? "bg-brand text-ivory" : "text-ink-muted hover:text-brand dark:text-ivory/60"
+   230→                )}
+   231→                aria-pressed={lang === l.v}
+   232→              >
+   233→                {l.l}
+   234→              </button>
+   235→            ))}
+   236→          </div>
+   237→          {/* Mode lansia */}
+   238→          <button
+   239→            onClick={() => setPrefs({ ...prefs, elder: !prefs.elder })}
+   240→            className={cn(
+   241→              "inline-flex h-11 w-11 items-center justify-center rounded-xl border transition-colors",
+   242→              prefs.elder ? "border-gold bg-gold-soft text-gold-deep" : "border-line-warm text-ink hover:bg-brand-soft dark:border-white/15 dark:text-ivory dark:hover:bg-white/10"
+   243→            )}
+   244→            aria-pressed={prefs.elder}
+   245→            aria-label="Mode lansia — perbesar huruf"
+   246→            title="Mode Lansia (A+)"
+   247→          >
+   248→            <Type size={18} />
+   249→          </button>
+   250→          {/* Dark mode */}
+   251→          <button
+   252→            onClick={() => setPrefs({ ...prefs, dark: !prefs.dark })}
+   253→            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line-warm text-ink transition-colors hover:bg-brand-soft dark:border-white/15 dark:text-ivory dark:hover:bg-white/10"
+   254→            aria-pressed={prefs.dark}
+   255→            aria-label={prefs.dark ? "Matikan mode gelap" : "Aktifkan mode gelap"}
+   256→            title={prefs.dark ? "Terang" : "Malam Madinah (gelap)"}
+   257→          >
+   258→            {prefs.dark ? <Sun size={18} /> : <Moon size={18} />}
+   259→          </button>
+   260→
+   261→          <Link
+   262→            to="/paket"
+   263→            className="hidden h-11 items-center rounded-xl bg-brand px-5 text-[15px] font-bold text-ivory transition-colors hover:bg-brand-deep md:inline-flex"
+   264→          >
+   265→            {t("nav.packages")} →
+   266→          </Link>
+   267→          <a
+   268→            href={waLink(waMessages.general)}
+   269→            target="_blank"
+   270→            rel="noopener noreferrer"
+   271→            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand/30 text-brand transition-colors hover:bg-brand-soft dark:text-gold"
+   272→            aria-label="Hubungi kami via WhatsApp"
+   273→          >
+   274→            <MessageCircle size={20} />
+   275→          </a>
+   276→          <button
+   277→            className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-ink transition-colors hover:bg-brand-soft lg:hidden dark:text-ivory"
+   278→            onClick={() => setOpen(!open)}
+   279→            aria-label={open ? "Tutup menu" : "Buka menu"}
+   280→            aria-expanded={open}
+   281→          >
+   282→            {open ? <X size={22} /> : <Menu size={22} />}
+   283→          </button>
+   284→        </div>
+   285→      </div>
+   286→
+   287→      {/* Mobile drawer */}
+   288→      <div
+   289→        className={cn(
+   290→          "overflow-hidden border-t border-line-warm bg-ivory transition-[max-height] duration-300 lg:hidden dark:border-white/10 dark:bg-[#0d2b23]",
+   291→          open ? "max-h-[900px]" : "max-h-0 border-t-0"
+   292→        )}
+   293→      >
+   294→        <nav className="space-y-1 px-4 py-4" aria-label="Navigasi mobile">
+   295→          <p className="px-3 pb-1 text-xs font-bold uppercase tracking-wider text-ink-muted">{t("nav.packages")}</p>
+   296→          {nav.cariPaketItems.map((item) => (
+   297→            <Link
+   298→              key={item.to}
+   299→              to={item.to}
+   300→              onClick={() => setOpen(false)}
+   301→              className="flex min-h-12 items-center rounded-xl px-3 py-2 text-[16px] text-ink hover:bg-brand-soft dark:text-ivory"
+   302→            >
+   303→              {item.icon && <item.icon size={16} className={cn("mr-2", item.highlight ? "text-gold" : "text-gold-deep")} />}
+   304→              <span className={cn(item.highlight && "font-bold text-brand dark:text-gold")}>{item.label}</span>
+   305→            </Link>
+   306→          ))}
+   307→          <p className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-ink-muted">{t("nav.directory")}</p>
+   308→          {nav.direktoriItems.map((item) => (
+   309→            <Link
+   310→              key={item.to}
+   311→              to={item.to}
+   312→              onClick={() => setOpen(false)}
+   313→              className={cn("flex min-h-12 items-center rounded-xl px-3 py-2 text-[16px] text-ink hover:bg-brand-soft dark:text-ivory", item.highlight && "font-bold text-brand dark:text-gold")}
+   314→            >
+   315→              {item.label}
+   316→            </Link>
+   317→          ))}
+   318→          <p className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-ink-muted">{t("nav.guide")}</p>
+   319→          {nav.panduanItems.map((item) => (
+   320→            <Link
+   321→              key={item.to}
+   322→              to={item.to}
+   323→              onClick={() => setOpen(false)}
+   324→              className="flex min-h-12 items-center rounded-xl px-3 py-2 text-[16px] text-ink hover:bg-brand-soft dark:text-ivory"
+   325→            >
+   326→              {item.label}
+   327→            </Link>
+   328→          ))}
+   329→          <div className="my-2 border-t border-line-warm dark:border-white/10" />
+   330→          {nav.directItems.map((item) => (
+   331→            <Link
+   332→              key={item.to}
+   333→              to={item.to}
+   334→              onClick={() => setOpen(false)}
+   335→              className="flex min-h-12 items-center rounded-xl px-3 py-2 text-[16px] text-ink hover:bg-brand-soft dark:text-ivory"
+   336→            >
+   337→              {item.label}
+   338→            </Link>
+   339→          ))}
+   340→          <div className="flex items-center justify-between gap-2 px-3 pt-2">
+   341→            <div className="flex items-center gap-1 rounded-xl border border-line-warm p-0.5 dark:border-white/15">
+   342→              {langs.map((l) => (
+   343→                <button
+   344→                  key={l.v}
+   345→                  onClick={() => setLang(l.v)}
+   346→                  className={cn("min-h-9 rounded-lg px-2.5 text-xs font-extrabold", lang === l.v ? "bg-brand text-ivory" : "text-ink-muted dark:text-ivory/60")}
+   347→                >
+   348→                  {l.l}
+   349→                </button>
+   350→              ))}
+   351→            </div>
+   352→            <div className="flex gap-2">
+   353→              <button
+   354→                onClick={() => setPrefs({ ...prefs, elder: !prefs.elder })}
+   355→                className={cn("inline-flex h-10 w-10 items-center justify-center rounded-xl border", prefs.elder ? "border-gold bg-gold-soft text-gold-deep" : "border-line-warm text-ink dark:border-white/15 dark:text-ivory")}
+   356→                aria-label="Mode lansia"
+   357→              >
+   358→                <Type size={17} />
+   359→              </button>
+   360→              <button
+   361→                onClick={() => setPrefs({ ...prefs, dark: !prefs.dark })}
+   362→                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line-warm text-ink dark:border-white/15 dark:text-ivory"
+   363→                aria-label="Mode gelap"
+   364→              >
+   365→                {prefs.dark ? <Sun size={17} /> : <Moon size={17} />}
+   366→              </button>
+   367→            </div>
+   368→          </div>
+   369→          <Link
+   370→            to="/paket"
+   371→            onClick={() => setOpen(false)}
+   372→            className="mt-2 flex min-h-12 items-center justify-center rounded-xl bg-brand px-5 font-bold text-ivory"
+   373→          >
+   374→            {t("nav.packages")} →
+   375→          </Link>
+   376→        </nav>
+   377→      </div>
+   378→    </header>
+   379→  );
+   380→}
+   381→
+   382→/* ================= FOOTER (dok 06: 3 kolom + NAP + legal line) ================= */
+   383→export function Footer() {
+   384→  return (
+   385→    <footer className="mt-auto bg-brand-deep text-ivory dark:bg-[#07211a]">
+   386→      <div className="pattern-light">
+   387→        <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
+   388→          <div className="grid gap-10 md:grid-cols-4">
+   389→            <div>
+   390→              <Logo light />
+   391→              <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-ivory/70">
+   392→                Marketplace umrah & haji terbesar Asia — menampung PPIU, PIHK, BPW, dan KBIHU lintas negara. Dana jamaah
+   393→                dijaga escrow syariah, review hanya dari jamaah nyata, izin bisa dicek publik.
+   394→              </p>
+   395→              <p className="font-amiri mt-4 text-2xl text-gold">أمانتك، آمنة</p>
+   396→            </div>
+   397→            <nav aria-label="Footer — Marketplace">
+   398→              <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-gold">Marketplace</h3>
+   399→              <ul className="space-y-2.5 text-[15px]">
+   400→                {[
+   401→                  { to: "/paket", label: "Cari Paket Umrah" },
+   402→                  { to: "/paket?produk=land", label: "Land Arrangement" },
+   403→                  { to: "/tiket-grup", label: "Tiket Charter Grup" },
+   404→                  { to: "/bandingkan", label: "Bandingkan Paket" },
+   405→                  { to: "/kado-umrah", label: "Kado Umrah (Gift)" },
+   406→                  { to: "/cicilan-syariah", label: "Cicilan Syariah 0%" },
+   407→                  { to: "/nurmatch", label: "NurMatch AI" },
+   408→                  { to: "/ppiu", label: "Direktori Penyelenggara Asia" },
+   409→                ].map((l) => (
+   410→                  <li key={l.to}>
+   411→                    <Link to={l.to} className="text-ivory/75 transition-colors hover:text-gold">
+   412→                      {l.label}
+   413→                    </Link>
+   414→                  </li>
+   415→                ))}
+   416→              </ul>
+   417→            </nav>
+   418→            <nav aria-label="Footer — Kepercayaan dan Panduan">
+   419→              <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-gold">Kepercayaan & Panduan</h3>
+   420→              <ul className="space-y-2.5 text-[15px]">
+   421→                {[
+   422→                  { to: "/benchmark", label: "Benchmark 20 Teratas Dunia" },
+   423→                  { to: "/verifikasi", label: "Verifikasi 5 Lapis" },
+   424→                  { to: "/escrow", label: "AmanahEscrow" },
+   425→                  { to: "/verifikasi/cek-izin-ppiu", label: "Cek Izin PPIU" },
+   426→                  { to: "/travel-kit", label: "Travel Kit Jamaah" },
+   427→                  { to: "/kalkulator-haji", label: "Kalkulator Simpanan Haji" },
+   428→                  { to: "/glosarium", label: "Glosarium Istilah" },
+   429→                  { to: "/edukasi", label: "Panduan Umrah (Edukasi)" },
+   430→                  { to: "/faq", label: "FAQ" },
+   431→                ].map((l) => (
+   432→                  <li key={l.to}>
+   433→                    <Link to={l.to} className="text-ivory/75 transition-colors hover:text-gold">
+   434→                      {l.label}
+   435→                    </Link>
+   436→                  </li>
+   437→                ))}
+   438→              </ul>
+   439→            </nav>
+   440→            <nav aria-label="Footer — Perusahaan">
+   441→              <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-gold">Perusahaan</h3>
+   442→              <ul className="space-y-2.5 text-[15px]">
+   443→                {[
+   444→                  { to: "/partner", label: "Untuk Penyelenggara" },
+   445→                  { to: "/tentang", label: "Tentang Kami" },
+   446→                  { to: "/kontak", label: "Kontak" },
+   447→                  { to: "/peta-situs", label: "Peta Situs" },
+   448→                  { to: "/kebijakan-privasi", label: "Kebijakan Privasi" },
+   449→                  { to: "/syarat-ketentuan", label: "Syarat & Ketentuan" },
+   450→                ].map((l) => (
+   451→                  <li key={l.to}>
+   452→                    <Link to={l.to} className="text-ivory/75 transition-colors hover:text-gold">
+   453→                      {l.label}
+   454→                    </Link>
+   455→                  </li>
+   456→                ))}
+   457→              </ul>
+   458→            </nav>
+   459→          </div>
+   460→
+   461→          {/* Strip SEO — tautan ke halaman indeks rute nyata (server-rendered, terindeks Google) */}
+   462→          <nav aria-label="Jelajahi portal lengkap" className="mt-8 rounded-2xl bg-white/5 p-5">
+   463→            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-gold">Jelajahi 4.400+ Halaman Portal</h3>
+   464→            <div className="flex flex-wrap gap-2 text-[13px]">
+   465→              {[
+   466→                { href: "/layanan", label: "200+ Layanan Umrah" },
+   467→                { href: "/layanan/kategori/visa-dokumen", label: "Visa & Dokumen" },
+   468→                { href: "/layanan/kategori/hotel-akomodasi", label: "Hotel Makkah & Madinah" },
+   469→                { href: "/layanan/pengurusan-visa-umrah", label: "Pengurusan Visa" },
+   470→                { href: "/layanan/land-arrangement-umrah", label: "Land Arrangement" },
+   471→                { href: "/layanan/handling-bandara-jeddah", label: "Handling Jeddah" },
+   472→                { href: "/layanan/mutawif-pendamping-ibadah", label: "Mutawif" },
+   473→                { href: "/layanan/paket-manasik-umrah", label: "Manasik" },
+   474→                { href: "/paket", label: "Katalog Paket (SEO)" },
+   475→                { href: "/direktori", label: "Direktori 3.966 Penyelenggara" },
+   476→                { href: "/kota", label: "Umrah per 45 Kota" },
+   477→                { href: "/kota/jakarta", label: "Umrah dari Jakarta" },
+   478→                { href: "/kota/surabaya", label: "Umrah dari Surabaya" },
+   479→                { href: "/maskapai", label: "76 Maskapai" },
+   480→                { href: "/ppiu", label: "18 Penyelenggara Terverifikasi" },
+   481→                { href: "/artikel", label: "Artikel & Panduan" },
+   482→                { href: "/glosarium", label: "Glosarium A–Z" },
+   483→                { href: "/faq", label: "FAQ" },
+   484→              ].map((l) => (
+   485→                <a
+   486→                  key={l.href}
+   487→                  href={l.href}
+   488→                  className="rounded-full bg-white/8 px-3.5 py-2 text-ivory/75 transition-colors hover:bg-white/15 hover:text-gold"
+   489→                >
+   490→                  {l.label}
+   491→                </a>
+   492→              ))}
+   493→            </div>
+   494→          </nav>
+   495→
+   496→          <div className="mt-10 rounded-2xl bg-white/5 p-5">
+   497→            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-gold">Kontak & Legal</h3>
+   498→            <address className="space-y-1.5 text-[15px] not-italic text-ivory/75">
+   499→              <p>PT Syarikat Solution Haji Indonesia — Menara Cakrawala Lt. 12 Unit 05A, Jl. MH Thamrin Kav. 9, Kebon Sirih, Menteng, Jakarta Pusat 10340</p>
+   500→              <p>Kantor operasional: Perumahan Andalusia Garden Cluster Granada No.11, Mangkubumi, Mangkubumi, Tasikmalaya 46181</p>
+   501→              <p>
+   502→                WA:{" "}
+   503→                <a href={waLink(waMessages.general)} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold hover:underline">
+   504→                  +62 813-1651-6524
+   505→                </a>{" "}
+   506→                • Email:{" "}
+   507→                <a href="mailto:syarikat.haji@gmail.com" className="font-semibold text-gold hover:underline">
+   508→                  syarikat.haji@gmail.com
+   509→                </a>
+   510→              </p>
+   511→              <p>Jam operasional: Senin–Sabtu, 08.00–17.00 WIB (respons WhatsApp &lt; 15 menit jam kerja)</p>
+   512→            </address>
+   513→            <p className="mt-3 text-[12px] leading-relaxed text-ivory/50">
+   514→              Legalitas: NIB 1102230000845 (Sertifikat Standar OSS 11022300008450001) • KBLI 79121 &amp; 79122 • NPWP 0627305550021000 • Akta Kemenkumham AHU-011258.AH.01.30 Tahun 2023
+   515→            </p>
+   516→          </div>
+   517→
+   518→          <div className="mt-8 border-t border-white/10 pt-6">
+   519→            <p className="text-[13px] leading-relaxed text-ivory/60">
+   520→              © 2026 PT Syarikat Solution Haji Indonesia — Platform teknologi perlindungan jamaah. SolusiHajj bukan penyelenggara
+   521→              perjalanan ibadah; kontrak perjalanan dibuat langsung antara jamaah dan penyelenggara (PPIU/PIHK/BPW).
+   522→            </p>
+   523→            <p className="mt-2 text-[12px] text-ivory/40">
+   524→              Data direktori penyelenggara bersumber dari registri resmi (SISKOPATUH Kemenhaj, Kemenag, HIMPUH, Nusuk
+   525→              Saudi, MORA Pakistan). Verifikasi akhir izin tetap melalui kanal resmi negara masing-masing.
+   526→            </p>
+   527→            {/* Lapis brand halus — backlink dukungan sistem (tidak mencolok) */}
+   528→            <p className="mt-3 text-[11px] leading-relaxed text-ivory/30">
+   529→              Sistem &amp; arsitektur didukung oleh{" "}
+   530→              <a href="https://topkonsultan.web.id" target="_blank" rel="noopener" className="transition-colors hover:text-gold/70">
+   531→                PT Top Konsultan Internasional
+   532→              </a>{" "}
+   533→              •{" "}
+   534→              <a href="https://digiman.id" target="_blank" rel="noopener" className="transition-colors hover:text-gold/70">
+   535→                digiman.id
+   536→              </a>{" "}
+   537→              — by Gugun Gunara
+   538→            </p>
+   539→          </div>
+   540→        </div>
+   541→      </div>
+   542→    </footer>
+   543→  );
+   544→}
+   545→
+   546→/* ================= WA FLOAT ================= */
+   547→export function WaFloat() {
+   548→  const { path } = useHashRoute();
+   549→  // Di detail paket, sticky buy bar menempati dasar layar (mobile) — angkat float di atasnya
+   550→  const onDetail = path.startsWith("/paket/");
+   551→  const onTray = path === "/paket" || path === "/bandingkan";
+   552→  return (
+   553→    <a
+   554→      href={waLink(waMessages.general)}
+   555→      target="_blank"
+   556→      rel="noopener noreferrer"
+   557→      className={cn(
+   558→        "fixed right-5 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#1E7F4F] text-white shadow-green transition-transform hover:scale-105",
+   559→        onDetail ? "bottom-24 md:bottom-5" : onTray ? "bottom-20 md:bottom-5" : "bottom-5"
+   560→      )}
+   561→      aria-label="Chat WhatsApp — respons kurang dari 15 menit jam kerja"
+   562→    >
+   563→      <MessageCircle size={26} />
+   564→      <span className="absolute -top-0.5 -right-0.5 inline-flex h-3.5 w-3.5 rounded-full border-2 border-ivory bg-gold" />
+   565→    </a>
+   566→  );
+   567→}
+   568→
+   569→/* ================= BREADCRUMB ================= */
+   570→export function Breadcrumb({ items }: { items: { label: string; to?: string }[] }) {
+   571→  return (
+   572→    <nav aria-label="Breadcrumb" className="mb-4">
+   573→      <ol className="flex flex-wrap items-center gap-1.5 text-sm text-ink-muted dark:text-ivory/60">
+   574→        {items.map((item, i) => (
+   575→          <li key={i} className="flex items-center gap-1.5">
+   576→            {i > 0 && <span aria-hidden="true">›</span>}
+   577→            {item.to ? (
+   578→              <Link to={item.to} className="hover:text-brand hover:underline dark:hover:text-gold">
+   579→                {item.label}
+   580→              </Link>
+   581→            ) : (
+   582→              <span className="font-semibold text-ink dark:text-ivory" aria-current="page">
+   583→                {item.label}
+   584→              </span>
+   585→            )}
+   586→          </li>
+   587→        ))}
+   588→      </ol>
+   589→    </nav>
+   590→  );
+   591→}
+   592→
+   593→export { scrollToId, I18nProvider };
+   594→

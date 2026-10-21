@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articleList, getArticle } from "@/data/articles";
+import { articleList, getArticle, articlesByCategory } from "@/data/articles";
+import { categorySlug } from "@/data/article-engine";
 import type { ArticleBlock } from "@/data/types";
 import { JsonLd, SITE, breadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ogImage } from "@/lib/og";
@@ -50,9 +51,24 @@ export async function generateMetadata({
   };
 }
 
-/** ctaTo callout: "/paket" adalah rute SEO asli; lainnya adalah view SPA hash-route. */
+/* ctaTo callout: rute SEO asli diawali prefix di bawah (rute App Router); sisanya view SPA hash-route. */
+const SEO_ROUTE_PREFIXES = [
+  "/paket",
+  "/artikel",
+  "/glosarium",
+  "/ppiu",
+  "/maskapai",
+  "/kota",
+  "/layanan",
+  "/direktori",
+  "/faq",
+  "/kebijakan-privasi",
+  "/syarat-ketentuan",
+];
+
 function calloutHref(ctaTo: string): string {
-  return ctaTo === "/paket" ? "/paket" : `/#${ctaTo}`;
+  if (SEO_ROUTE_PREFIXES.some((p) => ctaTo === p || ctaTo.startsWith(p + "/"))) return ctaTo;
+  return `/#${ctaTo}`;
 }
 
 function BlockRenderer({ block }: { block: ArticleBlock }) {
@@ -147,9 +163,19 @@ export default async function ArtikelDetailPage({
   const art = getArticle(slug);
   if (!art) notFound();
 
-  const related = art.related
+  const relatedResolved = art.related
     .map((r) => getArticle(r))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
+  // Fallback silo: bila related < 2, isi dengan artikel se-kategori terbaru (bukan diri sendiri)
+  const related =
+    relatedResolved.length >= 2
+      ? relatedResolved.slice(0, 2)
+      : [
+          ...relatedResolved,
+          ...articlesByCategory(art.category)
+            .filter((a) => a.slug !== art.slug && !relatedResolved.some((r) => r.slug === a.slug))
+            .slice(0, 2 - relatedResolved.length),
+        ];
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -173,6 +199,7 @@ export default async function ArtikelDetailPage({
           breadcrumbJsonLd([
             { name: "Beranda", url: "/" },
             { name: "Artikel", url: "/artikel" },
+            { name: art.category, url: `/artikel/kategori/${categorySlug(art.category)}` },
             { name: art.title, url: `/artikel/${art.slug}` },
           ]),
         ]}
@@ -182,6 +209,7 @@ export default async function ArtikelDetailPage({
         breadcrumbs={[
           { name: "Beranda", url: "/" },
           { name: "Artikel", url: "/artikel" },
+          { name: art.category, url: `/artikel/kategori/${categorySlug(art.category)}` },
           { name: art.title, url: `/artikel/${art.slug}` },
         ]}
         title={art.title}
@@ -199,7 +227,12 @@ export default async function ArtikelDetailPage({
             <Clock3 className="h-4 w-4 text-gold" aria-hidden="true" />
             {art.readMinutes} menit baca
           </span>
-          <Badge className="border-transparent bg-gold-soft text-gold-deep">{art.category}</Badge>
+          <Link
+            href={`/artikel/kategori/${categorySlug(art.category)}`}
+            className="inline-flex items-center rounded-full border-transparent bg-gold-soft px-3 py-1 text-xs font-bold text-gold-deep transition-colors hover:bg-gold hover:text-ink"
+          >
+            {art.category}
+          </Link>
         </div>
       </PageHero>
 

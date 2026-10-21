@@ -1,5 +1,7 @@
 import type { Article } from "./types";
+import { engineArticles } from "./article-engine";
 
+/** 4 artikel seed asli + 108 artikel Article Content Engine (Prioritas 4) = 112. */
 export const articleList: Article[] = [
   {
     slug: "cara-cek-izin-ppiu-umrah",
@@ -47,7 +49,7 @@ export const articleList: Article[] = [
     title: "Biaya Umrah 2026: Rincian Lengkap dari Jakarta, Bandung & Surabaya",
     excerpt:
       "Berapa biaya umrah yang wajar di 2026? Ini rinciannya per komponen — visa, tiket, hotel, makan, bus, mutawif — plus batas harga wajar dan contoh hitungan untuk keluarga 2 orang.",
-    category: "Perencanaan & Biaya",
+    category: "Biaya & Keuangan",
     readMinutes: 8,
     publishedAt: "2026-01-12",
     lastReviewed: "2026-02-14",
@@ -94,7 +96,7 @@ export const articleList: Article[] = [
     title: "Panduan Umrah untuk Pemula: Persiapan 30 Hari Sebelum Berangkat",
     excerpt:
       "Checklist lengkap 30 hari menjelang umrah pertama: dokumen, kesehatan, manasik, perlengkapan, dan persiapan hati — dirangkum dari pengalaman ribuan jamaah.",
-    category: "Panduan & Tips",
+    category: "Panduan Umrah",
     readMinutes: 9,
     publishedAt: "2026-01-20",
     lastReviewed: "2026-02-14",
@@ -133,7 +135,7 @@ export const articleList: Article[] = [
     title: "Kumpulan Doa & Panduan Ziarah di Makkah dan Madinah",
     excerpt:
       "Doa-doa inti umrah dengan teks Arab, latin, dan arti — plus tata cara ziarah di Masjid Nabawi, Raudhah, Jabal Uhud, dan Masjid Quba.",
-    category: "Doa & Ziarah",
+    category: "Manasik & Doa",
     readMinutes: 10,
     publishedAt: "2026-02-01",
     lastReviewed: "2026-02-14",
@@ -168,8 +170,16 @@ export const articleList: Article[] = [
       { type: "callout", title: "Semua Paket Menyertakan Ziarah Ini", text: "Bandingkan paket dan lihat itinerary hariannya — ziarah internal Makkah & Madinah sudah termasuk di seluruh paket Founding Partner kami.", ctaLabel: "Buka Katalog Paket", ctaTo: "/paket" },
     ],
   },
+  ...engineArticles,
 ];
 
 export function getArticle(slug: string): Article | undefined {
   return articleList.find((a) => a.slug === slug);
+}
+
+/** Artikel dalam satu kategori (urut terbit terbaru dulu). */
+export function articlesByCategory(category: string): Article[] {
+  return articleList
+    .filter((a) => a.category === category)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }

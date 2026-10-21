@@ -13,6 +13,7 @@ import {
   Star,
   BookOpen,
   Calculator,
+  ChevronDown,
   ChevronRight,
   HeartHandshake,
   Radar,
@@ -42,12 +43,7 @@ import { homepageFaq } from "@/data/faq";
 import { DIMENSION_LABELS } from "@/data/types";
 import type { DimensionKey } from "@/data/types";
 import { SectionHeading, PackageCard, ShieldBadge, StarRating, EscrowTimeline, TrustPill, WaButton, LiveTicker, SeatBar } from "../ui-bits";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 
 const CITIES = ["Jakarta", "Bandung", "Surabaya", "Yogyakarta", "Semarang", "Medan", "Makassar", "Palembang"];
 const ASIA_CHIPS = [
@@ -759,18 +755,18 @@ export default function HomePage() {
           kicker="FAQ"
           title="Pertanyaan yang Paling Sering Ditanyakan"
         />
-        <Accordion type="single" collapsible className="mt-8">
+        {/* Native details/summary — konten selalu di DOM, tanpa useId (bebas hydration mismatch), tanpa JS */}
+        <div className="mt-8 divide-y divide-line-warm rounded-2xl border border-line-warm bg-card px-5 shadow-card">
           {homepageFaq.map((f, i) => (
-            <AccordionItem key={i} value={`f-${i}`} className="border-line-warm">
-              <AccordionTrigger className="text-left text-[16px] font-bold text-ink hover:text-brand hover:no-underline">
+            <details key={i} name="faq-beranda" className="group py-1">
+              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 text-left text-[16px] font-bold text-ink transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
                 {f.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-[15px] leading-relaxed text-ink-muted">
-                {f.a}
-              </AccordionContent>
-            </AccordionItem>
+                <ChevronDown size={18} className="shrink-0 text-ink-muted transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <p className="pb-4 pr-8 text-[15px] leading-relaxed text-ink-muted">{f.a}</p>
+            </details>
           ))}
-        </Accordion>
+        </div>
         <div className="mt-6 text-center">
           <Link to="/faq" className="font-bold text-brand hover:underline">
             Lihat semua 10 pertanyaan →
